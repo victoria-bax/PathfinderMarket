@@ -20,7 +20,7 @@ data class Weapon(
     val rangeCategory: RangeCategory,
     val encumbranceCategory: EncumbranceCategory? = null,
     val parents: List<String>? = null,
-    val book: Book,
+    val book: Book? = null,
     val childs: List<Weapon>? = null
 )
 
@@ -45,3 +45,26 @@ data class Book(
     val order: Int,
     val abbreviation: String
 )
+
+enum class Encumbrance(val value: String) {
+    LIGHT("light"),
+    ONE_HANDED("oneHanded"),
+    TWO_HANDED("twoHanded"),
+    SIEGE("siege"),
+}
+
+enum class Proficient(val value: String) {
+    AMMUNITION("ammunition"),
+    SIMPLE("simple"),
+    MARTIAL("martial"),
+    EXOTIC("exotic"),
+    EARLY_FIREARM("earlyFirearm"),
+    ALCHEMICAL("alchemical"),
+    ADVANCED_FIREARM("advancedFirearm"),
+}
+
+enum class Range(val value: String) {
+    MELEE("melee"),
+    RANGED("ranged"),
+
+}

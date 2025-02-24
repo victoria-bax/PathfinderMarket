@@ -5,6 +5,7 @@ import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponListState
 import java.io.IOException
 import javax.inject.Inject
 
@@ -12,12 +13,20 @@ internal class WeaponsInteractor @Inject constructor(
     private val pathfinderApi: PathfinderApi
 ) {
 
-    fun execute(): Flow<List<Weapon>> = flow {
+    fun execute(): Flow<WeaponListState> = flow {
         try {
             val response = pathfinderApi.getWeapons()
             if (response.isSuccessful) {
-                response.body()?.let {
-                    emit(it) // Отправляем данные через Flow
+                response.body()?.let { list ->
+                    //todo mapper
+                    emit(
+                        WeaponListState(
+                            weapons = list,
+                            proficientCategories = list.map { it.proficientCategory }.distinctBy { it.alias },
+                            rangeCategories = list.map { it.rangeCategory }.distinctBy { it.alias },
+                            encumbranceCategories = list.mapNotNull { it.encumbranceCategory }.distinctBy { it.alias }
+                        )
+                    ) // Отправляем данные через Flow
                 } ?: throw Exception("Empty response body")
             } else {
                 throw HttpException(response) // Обработка ошибки HTTP
