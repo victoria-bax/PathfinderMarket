@@ -57,18 +57,30 @@ android {
 }
 
 dependencies {
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
+    implementation("com.google.dagger:hilt-android:2.51.1")
+    kapt("com.google.dagger:hilt-compiler:2.51.1")
+
+    implementation(libs.androidx.appcompat)
+    implementation(libs.androidx.constraintlayout)
+    implementation(libs.androidx.lifecycle.livedata.ktx)
+  //  implementation(libs.androidx.lifecycle.viewmodel.ktx)
+    implementation(libs.material)
     implementation(libs.androidx.datastore.preferences)
 
     implementation(libs.glide)
     implementation(libs.timber)
 
     implementation(libs.retrofit2)
+    implementation(libs.converter.gson)
+    implementation (libs.okhttp)
+    implementation (libs.okhttp.logginginterceptor)
+
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
-    implementation(libs.androidx.lifecycle.viewmodel.compose)
+    //implementation(libs.androidx.lifecycle.viewmodel.compose)
     implementation(libs.androidx.activity.compose)
+    implementation (libs.androidx.activity.ktx)
+    implementation (libs.androidx.fragment.ktx)
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.ui)
     implementation(libs.androidx.ui.graphics)
