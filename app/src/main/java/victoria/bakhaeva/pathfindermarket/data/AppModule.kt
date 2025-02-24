@@ -1,5 +1,7 @@
 package victoria.bakhaeva.pathfindermarket.data
 
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -10,6 +12,12 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import victoria.bakhaeva.pathfindermarket.BuildConfig
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
+import victoria.bakhaeva.pathfindermarket.data.gson.EncumbranceJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.data.gson.ProficientJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.data.gson.RangeJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.data.model.Encumbrance
+import victoria.bakhaeva.pathfindermarket.data.model.Proficient
+import victoria.bakhaeva.pathfindermarket.data.model.Range
 import javax.inject.Singleton
 
 @Module
@@ -36,8 +44,17 @@ internal class AppModule {
 
     @Provides
     @Singleton
-    fun provideConverterFactory(): GsonConverterFactory =
-        GsonConverterFactory.create()
+    fun provideGson(): Gson =
+        GsonBuilder()
+//            .registerTypeAdapter(Encumbrance::class.java, EncumbranceJsonDeserializer())
+//            .registerTypeAdapter(Proficient::class.java, ProficientJsonDeserializer())
+//            .registerTypeAdapter(Range::class.java, RangeJsonDeserializer())
+            .create()
+
+    @Provides
+    @Singleton
+    fun provideConverterFactory(gson: Gson): GsonConverterFactory =
+        GsonConverterFactory.create(gson)
 
     @Provides
     @Singleton

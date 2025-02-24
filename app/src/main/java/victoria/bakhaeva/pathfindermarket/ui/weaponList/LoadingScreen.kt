@@ -22,9 +22,11 @@ import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
 
 @Composable
-fun LoadingScreen () {
+fun LoadingScreen (
+    modifier: Modifier = Modifier,
+) {
     Box(
-        modifier = Modifier.fillMaxSize(),
+        modifier = modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
     ) {
         val infiniteTransition = rememberInfiniteTransition(label = "Rotate coin")
