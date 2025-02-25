@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,128 +58,138 @@ fun WeaponDetailScreen(
             )
         },
         content = { paddingValues ->
-            Column(
+            LazyColumn (
                 modifier = Modifier
                     .padding(paddingValues)
                     .padding(16.dp)
             ) {
-
-                weapon.cost?.let {
-                    Text(text = "Цена: $it зм", style = MaterialTheme.typography.headlineSmall)
-                    Spacer(modifier = Modifier.height(8.dp))
+                item {
+                    weapon.cost?.let {
+                        Text(text = "Цена: $it зм", style = MaterialTheme.typography.headlineSmall)
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
 
-                weapon.damageS?.let {
-                    Text(text = "Урон (S): $it", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(modifier = Modifier.height(8.dp))
+                item {
+                    weapon.damageS?.let {
+                        Text(text = "Урон (S): $it", style = MaterialTheme.typography.bodyMedium)
+                        Spacer(modifier = Modifier.height(8.dp))
+                    }
                 }
-                weapon.damageM?.let {
-                    Text(text = "Урон (M): $it", style = MaterialTheme.typography.bodyMedium)
-                    Spacer(modifier = Modifier.height(8.dp))
-                }
-
-                var showMore by remember { mutableStateOf(false) }
-
-                if (showMore) Column {
-                    // Отображение типа
-                    weapon.type?.let {
-                        Text(text = "Тип: $it", style = MaterialTheme.typography.bodyMedium)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Отображение критического урона
-                    weapon.criticalRoll?.let {
-                        Text(
-                            text = "Критический бросок: $it",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-                    weapon.criticalDamage?.let {
-                        Text(
-                            text = "Критический урон: $it",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Отображение дальности
-                    weapon.range?.let {
-                        Text(text = "Дальность: $it", style = MaterialTheme.typography.bodyMedium)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Отображение веса
-                    weapon.weight?.let {
-                        Text(text = "Вес: $it фнт", style = MaterialTheme.typography.bodyMedium)
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Отображение категории профессии
-                    weapon.proficientCategory.let {
-                        Text(
-                            text = "Категория профессии: ${it.name}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Отображение категории дальности
-                    weapon.rangeCategory.let {
-                        Text(
-                            text = "Категория дальности: ${it.name}",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Отображение категории обременения (если есть)
-                    weapon.encumbranceCategory?.let {
-                        Text(
-                            text = "Категория обременения: ${it.name})",
-                            style = MaterialTheme.typography.bodyMedium
-                        )
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Описание оружия
-                    Text(text = weapon.description, style = MaterialTheme.typography.labelSmall)
-                    Spacer(modifier = Modifier.height(16.dp))
-
-                    weapon.parents?.let {
-                        Text(
-                            text = "Применяется с:",
-                            style = MaterialTheme.typography.headlineSmall
-                        )
-                        it.forEach { parent ->
-                            //todo clickable weapons
-                            Text(text = "- $parent", style = MaterialTheme.typography.bodyMedium)
-                        }
-                        Spacer(modifier = Modifier.height(8.dp))
-                    }
-
-                    // Список детей оружия
-                    weapon.childs?.let {
-                        Text(text = "Дети оружия:", style = MaterialTheme.typography.headlineSmall)
-                        it.forEach { child ->
+                    item {
+                        weapon.damageM?.let {
                             Text(
-                                text = "- ${child.name}",
+                                text = "Урон (M): $it",
                                 style = MaterialTheme.typography.bodyMedium
                             )
+                            Spacer(modifier = Modifier.height(8.dp))
                         }
-                        Spacer(modifier = Modifier.height(8.dp))
+                    }
+                item {
+                    Column {
+                        var showMore by remember { mutableStateOf(false) }
+
+                        if (showMore) Column {
+                            // Отображение типа
+                            weapon.type?.let {
+                                Text(text = "Тип: $it", style = MaterialTheme.typography.bodyMedium)
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Отображение критического урона
+                            weapon.criticalRoll?.let {
+                                Text(
+                                    text = "Критический бросок: $it",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                            weapon.criticalDamage?.let {
+                                Text(
+                                    text = "Критический урон: $it",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Отображение дальности
+                            weapon.range?.let {
+                                Text(text = "Дальность: $it", style = MaterialTheme.typography.bodyMedium)
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Отображение веса
+                            weapon.weight?.let {
+                                Text(text = "Вес: $it фнт", style = MaterialTheme.typography.bodyMedium)
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Отображение категории профессии
+                            weapon.proficientCategory.let {
+                                Text(
+                                    text = "Категория профессии: ${it.name}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Отображение категории дальности
+                            weapon.rangeCategory.let {
+                                Text(
+                                    text = "Категория дальности: ${it.name}",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Отображение категории обременения (если есть)
+                            weapon.encumbranceCategory?.let {
+                                Text(
+                                    text = "Категория обременения: ${it.name})",
+                                    style = MaterialTheme.typography.bodyMedium
+                                )
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Описание оружия
+                            Text(text = weapon.description, style = MaterialTheme.typography.labelSmall)
+                            Spacer(modifier = Modifier.height(16.dp))
+
+                            weapon.parents?.let {
+                                Text(
+                                    text = "Применяется с:",
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+                                it.forEach { parent ->
+                                    //todo clickable weapons
+                                    Text(text = "- $parent", style = MaterialTheme.typography.bodyMedium)
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+
+                            // Список детей оружия
+                            weapon.childs?.let {
+                                Text(text = "Дети оружия:", style = MaterialTheme.typography.headlineSmall)
+                                it.forEach { child ->
+                                    Text(
+                                        text = "- ${child.name}",
+                                        style = MaterialTheme.typography.bodyMedium
+                                    )
+                                }
+                                Spacer(modifier = Modifier.height(8.dp))
+                            }
+                        }
+
+                        Text(
+                            text = if (showMore) "Скрыть" else "Подробнее...",
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .clickable { showMore = !showMore }
+                                .padding(vertical = 8.dp),
+                            style = MaterialTheme.typography.bodyLarge,
+                        )
                     }
                 }
-
-                Text(
-                    text = if (showMore) "Скрыть" else "Подробнее...",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .clickable { showMore = !showMore }
-                        .padding(vertical = 8.dp),
-                    style = MaterialTheme.typography.bodyLarge,
-                )
-
             }
         },
 
