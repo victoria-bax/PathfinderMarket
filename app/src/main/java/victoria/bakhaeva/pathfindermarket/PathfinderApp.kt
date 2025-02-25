@@ -10,10 +10,10 @@ class PathfinderApp : Application() {
 
     override fun onCreate() {
         super.onCreate()
-        if (BuildConfig.DEBUG) {
+//        if (BuildConfig.DEBUG) {
             Timber.plant(Timber.DebugTree())
-        } else {
-            //do some Crashlytics or other crash reporting logs
-        }
+//        } else {
+//            do some Crashlytics or other crash reporting logs
+//        }
     }
 }

@@ -8,24 +8,26 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
-import victoria.bakhaeva.pathfindermarket.domain.model.WeaponListState
+import victoria.bakhaeva.pathfindermarket.presentation.mapper.WeaponUiStateMapper
+import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
 import javax.inject.Inject
 
 @HiltViewModel
 internal class WeaponsViewModel @Inject constructor(
-    private val getWeaponsInteractor: WeaponsInteractor
+    private val getWeaponsInteractor: WeaponsInteractor,
+    private val weaponUiStateMapper: WeaponUiStateMapper,
 ) : ViewModel() {
 
-    private val _uiState = MutableStateFlow<UIState<WeaponListState>>(UIState.Loading)
-    val uiState: StateFlow<UIState<WeaponListState>> get() = _uiState
+    private val _uiState = MutableStateFlow<UIState<WeaponListUiState>>(UIState.Loading)
+    val uiState: StateFlow<UIState<WeaponListUiState>> get() = _uiState
 
     fun loadWeapons() {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
                 getWeaponsInteractor.execute().collect { weaponList ->
-                    _uiState.value = UIState.Success(weaponList)
+                    _uiState.value = UIState.Success(weaponUiStateMapper.map(weaponList))
                 }
             } catch (e: Exception) {
                 _uiState.value = UIState.Error(e)
@@ -33,21 +35,34 @@ internal class WeaponsViewModel @Inject constructor(
         }
     }
 
-    fun onSortSelected(sort: Order) {
-        val data = (_uiState.value as? UIState.Success<WeaponListState>)?.data ?: return
-        _uiState.value = UIState.Success(
-            data.copy(
-                weapons = data.weapons.sort(sort),
+    fun onSortSelected(sort: Order) =
+        updateWeapons {
+            it.copy(
+                weapons = it.weapons.sort(sort),
                 sort = sort,
             )
-        )
-    }
+        }
 
     private fun List<Weapon>.sort(sort: Order): List<Weapon> = when (sort) {
         Order.PRICE_ASC -> sortedBy { it.cost }
         Order.PRICE_DESC -> sortedByDescending { it.cost }
         Order.NAME_ASC -> sortedBy { it.name }
         Order.NAME_DESC -> sortedByDescending { it.name }
+    }
+
+    fun onSearch(searchQuery: String) = updateWeapons {
+        it.copy(
+            weapons = it.allWeapons.filter { weapon ->
+                weapon.name.contains(searchQuery, ignoreCase = true)
+            }.sort(it.sort)
+        )
+    }
+
+    private fun updateWeapons(update: (WeaponListUiState) -> WeaponListUiState) {
+        val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return
+        _uiState.value = UIState.Success(
+            update(data)
+        )
     }
 
 }

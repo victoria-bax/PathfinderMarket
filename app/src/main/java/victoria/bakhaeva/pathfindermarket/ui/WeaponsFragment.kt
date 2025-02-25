@@ -41,6 +41,8 @@ class WeaponsFragment : BaseComposeFragment() {
         WeaponListScreen(
             weaponsViewModel.uiState.collectAsState().value,
             onSortSelected = weaponsViewModel::onSortSelected,
+            onSearch = weaponsViewModel::onSearch,
+            modifier = Modifier,
         )
     }
 
