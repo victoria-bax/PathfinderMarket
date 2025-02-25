@@ -1,11 +1,16 @@
 package victoria.bakhaeva.pathfindermarket.ui.weaponList
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
@@ -14,12 +19,18 @@ import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 @Composable
-fun WeaponListItem(weapon: Weapon) {
-    Column(modifier = Modifier.padding(16.dp)) {
+fun WeaponListItem(
+    weapon: Weapon,
+    onWeaponCLick: (Weapon) -> Unit,
+    ) {
+    Column(modifier = Modifier
+        .clickable { onWeaponCLick(weapon) }
+        .padding(16.dp)) {
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = weapon.name,
@@ -74,6 +85,7 @@ private fun PreviewWeaponListItem() {
                 name = "Полуторное",
                 alias = "oneHanded",
             ),
-        )
+        ),
+        onWeaponCLick = {},
     )
 }

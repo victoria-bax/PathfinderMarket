@@ -6,6 +6,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import victoria.bakhaeva.pathfindermarket.data.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.LoadingScreen
@@ -17,6 +18,7 @@ internal fun WeaponListScreen(
     state: UIState<WeaponListUiState>,
     onSortSelected: (Order) -> Unit,
     onSearch: (String) -> Unit,
+    onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     when (state) {
@@ -27,6 +29,7 @@ internal fun WeaponListScreen(
                 state = state.data,
                 onSortSelected = onSortSelected,
                 onSearch = onSearch,
+                onOpenDetails = onOpenDetails,
                 modifier = modifier,
             )
         }

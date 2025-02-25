@@ -18,6 +18,8 @@ import victoria.bakhaeva.pathfindermarket.data.gson.RangeJsonDeserializer
 import victoria.bakhaeva.pathfindermarket.data.model.Encumbrance
 import victoria.bakhaeva.pathfindermarket.data.model.Proficient
 import victoria.bakhaeva.pathfindermarket.data.model.Range
+import victoria.bakhaeva.pathfindermarket.domain.InMemoryWeaponCache
+import victoria.bakhaeva.pathfindermarket.domain.WeaponCache
 import javax.inject.Singleton
 
 @Module
@@ -50,6 +52,10 @@ internal class AppModule {
 //            .registerTypeAdapter(Proficient::class.java, ProficientJsonDeserializer())
 //            .registerTypeAdapter(Range::class.java, RangeJsonDeserializer())
             .create()
+
+    @Provides
+    @Singleton
+    fun provideWeaponCache(): WeaponCache = InMemoryWeaponCache()
 
     @Provides
     @Singleton
