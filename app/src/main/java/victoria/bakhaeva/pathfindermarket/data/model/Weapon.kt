@@ -1,5 +1,8 @@
 package victoria.bakhaeva.pathfindermarket.data.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Weapon(
     val alias: String,
     val name: String,
@@ -20,39 +23,31 @@ data class Weapon(
     val rangeCategory: RangeCategory,
     val encumbranceCategory: EncumbranceCategory? = null,
     val parents: List<String>? = null,
-    val book: Book? = null,
     val childs: List<Weapon>? = null
 )
-
+@Serializable
 data class ProficientCategory(
     val name: String,
     val alias: String
 )
-
+@Serializable
 data class RangeCategory(
     val name: String,
     val alias: String
 )
-
+@Serializable
 data class EncumbranceCategory(
     val name: String,
     val alias: String
 )
-
-data class Book(
-    val alias: String,
-    val name: String,
-    val order: Int,
-    val abbreviation: String
-)
-
+@Serializable
 enum class Encumbrance(val value: String) {
     LIGHT("light"),
     ONE_HANDED("oneHanded"),
     TWO_HANDED("twoHanded"),
     SIEGE("siege"),
 }
-
+@Serializable
 enum class Proficient(val value: String) {
     AMMUNITION("ammunition"),
     SIMPLE("simple"),
@@ -62,7 +57,7 @@ enum class Proficient(val value: String) {
     ALCHEMICAL("alchemical"),
     ADVANCED_FIREARM("advancedFirearm"),
 }
-
+@Serializable
 enum class Range(val value: String) {
     MELEE("melee"),
     RANGED("ranged"),

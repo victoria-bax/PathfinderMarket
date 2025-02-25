@@ -9,15 +9,21 @@ import java.io.IOException
 import javax.inject.Inject
 
 internal class WeaponsInteractor @Inject constructor(
-    private val pathfinderApi: PathfinderApi
+    private val pathfinderApi: PathfinderApi,
+    private val weaponCache: WeaponCache,
 ) {
 
-    fun execute(): Flow<List<Weapon>> = flow {
+    fun getWeapons(): Flow<List<Weapon>> = flow {
+        val cached = weaponCache.get()
+        cached?.let { emit(it) }
         try {
             val response = pathfinderApi.getWeapons()
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit(it)
+                    if (it != cached) {
+                        weaponCache.save(it)
+                        emit(it)
+                    }
                 } ?: throw Exception("Empty response body")
             } else {
                 throw HttpException(response) // Обработка ошибки HTTP
@@ -33,4 +39,6 @@ internal class WeaponsInteractor @Inject constructor(
             throw Exception("An unexpected error occurred", e)
         }
     }
+
+    fun getWeapon(alias: String): Weapon? = weaponCache.get(alias)
 }

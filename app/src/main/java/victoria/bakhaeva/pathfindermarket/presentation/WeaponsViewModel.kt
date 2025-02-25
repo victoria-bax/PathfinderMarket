@@ -26,7 +26,7 @@ internal class WeaponsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
-                getWeaponsInteractor.execute().collect { weaponList ->
+                getWeaponsInteractor.getWeapons().collect { weaponList ->
                     _uiState.value = UIState.Success(weaponUiStateMapper.map(weaponList))
                 }
             } catch (e: Exception) {
@@ -34,6 +34,8 @@ internal class WeaponsViewModel @Inject constructor(
             }
         }
     }
+
+    fun getWeapon(alias: String): Weapon? = getWeaponsInteractor.getWeapon(alias)
 
     fun onSortSelected(sort: Order) =
         updateWeapons {

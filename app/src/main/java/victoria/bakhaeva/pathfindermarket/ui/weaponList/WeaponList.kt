@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import victoria.bakhaeva.pathfindermarket.data.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 
 @Composable
@@ -26,10 +27,10 @@ fun WeaponList(
     state: WeaponListUiState,
     onSortSelected: (Order) -> Unit,
     onSearch: (String) -> Unit,
+    onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var openSortDialog by remember { mutableStateOf(false) }
-
     Scaffold(
         containerColor = colorScheme.background,
         topBar = {
@@ -60,7 +61,11 @@ fun WeaponList(
                     .fillMaxSize()
             ) {
                 items(state.weapons.size) { weapon ->
-                    WeaponListItem(weapon = state.weapons[weapon])
+                    WeaponListItem(
+                        weapon = state.weapons[weapon],
+                        onWeaponCLick = {
+                            onOpenDetails(state.weapons[weapon])
+                        })
                 }
             }
             if (openSortDialog) {
@@ -74,8 +79,8 @@ fun WeaponList(
                     }
                 )
             }
-        },
 
-        )
+        },
+    )
 }
 
