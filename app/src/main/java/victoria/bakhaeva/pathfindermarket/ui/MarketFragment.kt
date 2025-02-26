@@ -14,27 +14,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
-import victoria.bakhaeva.pathfindermarket.presentation.WeaponsViewModel
+import victoria.bakhaeva.pathfindermarket.presentation.weaponslist.WeaponsViewModel
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
 
 @AndroidEntryPoint
 class MarketFragment : BaseComposeFragment() {
-
-    private val weaponsViewModel: WeaponsViewModel by viewModels()
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        // Загружаем данные из ViewModel
-        weaponsViewModel.loadWeapons()
-    }
-
-    @Composable
-    fun FriendsListScreen(onNavigateToProfile: () -> Unit) {
-        Text("Friends List")
-        Button(onClick = { onNavigateToProfile() }) {
-            Text("Go to Profile")
-        }
-    }
 
     @Composable
     override fun ScreenContent() {
@@ -45,10 +29,6 @@ class MarketFragment : BaseComposeFragment() {
         ) {
             composable<Screen.WeaponList> {
                 WeaponListScreen(
-                    weaponsViewModel.uiState.collectAsState().value,
-                    onSortSelected = weaponsViewModel::onSortSelected,
-                    onFilterChecked = weaponsViewModel::onFilterChecked,
-                    onSearch = weaponsViewModel::onSearch,
                     onOpenDetails = {
                         navController.navigate(Screen.WeaponDetails(it.alias))
                     },
@@ -57,13 +37,11 @@ class MarketFragment : BaseComposeFragment() {
             }
             composable<Screen.WeaponDetails> { backStackEntry ->
                 val screen: Screen.WeaponDetails = backStackEntry.toRoute()
-                weaponsViewModel.getWeapon(screen.alias)?.let {
-                    WeaponDetailScreen(
-                        it,
-                        onBackClick = { navController.popBackStack() },
-                        modifier = Modifier
-                    )
-                }
+                WeaponDetailScreen(
+                    screen.alias,
+                    onBackClick = { navController.popBackStack() },
+                    modifier = Modifier
+                )
             }
         }
 
@@ -74,6 +52,7 @@ class MarketFragment : BaseComposeFragment() {
     private sealed class Screen {
         @Serializable
         object WeaponList : Screen()
+
         @Serializable
         data class WeaponDetails(val alias: String) : Screen()
     }
