@@ -169,7 +169,8 @@ fun WeaponDetailScreen(
 
                             // Список детей оружия
                             weapon.childs?.let {
-                                Text(text = "Дети оружия:", style = MaterialTheme.typography.headlineSmall)
+                                //todo clickable
+                                Text(text = "Амуниция:", style = MaterialTheme.typography.headlineSmall)
                                 it.forEach { child ->
                                     Text(
                                         text = "- ${child.name}",

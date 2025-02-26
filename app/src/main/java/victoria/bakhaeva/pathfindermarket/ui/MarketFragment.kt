@@ -47,6 +47,7 @@ class MarketFragment : BaseComposeFragment() {
                 WeaponListScreen(
                     weaponsViewModel.uiState.collectAsState().value,
                     onSortSelected = weaponsViewModel::onSortSelected,
+                    onFilterChecked = weaponsViewModel::onFilterChecked,
                     onSearch = weaponsViewModel::onSearch,
                     onOpenDetails = {
                         navController.navigate(Screen.WeaponDetails(it.alias))

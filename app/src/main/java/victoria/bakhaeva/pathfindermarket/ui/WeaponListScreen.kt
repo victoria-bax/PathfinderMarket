@@ -17,6 +17,7 @@ import victoria.bakhaeva.pathfindermarket.ui.weaponList.WeaponList
 internal fun WeaponListScreen(
     state: UIState<WeaponListUiState>,
     onSortSelected: (Order) -> Unit,
+    onFilterChecked: (String, Boolean) -> Unit,
     onSearch: (String) -> Unit,
     onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier,
@@ -28,6 +29,7 @@ internal fun WeaponListScreen(
             WeaponList(
                 state = state.data,
                 onSortSelected = onSortSelected,
+                onFilterChecked = onFilterChecked,
                 onSearch = onSearch,
                 onOpenDetails = onOpenDetails,
                 modifier = modifier,
