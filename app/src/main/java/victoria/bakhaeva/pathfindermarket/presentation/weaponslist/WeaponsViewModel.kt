@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.presentation
+package victoria.bakhaeva.pathfindermarket.presentation.weaponslist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
+import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import victoria.bakhaeva.pathfindermarket.presentation.mapper.WeaponUiStateMapper
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
@@ -21,6 +22,10 @@ internal class WeaponsViewModel @Inject constructor(
 
     private val _uiState = MutableStateFlow<UIState<WeaponListUiState>>(UIState.Loading)
     val uiState: StateFlow<UIState<WeaponListUiState>> get() = _uiState
+
+    init {
+        loadWeapons()
+    }
 
     fun loadWeapons() {
         viewModelScope.launch {

@@ -1,50 +1,28 @@
 package victoria.bakhaeva.pathfindermarket.ui
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
-import victoria.bakhaeva.pathfindermarket.presentation.UIState
-import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.LoadingScreen
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
+import victoria.bakhaeva.pathfindermarket.presentation.weaponslist.WeaponsViewModel
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.WeaponList
 
 @Composable
 internal fun WeaponListScreen(
-    state: UIState<WeaponListUiState>,
-    onSortSelected: (Order) -> Unit,
-    onFilterChecked: (String, Boolean) -> Unit,
-    onSearch: (String) -> Unit,
+    viewModel: WeaponsViewModel = hiltViewModel(),
     onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier,
-) {
-    when (state) {
-        is UIState.Loading -> LoadingScreen(modifier)
-
-        is UIState.Success -> {
-            WeaponList(
-                state = state.data,
-                onSortSelected = onSortSelected,
-                onFilterChecked = onFilterChecked,
-                onSearch = onSearch,
-                onOpenDetails = onOpenDetails,
-                modifier = modifier,
-            )
-        }
-
-        is UIState.Error -> {
-            Box(
-                modifier = modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(text = "Ошибка: ${state.exception.message}")
-            }
-        }
+) = Screen (
+    state = viewModel.uiState.collectAsState().value,
+    success = { state ->
+        WeaponList(
+            state = state,
+            onSortSelected = viewModel::onSortSelected,
+            onFilterChecked = viewModel::onFilterChecked,
+            onSearch = viewModel::onSearch,
+            onOpenDetails = onOpenDetails,
+            modifier = modifier,
+        )
     }
-}
-
-
+)
