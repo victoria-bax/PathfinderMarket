@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 
@@ -26,11 +27,13 @@ import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 fun WeaponList(
     state: WeaponListUiState,
     onSortSelected: (Order) -> Unit,
+    onFilterChecked: (String, Boolean) -> Unit,
     onSearch: (String) -> Unit,
     onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var openSortDialog by remember { mutableStateOf(false) }
+    var openFilterDialog by remember { mutableStateOf(false) }
     Scaffold(
         containerColor = colorScheme.background,
         topBar = {
@@ -50,6 +53,14 @@ fun WeaponList(
                         .clickable { openSortDialog = true }
                         .padding(8.dp),
                     painter = painterResource(state.sort.icon()),
+                    contentDescription = ""
+                )
+                Icon(
+                    modifier = Modifier
+                        .size(48.dp)
+                        .clickable { openFilterDialog = true }
+                        .padding(8.dp),
+                    painter = painterResource(R.drawable.ic_filter),
                     contentDescription = ""
                 )
             }
@@ -76,6 +87,15 @@ fun WeaponList(
                     },
                     onDismiss = {
                         openSortDialog = false
+                    }
+                )
+            }
+            if (openFilterDialog) {
+                FilterDialog(
+                    state = state.filterState,
+                    onFilterChecked = onFilterChecked,
+                    onDismiss = {
+                        openFilterDialog = false
                     }
                 )
             }
