@@ -3,23 +3,23 @@ package victoria.bakhaeva.pathfindermarket.ui.weaponList
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
+import victoria.bakhaeva.pathfindermarket.data.model.Range
 import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
-import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
@@ -27,21 +27,25 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 fun WeaponListItem(
     weapon: Weapon,
     onWeaponCLick: (Weapon) -> Unit,
-    ) {
+) {
     Column(modifier = Modifier
         .clickable { onWeaponCLick(weapon) }
         .padding(16.dp)) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            weapon.name?.let {
-                Text(
-                    text = it,
-                    style = Typography.titleLarge
-                )
+            Text(
+                text = weapon.name,
+                style = Typography.titleLarge
+            )
+            val cost = when (weapon.cost) {
+                null -> "0"
+                -1.0 -> "Особая"
+                else -> "${weapon.cost} зм"
+
             }
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterEnd),
-                text = "${weapon.cost ?: "???"} зм",
+                text = cost,
                 style = Typography.titleLarge,
                 color = Gold,
             )
@@ -55,9 +59,27 @@ fun WeaponListItem(
             )
         }
 
-        Text(
-            text = "${weapon.rangeCategory.name}, ${weapon.proficientCategory.name}, ${weapon.encumbranceCategory?.name ?: ""}"
-        )
+        Row {
+            Range.entries.firstOrNull {
+                it.value == weapon.rangeCategory.alias
+            }?.let {
+                Icon(
+                    modifier = Modifier
+                        .align(Alignment.CenterVertically)
+                        .heightIn(max = 36.dp),
+                    painter = painterResource(it.icon),
+                    contentDescription = null,
+                )
+            }
+            Text(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .padding(horizontal = 8.dp),
+                text = "${weapon.proficientCategory.name}, ${weapon.encumbranceCategory?.name ?: ""}"
+            )
+        }
+
+
     }
 }
 

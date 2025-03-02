@@ -173,10 +173,12 @@ internal fun WeaponDetailScreen(
                                     }
 
                                     // Описание оружия
-                                    Text(
-                                        text = weapon.description,
-                                        style = MaterialTheme.typography.labelSmall
-                                    )
+                                    weapon.description?.let {
+                                        Text(
+                                            text = it,
+                                            style = MaterialTheme.typography.labelSmall
+                                        )
+                                    }
                                     Spacer(modifier = Modifier.height(16.dp))
 
                                     weapon.parents?.let {
