@@ -27,7 +27,7 @@ import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 fun WeaponList(
     state: WeaponListUiState,
     onSortSelected: (Order) -> Unit,
-    onFilterChecked: (String, Boolean) -> Unit,
+    onFilterChecked: (List<String>, Boolean) -> Unit,
     onSearch: (String) -> Unit,
     onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier
