@@ -32,10 +32,12 @@ fun WeaponListItem(
         .clickable { onWeaponCLick(weapon) }
         .padding(16.dp)) {
         Box(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = weapon.name,
-                style = Typography.titleLarge
-            )
+            weapon.name?.let {
+                Text(
+                    text = it,
+                    style = Typography.titleLarge
+                )
+            }
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterEnd),
@@ -46,10 +48,12 @@ fun WeaponListItem(
 
         }
 
-        Text(
-            text = weapon.description,
-            style = Typography.labelSmall
-        )
+        weapon.description?.let {
+            Text(
+                text = it,
+                style = Typography.labelSmall
+            )
+        }
 
         Text(
             text = "${weapon.rangeCategory.name}, ${weapon.proficientCategory.name}, ${weapon.encumbranceCategory?.name ?: ""}"

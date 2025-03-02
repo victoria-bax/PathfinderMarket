@@ -50,7 +50,7 @@ internal fun WeaponDetailScreen(
                 topBar = {
                     TopAppBar(
                         title = {
-                            Text(weapon.name)
+                            Text(weapon.name ?: "")
                         },
                         navigationIcon = {
                             Icon(

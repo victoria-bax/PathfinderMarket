@@ -57,9 +57,9 @@ fun WeaponsSearchBar(
         ) {
             LazyColumn {
                 val filtered =
-                    allWeapons.filter { it.name.contains(query, ignoreCase = true) }
+                    allWeapons.filter { it.name?.contains(query, ignoreCase = true) == true }
                 items(filtered.size) { weapon ->
-                    val name = filtered[weapon].name
+                    val name = filtered[weapon].name ?: return@items
                     Text(
                         modifier = Modifier.clickable {
                             query = name
