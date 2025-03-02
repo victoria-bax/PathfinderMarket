@@ -60,7 +60,7 @@ internal class WeaponsViewModel @Inject constructor(
     fun onSearch(searchQuery: String) = updateWeapons {
         it.copy(
             weapons = it.allWeapons.filter { weapon ->
-                weapon.name.contains(searchQuery, ignoreCase = true)
+                weapon.name?.contains(searchQuery, ignoreCase = true) == true
             }.sort(it.sort)
         )
     }

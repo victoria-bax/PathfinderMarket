@@ -60,7 +60,7 @@ fun FilterDialog(
                                         onFilterChecked(rangeCategory.alias, checked)
                                     }
                                 )
-                                Text(rangeCategory.name)
+                                rangeCategory.name?.let { Text(it) }
                             }
                         }
                     }
@@ -78,7 +78,7 @@ fun FilterDialog(
                                         onFilterChecked(proficientCategory.alias, checked)
                                     }
                                 )
-                                Text(proficientCategory.name)
+                                proficientCategory.name?.let { Text(it) }
                             }
                         }
                     }
@@ -96,7 +96,7 @@ fun FilterDialog(
                                         onFilterChecked(encumbranceCategory.alias, checked)
                                     }
                                 )
-                                Text(encumbranceCategory.name)
+                                encumbranceCategory.name?.let { Text(it) }
                             }
                         }
                     }

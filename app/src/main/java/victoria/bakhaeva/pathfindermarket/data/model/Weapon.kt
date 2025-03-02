@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class Weapon(
     val alias: String,
-    val name: String,
-    val engName: String,
+    val name: String? = null,
+    val engName: String? = null,
     val type: String? = null,
     val cost: Double? = null,
     val damageS: String? = null,
@@ -18,7 +18,7 @@ data class Weapon(
     val capacity: String? = null,
     val weight: Double? = null,
     val special: String? = null,
-    val description: String,
+    val description: String? = null,
     val proficientCategory: ProficientCategory,
     val rangeCategory: RangeCategory,
     val encumbranceCategory: EncumbranceCategory? = null,
@@ -27,18 +27,18 @@ data class Weapon(
 )
 @Serializable
 data class ProficientCategory(
-    val name: String,
-    val alias: String
+    val name: String? = null,
+    val alias: String,
 )
 @Serializable
 data class RangeCategory(
-    val name: String,
-    val alias: String
+    val name: String? = null,
+    val alias: String,
 )
 @Serializable
 data class EncumbranceCategory(
-    val name: String,
-    val alias: String
+    val name: String? = null,
+    val alias: String,
 )
 @Serializable
 enum class Encumbrance(val value: String) {

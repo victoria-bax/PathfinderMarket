@@ -7,17 +7,15 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
-import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.style.LineHeightStyle
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.ui.theme.LightYellow
 
 @Composable
 fun SortMenuItem(
@@ -30,20 +28,25 @@ fun SortMenuItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                if (isSelected) LightYellow else lightColorScheme().background
+                if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.secondaryContainer
             )
-            .clickable { onClick() },
+            .clickable { onClick() }
+            .padding(horizontal = 8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             modifier = Modifier.size(28.dp),
             painter = painterResource(icon),
-            contentDescription = ""
+            contentDescription = "",
+            tint = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
+
         )
 
         Text(
             modifier = Modifier.padding(8.dp),
             text = text,
+            color = if (isSelected) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
+
         )
     }
 }
