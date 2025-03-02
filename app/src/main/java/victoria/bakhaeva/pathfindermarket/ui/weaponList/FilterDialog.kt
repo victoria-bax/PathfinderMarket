@@ -1,6 +1,5 @@
 package victoria.bakhaeva.pathfindermarket.ui.weaponList
 
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
@@ -13,19 +12,13 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import dagger.Provides
 import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
-import victoria.bakhaeva.pathfindermarket.ui.sort.SortMenuItem
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
@@ -33,7 +26,7 @@ import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 @Composable
 fun FilterDialog(
     state: FilterState,
-    onFilterChecked: (String, Boolean) -> Unit,
+    onFilterChecked: (List<String>, Boolean) -> Unit,
     onDismiss: () -> Unit
 ) {
     BasicAlertDialog(
@@ -49,7 +42,15 @@ fun FilterDialog(
                 state.allFilters.rangeCategories.takeIf { it.isNotEmpty() }
                     ?.let { rangeCategories ->
                         item {
-                            Text("Дистанция", style = MaterialTheme.typography.headlineSmall)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(
+                                    checked = state.selectedFilters.containsAll(rangeCategories.map { it.alias }),
+                                    onCheckedChange = { checked ->
+                                        onFilterChecked(rangeCategories.map { it.alias }, checked)
+                                    }
+                                )
+                                Text("Дистанция", style = MaterialTheme.typography.headlineSmall)
+                            }
                         }
                         items(rangeCategories.size) { index ->
                             val rangeCategory = rangeCategories[index]
@@ -57,7 +58,7 @@ fun FilterDialog(
                                 Checkbox(
                                     checked = state.selectedFilters.contains(rangeCategory.alias),
                                     onCheckedChange = { checked ->
-                                        onFilterChecked(rangeCategory.alias, checked)
+                                        onFilterChecked(listOf(rangeCategory.alias), checked)
                                     }
                                 )
                                 rangeCategory.name?.let { Text(it) }
@@ -67,7 +68,18 @@ fun FilterDialog(
                 state.allFilters.proficientCategories.takeIf { it.isNotEmpty() }
                     ?.let { proficientCategories ->
                         item {
-                            Text("Тип", style = MaterialTheme.typography.headlineSmall)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(
+                                    checked = state.selectedFilters.containsAll(proficientCategories.map { it.alias }),
+                                    onCheckedChange = { checked ->
+                                        onFilterChecked(
+                                            proficientCategories.map { it.alias },
+                                            checked
+                                        )
+                                    }
+                                )
+                                Text("Тип", style = MaterialTheme.typography.headlineSmall)
+                            }
                         }
                         items(proficientCategories.size) { index ->
                             val proficientCategory = proficientCategories[index]
@@ -75,7 +87,7 @@ fun FilterDialog(
                                 Checkbox(
                                     checked = state.selectedFilters.contains(proficientCategory.alias),
                                     onCheckedChange = { checked ->
-                                        onFilterChecked(proficientCategory.alias, checked)
+                                        onFilterChecked(listOf(proficientCategory.alias), checked)
                                     }
                                 )
                                 proficientCategory.name?.let { Text(it) }
@@ -85,7 +97,22 @@ fun FilterDialog(
                 state.allFilters.encumbranceCategories.takeIf { it.isNotEmpty() }
                     ?.let { encumbranceCategories ->
                         item {
-                            Text("Количество рук", style = MaterialTheme.typography.headlineSmall)
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Checkbox(
+                                    checked = state.selectedFilters.containsAll(
+                                        encumbranceCategories.map { it.alias }),
+                                    onCheckedChange = { checked ->
+                                        onFilterChecked(
+                                            encumbranceCategories.map { it.alias },
+                                            checked
+                                        )
+                                    }
+                                )
+                                Text(
+                                    "Количество рук",
+                                    style = MaterialTheme.typography.headlineSmall
+                                )
+                            }
                         }
                         items(encumbranceCategories.size) { index ->
                             val encumbranceCategory = encumbranceCategories[index]
@@ -93,7 +120,7 @@ fun FilterDialog(
                                 Checkbox(
                                     checked = state.selectedFilters.contains(encumbranceCategory.alias),
                                     onCheckedChange = { checked ->
-                                        onFilterChecked(encumbranceCategory.alias, checked)
+                                        onFilterChecked(listOf(encumbranceCategory.alias), checked)
                                     }
                                 )
                                 encumbranceCategory.name?.let { Text(it) }

@@ -72,12 +72,12 @@ internal class WeaponsViewModel @Inject constructor(
         )
     }
 
-    fun onFilterChecked(alias: String, checked: Boolean) {
+    fun onFilterChecked(aliases: List<String>, checked: Boolean) {
         updateWeapons {
             val selectedFilters = if (checked)
-                it.filterState.selectedFilters + alias
+                it.filterState.selectedFilters + aliases
             else
-                it.filterState.selectedFilters - alias
+                it.filterState.selectedFilters - aliases
             it.copy(
                 weapons = it.allWeapons.filter { weapon ->
                     selectedFilters.contains(weapon.proficientCategory.alias)

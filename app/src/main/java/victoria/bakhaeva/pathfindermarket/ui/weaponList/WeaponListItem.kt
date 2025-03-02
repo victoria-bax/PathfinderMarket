@@ -49,7 +49,6 @@ fun WeaponListItem(
                 style = Typography.titleLarge,
                 color = Gold,
             )
-
         }
 
         weapon.description?.let {
