@@ -14,14 +14,14 @@ internal class WeaponsInteractor @Inject constructor(
 ) {
 
     fun getWeapons(): Flow<List<Weapon>> = flow {
-        val cached = weaponCache.get()
+        val cached = weaponCache.getWeapons()
         cached?.let { emit(it) }
         try {
             val response = pathfinderApi.getWeapons()
             if (response.isSuccessful) {
                 response.body()?.let {
                     if (it != cached) {
-                        weaponCache.save(it)
+                        weaponCache.saveWeapons(it)
                         emit(it)
                     }
                 } ?: throw Exception("Empty response body")
@@ -40,5 +40,5 @@ internal class WeaponsInteractor @Inject constructor(
         }
     }
 
-    fun getWeapon(alias: String): Weapon? = weaponCache.get(alias)
+    fun getWeapon(alias: String): Weapon? = weaponCache.getWeapon(alias)
 }

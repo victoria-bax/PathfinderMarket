@@ -1,22 +1,17 @@
 package victoria.bakhaeva.pathfindermarket.ui
 
-import android.os.Bundle
-import android.view.View
-import androidx.compose.material3.Button
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.fragment.app.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.serialization.Serializable
-import victoria.bakhaeva.pathfindermarket.presentation.weaponslist.WeaponsViewModel
+import victoria.bakhaeva.pathfindermarket.ui.MarketFragment.Screen.WeaponAbilities.Companion.ABILITY_KEY
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponUpgradeScreen
+import victoria.bakhaeva.pathfindermarket.ui.main.WeaponUpgradesListScreen
 
 @AndroidEntryPoint
 class MarketFragment : BaseComposeFragment() {
@@ -51,9 +46,27 @@ class MarketFragment : BaseComposeFragment() {
                 val screen: Screen.WeaponUpgrade = backStackEntry.toRoute()
                 WeaponUpgradeScreen(
                     screen.alias,
+                    newAbilityAlias = navController.currentBackStackEntry?.savedStateHandle?.get<String>(
+                        ABILITY_KEY
+                    ),
+                    modifier = Modifier,
                     onBackClick = { navController.popBackStack() },
-                    onAddAbilityClick = {
-                        // todo ability list screen
+                    onAddAbilityClick = { range ->
+                        navController.navigate(Screen.WeaponAbilities(range))
+                    },
+                )
+            }
+
+            composable<Screen.WeaponAbilities> { backStackEntry ->
+                val screen: Screen.WeaponAbilities = backStackEntry.toRoute()
+                WeaponUpgradesListScreen(
+                    screen.range,
+                    onBackClick = { navController.popBackStack() },
+                    onAbilitySelected = { ability ->
+                        navController.previousBackStackEntry?.savedStateHandle?.set(
+                            ABILITY_KEY, ability.alias
+                        )
+                        navController.popBackStack()
                     },
                 )
             }
@@ -72,5 +85,12 @@ class MarketFragment : BaseComposeFragment() {
 
         @Serializable
         data class WeaponUpgrade(val alias: String) : Screen()
+
+        @Serializable
+        data class WeaponAbilities(val range: String) : Screen() {
+            companion object {
+                const val ABILITY_KEY = "ability_key"
+            }
+        }
     }
 }
