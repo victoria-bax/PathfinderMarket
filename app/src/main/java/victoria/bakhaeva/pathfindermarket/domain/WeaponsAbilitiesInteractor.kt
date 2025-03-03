@@ -26,9 +26,8 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
             val response = pathfinderApi.getAbilities(query)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    val abilities = createBonusAbilities() + it
-                    weaponCache.saveWeaponAbilities(abilities)
-                    emit(abilities)
+                    weaponCache.saveWeaponAbilities(it)
+                    emit(it)
                 } ?: throw Exception("Empty response body")
             } else {
                 throw HttpException(response) // Обработка ошибки HTTP
@@ -44,11 +43,6 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
             throw Exception("An unexpected error occurred", e)
         }
     }
-
-    private fun createBonusAbilities(): List<WeaponAbility> =
-        List(maxBonus) { bonus ->
-            bonusAbility(bonus + 1)
-        }
 
     fun getAbility(abilityAlias: String): WeaponAbility? =
         weaponCache.getWeaponAbility(abilityAlias)

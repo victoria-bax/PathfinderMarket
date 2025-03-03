@@ -1,5 +1,12 @@
 package victoria.bakhaeva.pathfindermarket.ui
 
+fun Int?.formatCost() = when (this) {
+    null -> "0"
+    -1 -> "Особая"
+    0 -> "Бесплатно"
+    else -> this.toDouble().formatCost()
+}
+
 fun Double?.formatCost() = when (this) {
     null -> "0"
     -1.0 -> "Особая"

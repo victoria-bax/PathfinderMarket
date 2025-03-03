@@ -11,9 +11,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Add
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.MaterialTheme.colorScheme
@@ -22,12 +21,17 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
+import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.mastercraftPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponUpgradeViewModel
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countAttackBonus
@@ -36,6 +40,8 @@ import victoria.bakhaeva.pathfindermarket.ui.Screen
 import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
+import victoria.bakhaeva.pathfindermarket.ui.upgrade.ImprovementsDialog
+import victoria.bakhaeva.pathfindermarket.ui.upgrade.ImprovementsUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -56,6 +62,8 @@ internal fun WeaponUpgradeScreen(
         modifier = modifier,
         success =
         { state ->
+            var openImprovementsDialog by remember { mutableStateOf(false) }
+
             Scaffold(
                 modifier = modifier
                     .fillMaxSize(),
@@ -128,44 +136,87 @@ internal fun WeaponUpgradeScreen(
                                     }
                                 }
                             }
-
-                            if (state.abilities.isEmpty()) {
-                                item {
-                                    Text("Магических усовершенствований не добавлено")
-                                }
-                            } else {
-                                items(state.abilities) { ability ->
-                                    Column {
-                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            item {
+                                if (state.isMasterwork) {
+                                    if (state.improvements == 0) {
+                                        Button(
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
+                                            onClick = {
+                                                openImprovementsDialog = true
+                                            }
+                                        ) {
+                                            Text(text = "Добавить улучшение")
+                                        }
+                                    } else {
+                                        Row(
+                                            modifier = Modifier
+                                                .clickable {
+                                                    openImprovementsDialog = true
+                                                }.padding(8.dp),
+                                            verticalAlignment = Alignment.CenterVertically
+                                        ) {
+                                            Text("Бонус атаки: +${state.improvements}")
                                             Text(
-                                                text = ability.name,
-                                                style = MaterialTheme.typography.titleMedium
-                                            )
-                                            Text(
-                                                modifier = Modifier.fillMaxWidth(),
                                                 textAlign = TextAlign.End,
-                                                text = ability.formatPrice()
+                                                modifier = Modifier.fillMaxWidth(),
+                                                text = WeaponBonusPrice.prices[state.improvements].formatCost(),
+                                                style = MaterialTheme.typography.titleMedium,
+                                                color = Gold
+                                                //todo make all prices a separate view
                                             )
                                         }
-                                        Text(
-                                            text = ability.description
-                                        )
+                                    }
+                                }
+                            }
+
+                            if (state.improvements > 0) {
+                                if (state.abilities.isEmpty()) {
+                                    item {
+                                        Button(
+                                            onClick = {
+                                                onAddAbilityClick(state.weapon.rangeCategory.alias)
+                                            }
+                                        ) {
+                                            Text("Добавить особые свойства")
+                                        }
+                                    }
+                                } else {
+                                    items(state.abilities) { ability ->
+                                        Column {
+                                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                                Text(
+                                                    text = ability.name,
+                                                    style = MaterialTheme.typography.titleMedium
+                                                )
+                                                Text(
+                                                    modifier = Modifier.fillMaxWidth(),
+                                                    textAlign = TextAlign.End,
+                                                    text = ability.formatPrice()
+                                                )
+                                            }
+                                            Text(
+                                                text = ability.description
+                                            )
+                                        }
                                     }
                                 }
                             }
                         }
-                        FloatingActionButton(
-                            onClick = {
-                                onAddAbilityClick(state.weapon.rangeCategory.alias)
-                            },
-                            modifier = Modifier
-                                .padding(16.dp)
-                                .align(Alignment.BottomEnd)
-                        ) {
-                            Icon(Icons.Filled.Add, "")
+                        if (openImprovementsDialog) {
+                            ImprovementsDialog(
+                                state = ImprovementsUiState(
+                                    selectedImprovement = state.improvements,
+                                    improvements = List(5) { it + 1 }
+                                ),
+                                onImprovementClicked = viewModel::onImprovementClicked,
+                                onDismiss = {
+                                    openImprovementsDialog = false
+                                }
+                            )
                         }
                     }
-                },
+                }
             )
         }
     )

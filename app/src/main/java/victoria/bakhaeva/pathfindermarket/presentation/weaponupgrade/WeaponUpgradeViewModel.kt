@@ -33,7 +33,8 @@ internal class WeaponUpgradeViewModel @Inject constructor(
                         WeaponUpgradeState(
                             weapon = weapon,
                             isMasterwork = false,
-                            abilities = emptyList()
+                            abilities = emptyList(),
+                            improvements = 0
                         )
                     )
                 } ?: {
@@ -71,6 +72,14 @@ internal class WeaponUpgradeViewModel @Inject constructor(
                         )
                     )
                 )
+            )
+        }
+    }
+
+    fun onImprovementClicked(improvements: Int) {
+        updateState {
+            it.copy(
+                improvements = improvements
             )
         }
     }
