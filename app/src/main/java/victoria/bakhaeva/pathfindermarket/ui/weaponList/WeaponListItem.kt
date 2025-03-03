@@ -20,6 +20,7 @@ import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.data.model.Range
 import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.ui.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
@@ -36,12 +37,7 @@ fun WeaponListItem(
                 text = weapon.name,
                 style = Typography.titleLarge
             )
-            val cost = when (weapon.cost) {
-                null -> "0"
-                -1.0 -> "Особая"
-                else -> "${weapon.cost} зм"
-
-            }
+            val cost = weapon.cost.formatCost()
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterEnd),

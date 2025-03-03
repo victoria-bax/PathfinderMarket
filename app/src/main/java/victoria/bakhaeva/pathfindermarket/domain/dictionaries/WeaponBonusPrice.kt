@@ -11,3 +11,7 @@ val WeaponBonusPrice = mapOf(
     8 to 128000,
     10 to 200000,
 )
+
+val mastercraftPrice = 300.0
+
+val masterCraftBonus = 1
