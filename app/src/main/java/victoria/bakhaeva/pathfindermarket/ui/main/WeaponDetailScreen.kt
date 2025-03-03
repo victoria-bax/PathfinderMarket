@@ -24,8 +24,10 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.presentation.weapondetail.WeaponDetailViewModel
 import victoria.bakhaeva.pathfindermarket.ui.Screen
 
@@ -35,6 +37,7 @@ internal fun WeaponDetailScreen(
     weaponAlias: String,
     viewModel: WeaponDetailViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
+    onUpgradeClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
     viewModel.loadWeapon(weaponAlias)
@@ -59,6 +62,14 @@ internal fun WeaponDetailScreen(
                                 modifier = Modifier
                                     .clickable { onBackClick() }
                                     .padding(8.dp),
+                            )
+                        },
+                        actions = {
+                            Icon(
+                                painter = painterResource(R.drawable.ic_upgrade),
+                                contentDescription = "",
+                                modifier = Modifier.padding(8.dp)
+                                    .clickable { onUpgradeClick(weapon.alias) }
                             )
                         }
                     )
@@ -166,7 +177,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение категории обременения (если есть)
                                     weapon.encumbranceCategory?.let {
                                         Text(
-                                            text = "Категория обременения: ${it.name})",
+                                            text = "Категория обременения: ${it.name}",
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))

@@ -19,6 +19,7 @@ import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
+import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
@@ -68,6 +69,7 @@ fun FilterDialog(
                 state.allFilters.proficientCategories.takeIf { it.isNotEmpty() }
                     ?.let { proficientCategories ->
                         item {
+                            // todo rewrite with TextCheckBox
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(
                                     checked = state.selectedFilters.containsAll(proficientCategories.map { it.alias }),
@@ -83,15 +85,13 @@ fun FilterDialog(
                         }
                         items(proficientCategories.size) { index ->
                             val proficientCategory = proficientCategories[index]
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Checkbox(
-                                    checked = state.selectedFilters.contains(proficientCategory.alias),
-                                    onCheckedChange = { checked ->
-                                        onFilterChecked(listOf(proficientCategory.alias), checked)
-                                    }
-                                )
-                                proficientCategory.name?.let { Text(it) }
-                            }
+                            TextCheckBox(
+                                isChecked = state.selectedFilters.contains(proficientCategory.alias),
+                                onCheckedChange = { checked ->
+                                    onFilterChecked(listOf(proficientCategory.alias), checked)
+                                },
+                                text = proficientCategory.name ?: ""
+                            )
                         }
                     }
                 state.allFilters.encumbranceCategories.takeIf { it.isNotEmpty() }

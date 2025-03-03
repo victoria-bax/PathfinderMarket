@@ -63,5 +63,4 @@ enum class Proficient(val value: String) {
 enum class Range(val value: String, @DrawableRes val icon: Int) {
     MELEE("melee", R.drawable.ic_melee),
     RANGED("ranged", R.drawable.ic_ranged),
-
 }
