@@ -39,6 +39,8 @@ import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.mastercraftPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weapondetail.WeaponDetailViewModel
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponUpgradeViewModel
+import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countAttackBonus
+import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countSum
 import victoria.bakhaeva.pathfindermarket.ui.Screen
 import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.formatCost
@@ -48,10 +50,10 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 @Composable
 internal fun WeaponUpgradeScreen(
     weaponAlias: String,
+    modifier: Modifier = Modifier,
     viewModel: WeaponUpgradeViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
     onAddAbilityClick: () -> Unit,
-    modifier: Modifier = Modifier,
 ) {
     viewModel.loadWeapon(weaponAlias)
     Screen(
@@ -91,10 +93,19 @@ internal fun WeaponUpgradeScreen(
                         ) {
                             item {
                                 Text(
-                                    text = "Сумма: ${state.sum} зм",
+                                    text = "Сумма: ${state.countSum().formatCost()}",
                                     style = MaterialTheme.typography.titleLarge
                                 )
                             }
+
+                            state.countAttackBonus().takeIf { it > 0 }?.let { attackBonus ->
+                                item {
+                                    Text(
+                                        text = "Бонус к атаке: +${attackBonus}",
+                                    )
+                                }
+                            }
+
                             item {
                                 Text(
                                     text = "Базовая цена: ${state.weapon.cost.formatCost()}",
@@ -120,6 +131,12 @@ internal fun WeaponUpgradeScreen(
                                             color = Gold,
                                         )
                                     }
+                                }
+                            }
+
+                            if (state.abilities.isEmpty()) {
+                                item {
+                                    Text("Магических усовершенствований не добавлено")
                                 }
                             }
                         }
