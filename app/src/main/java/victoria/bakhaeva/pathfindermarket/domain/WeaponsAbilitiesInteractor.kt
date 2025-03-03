@@ -4,22 +4,31 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
-import victoria.bakhaeva.pathfindermarket.data.model.Ability
 import victoria.bakhaeva.pathfindermarket.data.model.Range
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.data.model.bonusAbility
+import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.maxBonus
 import java.io.IOException
 import javax.inject.Inject
 
 internal class WeaponsAbilitiesInteractor @Inject constructor(
     private val pathfinderApi: PathfinderApi,
+    private val weaponCache: InMemoryWeaponCache,
 ) {
 
-    fun getAbilities(range: String): Flow<List<Ability>> = flow {
+    fun getAbilities(range: String): Flow<List<WeaponAbility>> = flow {
         try {
-            val response = pathfinderApi.getAbilities(range)
+            val query = when (range) {
+                Range.MELEE.value -> "meeleWeapon"
+                Range.RANGED.value -> "rangedWeapon"
+                else -> throw Exception("Unknown range")
+            }
+            val response = pathfinderApi.getAbilities(query)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    emit(it)
+                    val abilities = createBonusAbilities() + it
+                    weaponCache.saveWeaponAbilities(abilities)
+                    emit(abilities)
                 } ?: throw Exception("Empty response body")
             } else {
                 throw HttpException(response) // Обработка ошибки HTTP
@@ -35,4 +44,13 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
             throw Exception("An unexpected error occurred", e)
         }
     }
+
+    private fun createBonusAbilities(): List<WeaponAbility> =
+        List(maxBonus) { bonus ->
+            bonusAbility(bonus + 1)
+        }
+
+    fun getAbility(abilityAlias: String): WeaponAbility? =
+        weaponCache.getWeaponAbility(abilityAlias)
+
 }
