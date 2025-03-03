@@ -3,6 +3,7 @@ package victoria.bakhaeva.pathfindermarket.ui
 fun Double?.formatCost() = when (this) {
     null -> "0"
     -1.0 -> "Особая"
+    0.0 -> "Бесплатно"
     else -> formatCoins()
 }
 
