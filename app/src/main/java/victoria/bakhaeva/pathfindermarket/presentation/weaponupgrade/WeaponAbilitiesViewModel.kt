@@ -1,5 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade
 
+import android.provider.Contacts.Intents.UI
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,6 +22,15 @@ internal class WeaponAbilitiesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UIState<List<WeaponAbility>>>(UIState.Loading)
     val uiState: StateFlow<UIState<List<WeaponAbility>>> get() = _uiState
 
+    fun initialize(range: String): WeaponAbilitiesViewModel {
+        loadAbilities(range)
+        return this
+    }
+
+    fun getAbility(alias: String): UIState<WeaponAbility> =
+        abilitiesInteractor.getAbility(alias)?.let {
+            UIState.Success(it)
+        } ?: UIState.Error(NullPointerException("Свойство не найдено"))
 
     fun loadAbilities(range: String) {
         if (_uiState.value is UIState.Success<*>)

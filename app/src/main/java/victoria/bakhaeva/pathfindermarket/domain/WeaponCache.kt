@@ -8,7 +8,7 @@ interface WeaponCache {
     fun getWeapons(): List<Weapon>?
     fun getWeapon(alias: String): Weapon?
 
-    fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>)
+    fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean
     fun getWeaponAbilities(): List<WeaponAbility>?
     fun getWeaponAbility(alias: String): WeaponAbility?
 

@@ -18,6 +18,9 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
 
     fun getAbilities(range: String): Flow<List<WeaponAbility>> = flow {
         try {
+            weaponCache.getWeaponAbilities()?.let {
+                emit(it)
+            }
             val query = when (range) {
                 Range.MELEE.value -> "meeleWeapon"
                 Range.RANGED.value -> "rangedWeapon"
@@ -26,8 +29,9 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
             val response = pathfinderApi.getAbilities(query)
             if (response.isSuccessful) {
                 response.body()?.let {
-                    weaponCache.saveWeaponAbilities(it)
-                    emit(it)
+                    if (!weaponCache.saveWeaponAbilities(it)) {
+                        emit(it)
+                    }
                 } ?: throw Exception("Empty response body")
             } else {
                 throw HttpException(response) // Обработка ошибки HTTP

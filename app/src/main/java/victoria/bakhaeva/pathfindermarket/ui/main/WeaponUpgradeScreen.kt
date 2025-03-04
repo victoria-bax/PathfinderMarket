@@ -27,7 +27,10 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.text.AnnotatedString
+import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
@@ -146,14 +149,15 @@ internal fun WeaponUpgradeScreen(
                                                 openImprovementsDialog = true
                                             }
                                         ) {
-                                            Text(text = "Добавить улучшение")
+                                            Text(text = "Зачаровать")
                                         }
                                     } else {
                                         Row(
                                             modifier = Modifier
                                                 .clickable {
                                                     openImprovementsDialog = true
-                                                }.padding(8.dp),
+                                                }
+                                                .padding(8.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
                                             Text("Бонус атаки: +${state.improvements}")
@@ -174,6 +178,8 @@ internal fun WeaponUpgradeScreen(
                                 if (state.abilities.isEmpty()) {
                                     item {
                                         Button(
+                                            modifier = Modifier
+                                                .fillMaxWidth(),
                                             onClick = {
                                                 onAddAbilityClick(state.weapon.rangeCategory.alias)
                                             }
@@ -196,7 +202,9 @@ internal fun WeaponUpgradeScreen(
                                                 )
                                             }
                                             Text(
-                                                text = ability.description
+                                                text = AnnotatedString.fromHtml(ability.description),
+                                                maxLines = 3,
+                                                overflow = TextOverflow.Ellipsis,
                                             )
                                         }
                                     }

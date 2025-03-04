@@ -18,11 +18,17 @@ class InMemoryWeaponCache @Inject constructor() : WeaponCache {
 
     override fun getWeapon(alias: String): Weapon? = weapons?.firstOrNull { it.alias == alias }
 
-    override fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>) {
+    override fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean {
+        if (this.weaponAbilities == weaponAbilities) {
+            return false
+        }
         this.weaponAbilities = weaponAbilities
+        return true
+
     }
 
     override fun getWeaponAbilities(): List<WeaponAbility>? = weaponAbilities
 
-    override fun getWeaponAbility(alias: String): WeaponAbility? = weaponAbilities?.firstOrNull { it.alias == alias }
+    override fun getWeaponAbility(alias: String): WeaponAbility? =
+        weaponAbilities?.firstOrNull { it.alias == alias }
 }

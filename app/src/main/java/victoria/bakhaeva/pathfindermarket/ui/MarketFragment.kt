@@ -11,7 +11,8 @@ import kotlinx.serialization.Serializable
 import victoria.bakhaeva.pathfindermarket.ui.MarketFragment.Screen.WeaponAbilities.Companion.ABILITY_KEY
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponUpgradeScreen
-import victoria.bakhaeva.pathfindermarket.ui.main.WeaponUpgradesListScreen
+import victoria.bakhaeva.pathfindermarket.ui.main.WeaponAbilitiesListScreen
+import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponAbilityDetailsScreen
 
 @AndroidEntryPoint
 class MarketFragment : BaseComposeFragment() {
@@ -59,7 +60,7 @@ class MarketFragment : BaseComposeFragment() {
 
             composable<Screen.WeaponAbilities> { backStackEntry ->
                 val screen: Screen.WeaponAbilities = backStackEntry.toRoute()
-                WeaponUpgradesListScreen(
+                WeaponAbilitiesListScreen(
                     screen.range,
                     onBackClick = { navController.popBackStack() },
                     onAbilitySelected = { ability ->
@@ -68,6 +69,16 @@ class MarketFragment : BaseComposeFragment() {
                         )
                         navController.popBackStack()
                     },
+                    onAbilityDetails = {
+                        navController.navigate(Screen.AbilityDetails(it.alias))
+                    }
+                )
+            }
+            composable<Screen.AbilityDetails> { backStackEntry ->
+                val screen: Screen.AbilityDetails = backStackEntry.toRoute()
+                WeaponAbilityDetailsScreen(
+                    screen.alias,
+                    onBackClick = { navController.popBackStack() },
                 )
             }
         }
@@ -92,5 +103,9 @@ class MarketFragment : BaseComposeFragment() {
                 const val ABILITY_KEY = "ability_key"
             }
         }
+
+        @Serializable
+        data class AbilityDetails(val alias: String) : Screen()
+
     }
 }
