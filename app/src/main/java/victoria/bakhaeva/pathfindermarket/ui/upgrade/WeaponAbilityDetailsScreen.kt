@@ -17,8 +17,10 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
@@ -74,13 +76,13 @@ private fun WeaponAbilityDetailScaffold(
                     .padding(16.dp)
             ) {
                 item {
-                    Text("Аура: ${weaponAbility.aura}")
+                    Text(stringResource(R.string.label_aura, weaponAbility.aura))
                 }
                 item {
-                    Text("УЗ: ${weaponAbility.cl}")
+                    Text(stringResource(R.string.label_caster_level, weaponAbility.cl))
                 }
                 item {
-                    Text("Цена: ${weaponAbility.formatPrice()}")
+                    Text(stringResource(R.string.label_price, weaponAbility.formatPrice()))
                 }
                 item {
                     Text(

@@ -31,8 +31,10 @@ import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.mastercraftPrice
@@ -99,7 +101,7 @@ internal fun WeaponUpgradeScreen(
                         ) {
                             item {
                                 Text(
-                                    text = "Сумма: ${state.countSum().formatCost()}",
+                                    text = stringResource(R.string.label_total_cost, state.countSum().formatCost()),
                                     style = MaterialTheme.typography.titleLarge
                                 )
                             }
@@ -107,14 +109,14 @@ internal fun WeaponUpgradeScreen(
                             state.countAttackBonus().takeIf { it > 0 }?.let { attackBonus ->
                                 item {
                                     Text(
-                                        text = "Бонус к атаке: +${attackBonus}",
+                                        text = stringResource(R.string.label_attack_bonus, attackBonus),
                                     )
                                 }
                             }
 
                             item {
                                 Text(
-                                    text = "Базовая цена: ${state.weapon.cost.formatCost()}",
+                                    text = stringResource(R.string.label_base_cost, state.weapon.cost.formatCost()),
                                 )
                             }
 
@@ -125,7 +127,7 @@ internal fun WeaponUpgradeScreen(
                                     TextCheckBox(
                                         isChecked = state.isMasterwork,
                                         onCheckedChange = viewModel::onMasterworkChange,
-                                        text = "Искусно сделано"
+                                        text = stringResource(R.string.masterwork)
                                     )
                                     if (state.isMasterwork) {
                                         Text(
@@ -149,7 +151,7 @@ internal fun WeaponUpgradeScreen(
                                                 openImprovementsDialog = true
                                             }
                                         ) {
-                                            Text(text = "Зачаровать")
+                                            Text(text = stringResource(R.string.enchant))
                                         }
                                     } else {
                                         Row(
@@ -160,7 +162,7 @@ internal fun WeaponUpgradeScreen(
                                                 .padding(8.dp),
                                             verticalAlignment = Alignment.CenterVertically
                                         ) {
-                                            Text("Бонус атаки: +${state.improvements}")
+                                            Text(stringResource(R.string.label_attack_bonus_value, state.improvements))
                                             Text(
                                                 textAlign = TextAlign.End,
                                                 modifier = Modifier.fillMaxWidth(),
@@ -184,7 +186,7 @@ internal fun WeaponUpgradeScreen(
                                                 onAddAbilityClick(state.weapon.rangeCategory.alias)
                                             }
                                         ) {
-                                            Text("Добавить особые свойства")
+                                            Text(stringResource(R.string.add_special_properties))
                                         }
                                     }
                                 } else {

@@ -14,8 +14,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
@@ -50,7 +52,7 @@ fun FilterDialog(
                                         onFilterChecked(rangeCategories.map { it.alias }, checked)
                                     }
                                 )
-                                Text("Дистанция", style = MaterialTheme.typography.headlineSmall)
+                                Text(stringResource(R.string.filter_range_category), style = MaterialTheme.typography.headlineSmall)
                             }
                         }
                         items(rangeCategories.size) { index ->
@@ -80,7 +82,7 @@ fun FilterDialog(
                                         )
                                     }
                                 )
-                                Text("Тип", style = MaterialTheme.typography.headlineSmall)
+                                Text(stringResource(R.string.filter_proficient_type), style = MaterialTheme.typography.headlineSmall)
                             }
                         }
                         items(proficientCategories.size) { index ->
@@ -108,10 +110,7 @@ fun FilterDialog(
                                         )
                                     }
                                 )
-                                Text(
-                                    "Количество рук",
-                                    style = MaterialTheme.typography.headlineSmall
-                                )
+                                Text(stringResource(R.string.filter_hands_count), style = MaterialTheme.typography.headlineSmall)
                             }
                         }
                         items(encumbranceCategories.size) { index ->

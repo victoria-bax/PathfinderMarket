@@ -25,11 +25,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
@@ -75,7 +77,7 @@ private fun WeaponUpgradesScaffold(
         topBar = {
             TopAppBar(
                 title = {
-                    Text("Улучшения оружия")
+                    Text(stringResource(R.string.weapon_upgrades_title))
                 },
                 navigationIcon = {
                     Icon(
@@ -126,7 +128,7 @@ private fun WeaponUpgradesScaffold(
                                     onAbilitySelected(ability)
                                 }
                             ) {
-                                Text("Зачаровать")
+                                Text(stringResource(R.string.enchant))
                             }
                         }
                     }

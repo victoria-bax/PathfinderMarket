@@ -8,4 +8,48 @@
     <string name="image2_description">Cookies</string>
     <string name="image3_description">Cake</string>
     <string name="results_placeholder">(Results will appear here)</string>
+
+    <!-- Error -->
+    <string name="error_message">Ошибка: %s</string>
+
+    <!-- Weapon Ability Details -->
+    <string name="label_aura">Аура: %s</string>
+    <string name="label_caster_level">УЗ: %s</string>
+    <string name="label_price">Цена: %s</string>
+
+    <!-- Filter Dialog -->
+    <string name="filter_range_category">Дистанция</string>
+    <string name="filter_proficient_type">Тип</string>
+    <string name="filter_hands_count">Количество рук</string>
+
+    <!-- Improvements Dialog -->
+    <string name="bonus_plus">Бонус +%d</string>
+
+    <!-- Weapon Abilities List / Upgrade -->
+    <string name="weapon_upgrades_title">Улучшения оружия</string>
+    <string name="enchant">Зачаровать</string>
+    <string name="add_special_properties">Добавить особые свойства</string>
+
+    <!-- Weapon Detail -->
+    <string name="label_weapon_cost">Цена: %s зм</string>
+    <string name="label_damage_s">Урон (S): %s</string>
+    <string name="label_damage_m">Урон (M): %s</string>
+    <string name="label_weapon_type">Тип: %s</string>
+    <string name="label_critical_roll">Критический бросок: %s</string>
+    <string name="label_critical_damage">Критический урон: %s</string>
+    <string name="label_range">Дальность: %s</string>
+    <string name="label_weight">Вес: %s фнт</string>
+    <string name="label_proficient_category">Категория профессии: %s</string>
+    <string name="label_range_category">Категория дальности: %s</string>
+    <string name="label_encumbrance_category">Категория обременения: %s</string>
+    <string name="label_applies_with">Применяется с:</string>
+    <string name="list_item_prefix">- %s</string>
+    <string name="label_ammunition">Амуниция:</string>
+
+    <!-- Weapon Upgrade Screen -->
+    <string name="label_total_cost">Сумма: %s</string>
+    <string name="label_attack_bonus">Бонус к атаке: +%d</string>
+    <string name="label_base_cost">Базовая цена: %s</string>
+    <string name="masterwork">Искусно сделано</string>
+    <string name="label_attack_bonus_value">Бонус атаки: +%d</string>
 </resources>

@@ -20,6 +20,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
@@ -79,7 +80,7 @@ internal fun WeaponDetailScreen(
                         item {
                             weapon.cost?.let {
                                 Text(
-                                    text = "Цена: $it зм",
+                                    text = stringResource(R.string.label_weapon_cost, it),
                                     style = MaterialTheme.typography.headlineSmall
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
@@ -89,7 +90,7 @@ internal fun WeaponDetailScreen(
                         item {
                             weapon.damageS?.let {
                                 Text(
-                                    text = "Урон (S): $it",
+                                    text = stringResource(R.string.label_damage_s, it),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
@@ -98,7 +99,7 @@ internal fun WeaponDetailScreen(
                         item {
                             weapon.damageM?.let {
                                 Text(
-                                    text = "Урон (M): $it",
+                                    text = stringResource(R.string.label_damage_m, it),
                                     style = MaterialTheme.typography.bodyMedium
                                 )
                                 Spacer(modifier = Modifier.height(8.dp))
@@ -113,7 +114,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение типа
                                     weapon.type?.let {
                                         Text(
-                                            text = "Тип: $it",
+                                            text = stringResource(R.string.label_weapon_type, it),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -122,14 +123,14 @@ internal fun WeaponDetailScreen(
                                     // Отображение критического урона
                                     weapon.criticalRoll?.let {
                                         Text(
-                                            text = "Критический бросок: $it",
+                                            text = stringResource(R.string.label_critical_roll, it),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
                                     weapon.criticalDamage?.let {
                                         Text(
-                                            text = "Критический урон: $it",
+                                            text = stringResource(R.string.label_critical_damage, it),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -138,7 +139,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение дальности
                                     weapon.range?.let {
                                         Text(
-                                            text = "Дальность: $it",
+                                            text = stringResource(R.string.label_range, it),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -147,7 +148,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение веса
                                     weapon.weight?.let {
                                         Text(
-                                            text = "Вес: $it фнт",
+                                            text = stringResource(R.string.label_weight, it),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -156,7 +157,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение категории профессии
                                     weapon.proficientCategory.let {
                                         Text(
-                                            text = "Категория профессии: ${it.name}",
+                                            text = stringResource(R.string.label_proficient_category, it.name ?: ""),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -165,7 +166,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение категории дальности
                                     weapon.rangeCategory.let {
                                         Text(
-                                            text = "Категория дальности: ${it.name}",
+                                            text = stringResource(R.string.label_range_category, it.name ?: ""),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -174,7 +175,7 @@ internal fun WeaponDetailScreen(
                                     // Отображение категории обременения (если есть)
                                     weapon.encumbranceCategory?.let {
                                         Text(
-                                            text = "Категория обременения: ${it.name}",
+                                            text = stringResource(R.string.label_encumbrance_category, it.name ?: ""),
                                             style = MaterialTheme.typography.bodyMedium
                                         )
                                         Spacer(modifier = Modifier.height(8.dp))
@@ -191,13 +192,13 @@ internal fun WeaponDetailScreen(
 
                                     weapon.parents?.let {
                                         Text(
-                                            text = "Применяется с:",
+                                            text = stringResource(R.string.label_applies_with),
                                             style = MaterialTheme.typography.headlineSmall
                                         )
                                         it.forEach { parent ->
                                             //todo clickable weapons
                                             Text(
-                                                text = "- $parent",
+                                                text = stringResource(R.string.list_item_prefix, parent),
                                                 style = MaterialTheme.typography.bodyMedium
                                             )
                                         }
@@ -208,12 +209,12 @@ internal fun WeaponDetailScreen(
                                     weapon.childs?.let {
                                         //todo clickable
                                         Text(
-                                            text = "Амуниция:",
+                                            text = stringResource(R.string.label_ammunition),
                                             style = MaterialTheme.typography.headlineSmall
                                         )
                                         it.forEach { child ->
                                             Text(
-                                                text = "- ${child.name}",
+                                                text = stringResource(R.string.list_item_prefix, child.name ?: ""),
                                                 style = MaterialTheme.typography.bodyMedium
                                             )
                                         }
