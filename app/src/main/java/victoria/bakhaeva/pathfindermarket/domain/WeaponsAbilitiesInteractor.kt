@@ -37,13 +37,10 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
                 throw HttpException(response) // Обработка ошибки HTTP
             }
         } catch (e: IOException) {
-            // Ошибка сети
             throw IOException("Network error", e)
         } catch (e: HttpException) {
-            // Ошибка HTTP
-            throw HttpException(e.response())
+            throw e
         } catch (e: Exception) {
-            // Обработка других ошибок
             throw Exception("An unexpected error occurred", e)
         }
     }

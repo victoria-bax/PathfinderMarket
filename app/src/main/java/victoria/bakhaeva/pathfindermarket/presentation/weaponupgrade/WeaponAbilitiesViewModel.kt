@@ -1,6 +1,5 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade
 
-import android.provider.Contacts.Intents.UI
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
