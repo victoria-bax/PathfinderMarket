@@ -1,7 +1,7 @@
 package victoria.bakhaeva.pathfindermarket.domain
 
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -24,7 +24,6 @@ class InMemoryWeaponCache @Inject constructor() : WeaponCache {
         }
         this.weaponAbilities = weaponAbilities
         return true
-
     }
 
     override fun getWeaponAbilities(): List<WeaponAbility>? = weaponAbilities

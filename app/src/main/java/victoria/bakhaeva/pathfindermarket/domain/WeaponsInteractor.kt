@@ -2,38 +2,24 @@ package victoria.bakhaeva.pathfindermarket.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import retrofit2.HttpException
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
-import java.io.IOException
+import victoria.bakhaeva.pathfindermarket.data.mapper.WeaponMapper
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import javax.inject.Inject
 
 internal class WeaponsInteractor @Inject constructor(
     private val pathfinderApi: PathfinderApi,
     private val weaponCache: WeaponCache,
+    private val weaponMapper: WeaponMapper,
 ) {
 
     fun getWeapons(): Flow<List<Weapon>> = flow {
         val cached = weaponCache.getWeapons()
         cached?.let { emit(it) }
-        try {
-            val response = pathfinderApi.getWeapons()
-            if (response.isSuccessful) {
-                response.body()?.let {
-                    if (it != cached) {
-                        weaponCache.saveWeapons(it)
-                        emit(it)
-                    }
-                } ?: throw Exception("Empty response body")
-            } else {
-                throw HttpException(response) // Обработка ошибки HTTP
-            }
-        } catch (e: IOException) {
-            throw IOException("Network error", e)
-        } catch (e: HttpException) {
-            throw e
-        } catch (e: Exception) {
-            throw Exception("An unexpected error occurred", e)
+        val mapped = weaponMapper.map(pathfinderApi.getWeapons())
+        if (mapped != cached) {
+            weaponCache.saveWeapons(mapped)
+            emit(mapped)
         }
     }
 

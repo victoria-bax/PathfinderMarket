@@ -21,7 +21,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import timber.log.Timber
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

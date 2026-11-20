@@ -18,9 +18,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
-import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
-import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState

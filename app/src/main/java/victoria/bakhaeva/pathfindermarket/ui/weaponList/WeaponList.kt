@@ -20,7 +20,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 
 @Composable

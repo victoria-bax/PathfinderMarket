@@ -3,7 +3,7 @@ package victoria.bakhaeva.pathfindermarket.data.model
 import androidx.annotation.DrawableRes
 import victoria.bakhaeva.pathfindermarket.R
 
-data class Weapon(
+data class WeaponResponse(
     val alias: String,
     val name: String,
     val engName: String? = null,
@@ -19,24 +19,24 @@ data class Weapon(
     val weight: Double? = null,
     val special: String? = null,
     val description: String? = null,
-    val proficientCategory: ProficientCategory,
-    val rangeCategory: RangeCategory,
-    val encumbranceCategory: EncumbranceCategory? = null,
+    val proficientCategory: ProficientCategoryResponse,
+    val rangeCategory: RangeCategoryResponse,
+    val encumbranceCategory: EncumbranceCategoryResponse? = null,
     val parents: List<String>? = null,
-    val childs: List<Weapon>? = null
+    val childs: List<WeaponResponse>? = null
 )
 
-data class ProficientCategory(
+data class ProficientCategoryResponse(
     val name: String? = null,
     val alias: String,
 )
 
-data class RangeCategory(
+data class RangeCategoryResponse(
     val name: String? = null,
     val alias: String,
 )
 
-data class EncumbranceCategory(
+data class EncumbranceCategoryResponse(
     val name: String? = null,
     val alias: String,
 )

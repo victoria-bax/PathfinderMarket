@@ -1,6 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.model
 
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 

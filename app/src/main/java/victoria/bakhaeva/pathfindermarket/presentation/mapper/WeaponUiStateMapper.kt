@@ -1,6 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.mapper
 
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters

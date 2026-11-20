@@ -1,7 +1,7 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade
 
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.mastercraftPrice
 
@@ -13,7 +13,6 @@ data class WeaponUpgradeState(
 )
 
 fun WeaponUpgradeState.countSum(): Double =
-
     (weapon.cost ?: 0.0) +
             abilities.sumOf { it.moneyPrice ?: 0 } +
             (if (isMasterwork) mastercraftPrice else 0.0) +

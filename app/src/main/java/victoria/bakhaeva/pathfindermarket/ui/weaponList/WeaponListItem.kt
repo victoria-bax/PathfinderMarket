@@ -15,11 +15,11 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import victoria.bakhaeva.pathfindermarket.data.model.EncumbranceCategory
-import victoria.bakhaeva.pathfindermarket.data.model.ProficientCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.data.model.Range
-import victoria.bakhaeva.pathfindermarket.data.model.RangeCategory
-import victoria.bakhaeva.pathfindermarket.data.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.ui.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
