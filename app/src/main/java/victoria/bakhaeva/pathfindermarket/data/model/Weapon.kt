@@ -1,10 +1,8 @@
 package victoria.bakhaeva.pathfindermarket.data.model
 
 import androidx.annotation.DrawableRes
-import kotlinx.serialization.Serializable
 import victoria.bakhaeva.pathfindermarket.R
 
-@Serializable
 data class Weapon(
     val alias: String,
     val name: String,
@@ -27,29 +25,29 @@ data class Weapon(
     val parents: List<String>? = null,
     val childs: List<Weapon>? = null
 )
-@Serializable
+
 data class ProficientCategory(
     val name: String? = null,
     val alias: String,
 )
-@Serializable
+
 data class RangeCategory(
     val name: String? = null,
     val alias: String,
 )
-@Serializable
+
 data class EncumbranceCategory(
     val name: String? = null,
     val alias: String,
 )
-@Serializable
+
 enum class Encumbrance(val value: String) {
     LIGHT("light"),
     ONE_HANDED("oneHanded"),
     TWO_HANDED("twoHanded"),
     SIEGE("siege"),
 }
-@Serializable
+
 enum class Proficient(val value: String) {
     AMMUNITION("ammunition"),
     SIMPLE("simple"),
@@ -59,7 +57,7 @@ enum class Proficient(val value: String) {
     ALCHEMICAL("alchemical"),
     ADVANCED_FIREARM("advancedFirearm"),
 }
-@Serializable
+
 enum class Range(val value: String, @DrawableRes val icon: Int) {
     MELEE("melee", R.drawable.ic_melee),
     RANGED("ranged", R.drawable.ic_ranged),
