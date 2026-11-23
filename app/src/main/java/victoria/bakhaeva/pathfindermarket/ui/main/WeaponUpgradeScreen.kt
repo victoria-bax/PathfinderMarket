@@ -36,7 +36,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
+import victoria.bakhaeva.pathfindermarket.ui.formatPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.mastercraftPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponUpgradeViewModel

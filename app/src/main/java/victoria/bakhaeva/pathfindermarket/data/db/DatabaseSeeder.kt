@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import timber.log.Timber
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
 import victoria.bakhaeva.pathfindermarket.data.mapper.WeaponMapper
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponResponse
 import victoria.bakhaeva.pathfindermarket.domain.WeaponCache
 import javax.inject.Inject

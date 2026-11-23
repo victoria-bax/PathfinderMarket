@@ -2,8 +2,7 @@ package victoria.bakhaeva.pathfindermarket.data.db
 
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
-import victoria.bakhaeva.pathfindermarket.data.model.BookResponse
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.WeaponCache
 import victoria.bakhaeva.pathfindermarket.domain.model.Book
 import victoria.bakhaeva.pathfindermarket.domain.model.BookAlias
@@ -189,7 +188,7 @@ class RoomWeaponCache @Inject constructor(
         val bookResponse = bookAlias
             ?.let { aliasStr -> BookAlias.entries.find { entry -> entry.value == aliasStr } }
             ?.let { bookAliasEnum ->
-                BookResponse(
+                Book(
                     alias = bookAliasEnum,
                     name = bookName.orEmpty(),
                     order = bookOrder ?: 0,

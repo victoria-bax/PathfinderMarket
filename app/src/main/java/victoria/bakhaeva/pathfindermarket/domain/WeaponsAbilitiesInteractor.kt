@@ -2,7 +2,7 @@ package victoria.bakhaeva.pathfindermarket.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import javax.inject.Inject
 

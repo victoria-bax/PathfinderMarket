@@ -1,6 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade
 
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.mastercraftPrice

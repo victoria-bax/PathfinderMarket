@@ -1,6 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.domain
 
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.model.BookAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.ProficientAlias

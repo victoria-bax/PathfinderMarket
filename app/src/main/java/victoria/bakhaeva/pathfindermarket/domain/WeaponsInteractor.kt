@@ -5,7 +5,6 @@ import kotlinx.coroutines.flow.flow
 import victoria.bakhaeva.pathfindermarket.data.FilterPreferencesRepository
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
-import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
 import javax.inject.Inject
 
@@ -37,14 +36,6 @@ internal class WeaponsInteractor @Inject constructor(
         ).sort(sort)
     }
 
-    fun sortItems(items: List<WeaponListItemUiState>, sort: Order): List<WeaponListItemUiState> =
-        when (sort) {
-            Order.PRICE_ASC -> items.sortedBy { it.cost ?: Int.MAX_VALUE }
-            Order.PRICE_DESC -> items.sortedByDescending { it.cost ?: Int.MIN_VALUE }
-            Order.NAME_ASC -> items.sortedBy { it.name }
-            Order.NAME_DESC -> items.sortedByDescending { it.name }
-        }
-
     suspend fun saveFilters(selectedAliases: List<String>) =
         filterPrefs.saveSelectedFilters(selectedAliases)
 
@@ -57,3 +48,4 @@ internal class WeaponsInteractor @Inject constructor(
         Order.NAME_DESC -> sortedByDescending { it.name }
     }
 }
+

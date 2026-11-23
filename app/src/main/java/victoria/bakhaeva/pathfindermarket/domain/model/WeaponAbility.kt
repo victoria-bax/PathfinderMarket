@@ -1,6 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.data.model
-
-import victoria.bakhaeva.pathfindermarket.ui.formatCost
+package victoria.bakhaeva.pathfindermarket.domain.model
 
 data class WeaponAbility(
     val alias: String,
@@ -12,7 +10,7 @@ data class WeaponAbility(
     val moneyPrice: Int?,
     val description: String,
     val constructionRequirements: String,
-    val book: BookResponse? = null,
+    val book: Book? = null,
 )
 
 fun bonusAbility(bonus: Int) = WeaponAbility(
@@ -26,8 +24,3 @@ fun bonusAbility(bonus: Int) = WeaponAbility(
     description = "Бонус к атаке +$bonus",
     constructionRequirements = "",
 )
-
-fun WeaponAbility.formatPrice() =
-    moneyPrice?.formatCost()
-        ?: bonusPrice?.let { "Бонус +$it" }
-        ?: "???"

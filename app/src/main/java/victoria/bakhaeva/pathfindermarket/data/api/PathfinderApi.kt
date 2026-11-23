@@ -2,7 +2,7 @@ package victoria.bakhaeva.pathfindermarket.data.api
 
 import retrofit2.http.GET
 import retrofit2.http.Query
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponResponse
 
 internal interface PathfinderApi {

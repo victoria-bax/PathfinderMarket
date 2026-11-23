@@ -25,8 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
 import androidx.compose.ui.tooling.preview.Preview
-import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
-import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
+import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.ui.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
 import victoria.bakhaeva.pathfindermarket.ui.Screen
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
