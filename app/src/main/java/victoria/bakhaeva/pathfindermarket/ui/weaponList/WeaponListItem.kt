@@ -2,7 +2,6 @@ package victoria.bakhaeva.pathfindermarket.ui.weaponList
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -41,16 +40,19 @@ fun WeaponListItem(
         )
         .clickable { onWeaponCLick(weapon) }
         .padding(12.dp)) {
-        Box(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Top,
+        ) {
             Text(
                 text = weapon.name,
                 style = Typography.titleLarge,
                 color = colorScheme.onSurface,
+                modifier = Modifier.weight(1f),
             )
             val cost = weapon.cost.formatCost()
             Text(
-                modifier = Modifier
-                    .align(Alignment.CenterEnd),
+                modifier = Modifier.padding(start = 8.dp),
                 text = cost,
                 style = Typography.titleLarge,
                 color = colorScheme.primary,

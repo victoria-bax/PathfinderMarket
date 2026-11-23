@@ -57,12 +57,15 @@ internal class WeaponsViewModel @Inject constructor(
         Order.NAME_DESC -> sortedByDescending { it.name }
     }
 
-    fun onSearch(searchQuery: String) = updateWeapons {
-        it.copy(
-            weapons = it.allWeapons.filter { weapon ->
-                weapon.name.contains(searchQuery, ignoreCase = true)
-            }.sort(it.sort)
-        )
+    fun onSearch(searchQuery: String) {
+        if (searchQuery.isEmpty()) {
+            updateWeapons { it.copy(weapons = it.allWeapons.sort(it.sort)) }
+            return
+        }
+        viewModelScope.launch {
+            val results = getWeaponsInteractor.searchWeapons(searchQuery)
+            updateWeapons { it.copy(weapons = results.sort(it.sort)) }
+        }
     }
 
     private fun updateWeapons(update: (WeaponListUiState) -> WeaponListUiState) {

@@ -7,6 +7,7 @@ interface WeaponCache {
     suspend fun saveWeapons(weapons: List<Weapon>)
     suspend fun getWeapons(): List<Weapon>?
     suspend fun getWeapon(alias: String): Weapon?
+    suspend fun searchWeapons(query: String): List<Weapon>
 
     suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>)
     suspend fun getWeaponAbilities(rangeType: String): List<WeaponAbility>?

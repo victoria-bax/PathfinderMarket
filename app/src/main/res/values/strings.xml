@@ -12,6 +12,10 @@
     <!-- Error -->
     <string name="error_message">Ошибка: %s</string>
 
+    <!-- Search -->
+    <string name="search_hint">Поиск оружия…</string>
+    <string name="search_empty">Ничего не найдено</string>
+
     <!-- Weapon Ability Details -->
     <string name="label_aura">Аура: %s</string>
     <string name="label_caster_level">УЗ: %s</string>

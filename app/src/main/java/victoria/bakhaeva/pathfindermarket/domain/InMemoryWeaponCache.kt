@@ -18,6 +18,11 @@ class InMemoryWeaponCache @Inject constructor() : WeaponCache {
 
     override suspend fun getWeapon(alias: String): Weapon? = weapons?.firstOrNull { it.alias == alias }
 
+    override suspend fun searchWeapons(query: String): List<Weapon> =
+        weapons.orEmpty().filter {
+            it.name.contains(query, ignoreCase = true) || it.engName?.contains(query, ignoreCase = true) == true
+        }
+
     override suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>) {
         this.weaponAbilities[rangeType] = weaponAbilities
     }

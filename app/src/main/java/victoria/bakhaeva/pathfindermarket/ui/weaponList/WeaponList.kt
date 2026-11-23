@@ -1,22 +1,33 @@
 package victoria.bakhaeva.pathfindermarket.ui.weaponList
 
-import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.expandHorizontally
+import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
+import androidx.compose.ui.res.stringResource
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
@@ -39,49 +50,101 @@ fun WeaponList(
 ) {
     var openSortDialog by remember { mutableStateOf(false) }
     var openFilterDialog by remember { mutableStateOf(false) }
+    var isSearchActive by remember { mutableStateOf(false) }
+    var searchQuery by remember { mutableStateOf("") }
+    val focusRequester = remember { FocusRequester() }
+
+    LaunchedEffect(isSearchActive) {
+        if (isSearchActive) focusRequester.requestFocus()
+    }
+
     Scaffold(
         containerColor = colorScheme.background,
         topBar = {
             Row(
                 modifier = Modifier
-                    .padding(horizontal = 4.dp)
-                    .animateContentSize(),
+                    .statusBarsPadding()
+                    .padding(horizontal = 4.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                WeaponsSearchBar(
-                    allWeapons = state.allWeapons,
-                    onSearch = onSearch,
-                )
                 Icon(
+                    imageVector = Icons.Filled.Search,
+                    contentDescription = "Поиск",
                     modifier = Modifier
                         .size(48.dp)
-                        .clickable { openSortDialog = true }
+                        .clickable {
+                            if (isSearchActive) {
+                                isSearchActive = false
+                                searchQuery = ""
+                                onSearch("")
+                            } else {
+                                isSearchActive = true
+                            }
+                        }
                         .padding(8.dp),
-                    painter = painterResource(state.sort.icon()),
-                    contentDescription = ""
                 )
-                Icon(
-                    modifier = Modifier
-                        .size(48.dp)
-                        .clickable { openFilterDialog = true }
-                        .padding(8.dp),
-                    painter = painterResource(R.drawable.ic_filter),
-                    contentDescription = ""
-                )
+                AnimatedVisibility(
+                    visible = isSearchActive,
+                    enter = expandHorizontally(),
+                    exit = shrinkHorizontally(),
+                    modifier = Modifier.weight(1f),
+                ) {
+                    WeaponsSearchBar(
+                        query = searchQuery,
+                        onQueryChange = { searchQuery = it },
+                        onSearch = onSearch,
+                        focusRequester = focusRequester,
+                    )
+                }
+                AnimatedVisibility(visible = !isSearchActive) {
+                    Row {
+                        Icon(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clickable { openSortDialog = true }
+                                .padding(8.dp),
+                            painter = painterResource(state.sort.icon()),
+                            contentDescription = ""
+                        )
+                        Icon(
+                            modifier = Modifier
+                                .size(48.dp)
+                                .clickable { openFilterDialog = true }
+                                .padding(8.dp),
+                            painter = painterResource(R.drawable.ic_filter),
+                            contentDescription = ""
+                        )
+                    }
+                }
             }
         },
         content = { paddingValues ->
-            LazyColumn(
-                modifier = modifier
-                    .padding(paddingValues)
-                    .fillMaxSize()
-            ) {
-                items(state.weapons.size) { weapon ->
-                    WeaponListItem(
-                        weapon = state.weapons[weapon],
-                        onWeaponCLick = {
-                            onOpenDetails(state.weapons[weapon])
-                        })
+            if (state.weapons.isEmpty()) {
+                Box(
+                    modifier = modifier
+                        .padding(paddingValues)
+                        .fillMaxSize(),
+                    contentAlignment = Alignment.Center,
+                ) {
+                    Text(
+                        text = stringResource(R.string.search_empty),
+                        style = typography.bodyLarge,
+                        color = colorScheme.onBackground.copy(alpha = 0.5f),
+                    )
+                }
+            } else {
+                LazyColumn(
+                    modifier = modifier
+                        .padding(paddingValues)
+                        .fillMaxSize()
+                ) {
+                    items(state.weapons.size) { weapon ->
+                        WeaponListItem(
+                            weapon = state.weapons[weapon],
+                            onWeaponCLick = {
+                                onOpenDetails(state.weapons[weapon])
+                            })
+                    }
                 }
             }
             if (openSortDialog) {

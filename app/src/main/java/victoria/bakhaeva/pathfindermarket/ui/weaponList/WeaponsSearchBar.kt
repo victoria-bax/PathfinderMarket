@@ -1,85 +1,69 @@
 package victoria.bakhaeva.pathfindermarket.ui.weaponList
 
-import androidx.compose.foundation.clickable
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Search
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.SearchBar
-import androidx.compose.material3.SearchBarDefaults
+import androidx.compose.foundation.text.BasicTextField
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material3.MaterialTheme.colorScheme
+import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
-import timber.log.Timber
-import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.ImeAction
+import victoria.bakhaeva.pathfindermarket.R
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun WeaponsSearchBar(
-    allWeapons: List<Weapon>,
+    query: String,
+    onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,
+    focusRequester: FocusRequester,
     modifier: Modifier = Modifier,
 ) {
-    var isActive by remember { mutableStateOf(false) }
-    var query by remember { mutableStateOf("") }
-    Box(
-        modifier = modifier
-            .wrapContentHeight()
-            .fillMaxWidth(if (isActive) 1.0f else 0.7f),
+    val keyboard = LocalSoftwareKeyboardController.current
+    AnimatedVisibility(
+        visible = true,
+        enter = fadeIn(),
+        exit = fadeOut(),
+        modifier = modifier.fillMaxWidth(),
     ) {
-        Icon(
-            Icons.Filled.Search, "",
-            modifier = Modifier.align(Alignment.CenterEnd),
-        )
-        SearchBar(
-            inputField = {
-                SearchBarDefaults.InputField(
-                    query = query,
-                    onQueryChange = { query = it },
-                    onSearch = {
-                        query = it
-                        onSearch(it)
-                        isActive = false
-                    },
-                    expanded = isActive,
-                    onExpandedChange = { isActive = it },
-                )
+        BasicTextField(
+            value = query,
+            onValueChange = {
+                onQueryChange(it)
+                onSearch(it)
             },
-            expanded = isActive,
-            onExpandedChange = { isActive = it },
-        ) {
-            LazyColumn {
-                val filtered =
-                    allWeapons.filter { it.name?.contains(query, ignoreCase = true) == true }
-                items(filtered.size) { weapon ->
-                    val name = filtered[weapon].name ?: return@items
-                    Text(
-                        modifier = Modifier.clickable {
-                            query = name
-                            isActive = false
-                            onSearch(name)
-                        },
-                        text = name
-                    )
+            modifier = Modifier
+                .fillMaxWidth()
+                .focusRequester(focusRequester),
+            textStyle = typography.bodyLarge.copy(color = colorScheme.onBackground),
+            cursorBrush = SolidColor(colorScheme.primary),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(imeAction = ImeAction.Search),
+            keyboardActions = KeyboardActions(onSearch = {
+                onSearch(query)
+                keyboard?.hide()
+            }),
+            decorationBox = { innerTextField ->
+                Box {
+                    if (query.isEmpty()) {
+                        Text(
+                            text = stringResource(R.string.search_hint),
+                            style = typography.bodyLarge.copy(color = colorScheme.onBackground.copy(alpha = 0.4f)),
+                        )
+                    }
+                    innerTextField()
                 }
-            }
-        }
-
+            },
+        )
     }
-}
-
-@Composable
-@Preview
-private fun previewWeaponsSearchBar() {
-    WeaponsSearchBar(emptyList(), {})
 }

@@ -62,6 +62,15 @@ class RoomWeaponCache @Inject constructor(
         }
     }
 
+    override suspend fun searchWeapons(query: String): List<Weapon> = withContext(Dispatchers.IO) {
+        weaponDao.searchWeapons(query).map { entity ->
+            entity.toDomain(
+                parents = weaponDao.getParents(entity.alias),
+                childs = weaponDao.getChildWeapons(entity.alias).map { it.toDomain(emptyList(), emptyList()) },
+            )
+        }
+    }
+
     override suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>): Unit = withContext(Dispatchers.IO) {
         weaponAbilityDao.insertAll(weaponAbilities.map { it.toEntity(rangeType) })
     }

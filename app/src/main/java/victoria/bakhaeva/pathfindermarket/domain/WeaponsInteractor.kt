@@ -14,4 +14,6 @@ internal class WeaponsInteractor @Inject constructor(
     }
 
     suspend fun getWeapon(alias: String): Weapon? = weaponCache.getWeapon(alias)
+
+    suspend fun searchWeapons(query: String): List<Weapon> = weaponCache.searchWeapons(query)
 }

@@ -45,6 +45,9 @@ interface WeaponDao {
     @Query("SELECT w.* FROM weapons w INNER JOIN weapon_childs c ON w.alias = c.childAlias WHERE c.parentAlias = :alias")
     fun getChildWeapons(alias: String): List<WeaponEntity>
 
+    @Query("SELECT * FROM weapons WHERE name LIKE '%' || :query || '%' OR engName LIKE '%' || :query || '%'")
+    fun searchWeapons(query: String): List<WeaponEntity>
+
     @Query("SELECT COUNT(*) FROM weapons")
     fun count(): Int
 }
