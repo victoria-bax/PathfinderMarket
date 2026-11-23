@@ -45,26 +45,20 @@ class RoomWeaponCache @Inject constructor(
 
     override suspend fun getWeapons(): List<Weapon>? = withContext(Dispatchers.IO) {
         if (weaponDao.count() == 0) return@withContext null
-        weaponDao.getAllWeapons().mapNotNull { it.toDomainOrNull(
-            parents = weaponDao.getParents(it.alias),
-            childs = weaponDao.getChildWeapons(it.alias).mapNotNull { c -> c.toDomainOrNull(emptyList(), emptyList()) },
-        ) }
+        resolveWeapons(weaponDao.getAllWeapons())
     }
 
     override suspend fun getWeapon(alias: String): Weapon? = withContext(Dispatchers.IO) {
-        weaponDao.getWeaponByAlias(alias)?.toDomainOrNull(
-            parents = weaponDao.getParents(alias),
-            childs = weaponDao.getChildWeapons(alias).mapNotNull { it.toDomainOrNull(emptyList(), emptyList()) },
-        )
+        val entity = weaponDao.getWeaponByAlias(alias) ?: return@withContext null
+        val books = bookDao.getAll().associateBy { it.alias }
+        val parents = weaponDao.getParents(alias)
+        val childs = weaponDao.getChildWeapons(alias)
+            .mapNotNull { it.toDomainOrNull(emptyList(), emptyList(), books) }
+        entity.toDomainOrNull(parents, childs, books)
     }
 
     override suspend fun searchWeapons(query: String): List<Weapon> = withContext(Dispatchers.IO) {
-        weaponDao.searchWeapons(query).mapNotNull { entity ->
-            entity.toDomainOrNull(
-                parents = weaponDao.getParents(entity.alias),
-                childs = weaponDao.getChildWeapons(entity.alias).mapNotNull { it.toDomainOrNull(emptyList(), emptyList()) },
-            )
-        }
+        resolveWeapons(weaponDao.searchWeapons(query))
     }
 
     override suspend fun filterWeapons(
@@ -73,17 +67,13 @@ class RoomWeaponCache @Inject constructor(
         encumbranceAliases: Set<EncumbranceAlias>,
         bookAliases: Set<BookAlias>,
     ): List<Weapon> = withContext(Dispatchers.IO) {
-        weaponDao.getAllWeapons().mapNotNull { entity ->
-            entity.toDomainOrNull(
-                parents = weaponDao.getParents(entity.alias),
-                childs = weaponDao.getChildWeapons(entity.alias).mapNotNull { it.toDomainOrNull(emptyList(), emptyList()) },
-            )
-        }.filter { weapon ->
-            (rangeAliases.isEmpty() || weapon.rangeCategory.alias in rangeAliases)
-                    && (proficientAliases.isEmpty() || weapon.proficientCategory.alias in proficientAliases)
-                    && (encumbranceAliases.isEmpty() || weapon.encumbranceCategory?.alias in encumbranceAliases)
-                    && (bookAliases.isEmpty() || weapon.book?.alias in bookAliases)
-        }
+        val entities = weaponDao.filterWeapons(
+            rangeAliases = rangeAliases.map { it.value }, rangeCount = rangeAliases.size,
+            proficientAliases = proficientAliases.map { it.value }, proficientCount = proficientAliases.size,
+            encumbranceAliases = encumbranceAliases.map { it.value }, encumbranceCount = encumbranceAliases.size,
+            bookAliases = bookAliases.map { it.value }, bookCount = bookAliases.size,
+        )
+        resolveWeapons(entities)
     }
 
     override suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>): Unit = withContext(Dispatchers.IO) {
@@ -96,6 +86,32 @@ class RoomWeaponCache @Inject constructor(
 
     override suspend fun getWeaponAbility(alias: String): WeaponAbility? = withContext(Dispatchers.IO) {
         weaponAbilityDao.getByAlias(alias)?.toDomain()
+    }
+
+    // Resolves a list of entities into Weapon domain objects using 3 bulk queries total:
+    // getAllParents, getAllChildLinks, bookDao.getAll — regardless of list size.
+    private fun resolveWeapons(entities: List<WeaponEntity>): List<Weapon> {
+        if (entities.isEmpty()) return emptyList()
+
+        val aliasSet = entities.map { it.alias }.toSet()
+        val entityByAlias = entities.associateBy { it.alias }
+        val books = bookDao.getAll().associateBy { it.alias }
+
+        val parentsByWeapon: Map<String, List<String>> = weaponDao.getAllParents()
+            .filter { it.weaponAlias in aliasSet }
+            .groupBy({ it.weaponAlias }, { it.parentName })
+
+        val childsByParent: Map<String, List<WeaponEntity>> = weaponDao.getAllChildLinks()
+            .filter { it.parentAlias in aliasSet }
+            .groupBy({ it.parentAlias }, { entityByAlias[it.childAlias] })
+            .mapValues { (_, v) -> v.filterNotNull() }
+
+        return entities.mapNotNull { entity ->
+            val parents = parentsByWeapon[entity.alias] ?: emptyList()
+            val childs = (childsByParent[entity.alias] ?: emptyList())
+                .mapNotNull { it.toDomainOrNull(emptyList(), emptyList(), books) }
+            entity.toDomainOrNull(parents, childs, books)
+        }
     }
 
     private fun collectAll(weapons: List<Weapon>): List<Weapon> {
@@ -133,7 +149,11 @@ class RoomWeaponCache @Inject constructor(
         bookAlias = book?.alias?.value,
     )
 
-    private fun WeaponEntity.toDomainOrNull(parents: List<String>, childs: List<Weapon>): Weapon? {
+    private fun WeaponEntity.toDomainOrNull(
+        parents: List<String>,
+        childs: List<Weapon>,
+        books: Map<String, BookEntity>,
+    ): Weapon? {
         val proficient = ProficientAlias.entries.firstOrNull { it.value == proficientCategoryAlias } ?: return null
         val range = RangeAlias.entries.firstOrNull { it.value == rangeCategoryAlias } ?: return null
         val encumbrance = encumbranceCategoryAlias?.let { EncumbranceAlias.entries.firstOrNull { e -> e.value == it } }
@@ -158,7 +178,7 @@ class RoomWeaponCache @Inject constructor(
             encumbranceCategory = encumbrance?.let { EncumbranceCategory(name = encumbranceCategoryName, alias = it) },
             parents = parents.ifEmpty { null },
             childs = childs.ifEmpty { null },
-            book = bookAlias?.let { bookDao.getByAlias(it)?.toDomain() },
+            book = bookAlias?.let { books[it]?.toDomain() },
         )
     }
 
@@ -185,7 +205,7 @@ class RoomWeaponCache @Inject constructor(
     )
 
     private fun WeaponAbilityEntity.toDomain(): WeaponAbility {
-        val bookResponse = bookAlias
+        val book = bookAlias
             ?.let { aliasStr -> BookAlias.entries.find { entry -> entry.value == aliasStr } }
             ?.let { bookAliasEnum ->
                 Book(
@@ -205,7 +225,7 @@ class RoomWeaponCache @Inject constructor(
             moneyPrice = moneyPrice,
             description = description,
             constructionRequirements = constructionRequirements,
-            book = bookResponse,
+            book = book,
         )
     }
 }

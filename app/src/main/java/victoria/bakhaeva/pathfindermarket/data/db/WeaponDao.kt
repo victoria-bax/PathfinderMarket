@@ -13,6 +13,9 @@ interface BookDao {
 
     @Query("SELECT * FROM books WHERE alias = :alias LIMIT 1")
     fun getByAlias(alias: String): BookEntity?
+
+    @Query("SELECT * FROM books")
+    fun getAll(): List<BookEntity>
 }
 
 @Dao
@@ -45,8 +48,28 @@ interface WeaponDao {
     @Query("SELECT w.* FROM weapons w INNER JOIN weapon_childs c ON w.alias = c.childAlias WHERE c.parentAlias = :alias")
     fun getChildWeapons(alias: String): List<WeaponEntity>
 
+    @Query("SELECT * FROM weapon_parents")
+    fun getAllParents(): List<WeaponParentEntity>
+
+    @Query("SELECT * FROM weapon_childs")
+    fun getAllChildLinks(): List<WeaponChildEntity>
+
     @Query("SELECT * FROM weapons WHERE name LIKE '%' || :query || '%' OR engName LIKE '%' || :query || '%'")
     fun searchWeapons(query: String): List<WeaponEntity>
+
+    @Query("""
+        SELECT * FROM weapons
+        WHERE (:rangeCount = 0 OR rangeCategoryAlias IN (:rangeAliases))
+        AND (:proficientCount = 0 OR proficientCategoryAlias IN (:proficientAliases))
+        AND (:encumbranceCount = 0 OR encumbranceCategoryAlias IN (:encumbranceAliases))
+        AND (:bookCount = 0 OR bookAlias IN (:bookAliases))
+    """)
+    fun filterWeapons(
+        rangeAliases: List<String>, rangeCount: Int,
+        proficientAliases: List<String>, proficientCount: Int,
+        encumbranceAliases: List<String>, encumbranceCount: Int,
+        bookAliases: List<String>, bookCount: Int,
+    ): List<WeaponEntity>
 
     @Query("SELECT COUNT(*) FROM weapons")
     fun count(): Int
