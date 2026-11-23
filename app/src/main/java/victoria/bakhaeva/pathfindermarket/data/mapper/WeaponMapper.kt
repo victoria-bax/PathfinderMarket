@@ -1,6 +1,5 @@
 package victoria.bakhaeva.pathfindermarket.data.mapper
 
-import android.text.Html
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponResponse
 import victoria.bakhaeva.pathfindermarket.domain.model.Book
 import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
@@ -25,7 +24,7 @@ class WeaponMapper @Inject constructor() {
         capacity = response.capacity,
         weight = response.weight,
         special = response.special.stripHtml(),
-        description = response.description,
+        description = response.description.stripHtml(),
         proficientCategory = ProficientCategory(
             name = response.proficientCategory.name,
             alias = response.proficientCategory.alias,
@@ -45,7 +44,6 @@ class WeaponMapper @Inject constructor() {
     )
 
     fun map(responses: List<WeaponResponse>): List<Weapon> = responses.map { map(it) }
-
-    private fun String?.stripHtml(): String? =
-        this?.let { Html.fromHtml(it, Html.FROM_HTML_MODE_COMPACT).toString() }
 }
+
+fun String?.stripHtml(): String? = this?.replace(Regex("<[^>]+>"), "")

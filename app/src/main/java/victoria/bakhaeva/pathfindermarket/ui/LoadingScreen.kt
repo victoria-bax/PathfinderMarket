@@ -18,6 +18,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
@@ -26,10 +27,8 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import victoria.bakhaeva.pathfindermarket.ui.theme.NightSky
-import victoria.bakhaeva.pathfindermarket.ui.theme.NightSurface
-import victoria.bakhaeva.pathfindermarket.ui.theme.ShadowBrown
-import victoria.bakhaeva.pathfindermarket.ui.theme.DimAmber
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 
 @Composable
 fun LoadingScreen(
@@ -45,11 +44,11 @@ fun LoadingScreen(
 
     val shimmerBrush = Brush.linearGradient(
         colors = listOf(
-            ShadowBrown,
-            NightSurface,
-            DimAmber.copy(alpha = 0.15f),
-            NightSurface,
-            ShadowBrown,
+            colorScheme.surface,
+            colorScheme.surfaceVariant,
+            colorScheme.onSurface.copy(alpha = 0.08f),
+            colorScheme.surfaceVariant,
+            colorScheme.surface,
         ),
         start = Offset(shimmerX, 0f),
         end = Offset(shimmerX + 600f, 300f),
@@ -58,7 +57,7 @@ fun LoadingScreen(
     LazyColumn(
         modifier = modifier
             .fillMaxSize()
-            .background(NightSky)
+            .background(colorScheme.background)
             .padding(vertical = 4.dp),
         userScrollEnabled = false,
     ) {
@@ -74,10 +73,9 @@ private fun ShimmerWeaponItem(brush: Brush) {
         modifier = Modifier
             .padding(6.dp)
             .clip(RoundedCornerShape(9.dp))
-            .background(NightSurface)
+            .background(colorScheme.surface)
             .padding(12.dp),
     ) {
-        // title row — name + cost
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
@@ -100,7 +98,6 @@ private fun ShimmerWeaponItem(brush: Brush) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // description lines
         repeat(3) { i ->
             Box(
                 modifier = Modifier
@@ -114,7 +111,6 @@ private fun ShimmerWeaponItem(brush: Brush) {
 
         Spacer(modifier = Modifier.height(8.dp))
 
-        // icon + category row
         Row {
             Box(
                 modifier = Modifier
@@ -135,8 +131,14 @@ private fun ShimmerWeaponItem(brush: Brush) {
     }
 }
 
-@Composable
 @Preview
-private fun PreviewLoadingScreen() {
-    LoadingScreen()
+@Composable
+private fun PreviewLoadingScreenDark() {
+    PreviewDark { LoadingScreen() }
+}
+
+@Preview
+@Composable
+private fun PreviewLoadingScreenLight() {
+    PreviewLight { LoadingScreen() }
 }
