@@ -15,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
@@ -58,8 +59,9 @@ fun WeaponListItem(
         weapon.description?.let {
             Text(
                 text = it,
-                style = Typography.labelSmall,
+                style = Typography.labelMedium,
                 maxLines = 5,
+                overflow = TextOverflow.Ellipsis,
             )
         }
 

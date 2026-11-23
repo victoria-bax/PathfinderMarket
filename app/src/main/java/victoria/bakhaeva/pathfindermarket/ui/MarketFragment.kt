@@ -22,8 +22,17 @@ class MarketFragment : BaseComposeFragment() {
         val navController = rememberNavController()
         NavHost(
             navController = navController,
-            startDestination = Screen.WeaponList,
+            startDestination = Screen.Splash,
         ) {
+            composable<Screen.Splash> {
+                SplashScreen(
+                    onFinished = {
+                        navController.navigate(Screen.WeaponList) {
+                            popUpTo(Screen.Splash) { inclusive = true }
+                        }
+                    }
+                )
+            }
             composable<Screen.WeaponList> {
                 WeaponListScreen(
                     onOpenDetails = {
@@ -88,6 +97,9 @@ class MarketFragment : BaseComposeFragment() {
 
     @Serializable
     private sealed class Screen {
+        @Serializable
+        object Splash : Screen()
+
         @Serializable
         object WeaponList : Screen()
 
