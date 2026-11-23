@@ -27,9 +27,16 @@ class MarketFragment : BaseComposeFragment() {
             composable<Screen.Splash> {
                 SplashScreen(
                     onFinished = {
-                        navController.navigate(Screen.WeaponList) {
+                        navController.navigate(Screen.Home) {
                             popUpTo(Screen.Splash) { inclusive = true }
                         }
+                    }
+                )
+            }
+            composable<Screen.Home> {
+                HomeScreen(
+                    onWeaponListClick = {
+                        navController.navigate(Screen.WeaponList)
                     }
                 )
             }
@@ -99,6 +106,9 @@ class MarketFragment : BaseComposeFragment() {
     private sealed class Screen {
         @Serializable
         object Splash : Screen()
+
+        @Serializable
+        object Home : Screen()
 
         @Serializable
         object WeaponList : Screen()
