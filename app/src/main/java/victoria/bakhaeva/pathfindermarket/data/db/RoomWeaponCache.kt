@@ -3,6 +3,8 @@ package victoria.bakhaeva.pathfindermarket.data.db
 import com.google.gson.Gson
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import victoria.bakhaeva.pathfindermarket.data.model.BookAlias
+import victoria.bakhaeva.pathfindermarket.data.model.BookResponse
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.WeaponCache
 import victoria.bakhaeva.pathfindermarket.domain.model.Book
@@ -60,21 +62,16 @@ class RoomWeaponCache @Inject constructor(
         }
     }
 
-    override suspend fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean = withContext(Dispatchers.IO) {
-        if (weaponAbilityDao.count() == weaponAbilities.size) return@withContext false
-        weaponAbilityDao.insertAll(
-            weaponAbilities.map { WeaponAbilityEntity(alias = it.alias, json = gson.toJson(it)) }
-        )
-        true
+    override suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>): Unit = withContext(Dispatchers.IO) {
+        weaponAbilityDao.insertAll(weaponAbilities.map { it.toEntity(rangeType) })
     }
 
-    override suspend fun getWeaponAbilities(): List<WeaponAbility>? = withContext(Dispatchers.IO) {
-        val entities = weaponAbilityDao.getAll()
-        entities.ifEmpty { null }?.map { gson.fromJson(it.json, WeaponAbility::class.java) }
+    override suspend fun getWeaponAbilities(rangeType: String): List<WeaponAbility>? = withContext(Dispatchers.IO) {
+        weaponAbilityDao.getByRangeType(rangeType).ifEmpty { null }?.map { it.toDomain() }
     }
 
     override suspend fun getWeaponAbility(alias: String): WeaponAbility? = withContext(Dispatchers.IO) {
-        weaponAbilityDao.getByAlias(alias)?.let { gson.fromJson(it.json, WeaponAbility::class.java) }
+        weaponAbilityDao.getByAlias(alias)?.toDomain()
     }
 
     private fun collectAll(weapons: List<Weapon>): List<Weapon> {
@@ -144,4 +141,46 @@ class RoomWeaponCache @Inject constructor(
         order = order,
         abbreviation = abbreviation,
     )
+
+    private fun WeaponAbility.toEntity(rangeType: String) = WeaponAbilityEntity(
+        alias = alias,
+        rangeType = rangeType,
+        name = name,
+        engName = engName,
+        aura = aura,
+        cl = cl,
+        bonusPrice = bonusPrice,
+        moneyPrice = moneyPrice,
+        description = description,
+        constructionRequirements = constructionRequirements,
+        bookAlias = book?.alias?.value,
+        bookName = book?.name,
+        bookOrder = book?.order,
+        bookAbbreviation = book?.abbreviation,
+    )
+
+    private fun WeaponAbilityEntity.toDomain(): WeaponAbility {
+        val bookResponse = bookAlias
+            ?.let { aliasStr -> BookAlias.entries.find { entry -> entry.value == aliasStr } }
+            ?.let { bookAliasEnum ->
+                BookResponse(
+                    alias = bookAliasEnum,
+                    name = bookName.orEmpty(),
+                    order = bookOrder ?: 0,
+                    abbreviation = bookAbbreviation.orEmpty(),
+                )
+            }
+        return WeaponAbility(
+            alias = alias,
+            name = name,
+            engName = engName,
+            aura = aura,
+            cl = cl,
+            bonusPrice = bonusPrice,
+            moneyPrice = moneyPrice,
+            description = description,
+            constructionRequirements = constructionRequirements,
+            book = bookResponse,
+        )
+    }
 }

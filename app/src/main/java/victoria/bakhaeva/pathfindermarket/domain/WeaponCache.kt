@@ -8,7 +8,7 @@ interface WeaponCache {
     suspend fun getWeapons(): List<Weapon>?
     suspend fun getWeapon(alias: String): Weapon?
 
-    suspend fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean
-    suspend fun getWeaponAbilities(): List<WeaponAbility>?
+    suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>)
+    suspend fun getWeaponAbilities(rangeType: String): List<WeaponAbility>?
     suspend fun getWeaponAbility(alias: String): WeaponAbility?
 }

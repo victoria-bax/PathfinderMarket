@@ -54,12 +54,12 @@ interface WeaponAbilityDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(abilities: List<WeaponAbilityEntity>)
 
-    @Query("SELECT * FROM weapon_abilities")
-    fun getAll(): List<WeaponAbilityEntity>
+    @Query("SELECT * FROM weapon_abilities WHERE rangeType = :rangeType")
+    fun getByRangeType(rangeType: String): List<WeaponAbilityEntity>
 
     @Query("SELECT * FROM weapon_abilities WHERE alias = :alias LIMIT 1")
     fun getByAlias(alias: String): WeaponAbilityEntity?
 
-    @Query("SELECT COUNT(*) FROM weapon_abilities")
-    fun count(): Int
+    @Query("SELECT COUNT(*) FROM weapon_abilities WHERE rangeType = :rangeType")
+    fun countByRangeType(rangeType: String): Int
 }

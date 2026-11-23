@@ -8,7 +8,7 @@ import javax.inject.Singleton
 @Singleton
 class InMemoryWeaponCache @Inject constructor() : WeaponCache {
     private var weapons: List<Weapon>? = null
-    private var weaponAbilities: List<WeaponAbility>? = null
+    private val weaponAbilities = mutableMapOf<String, List<WeaponAbility>>()
 
     override suspend fun saveWeapons(weapons: List<Weapon>) {
         this.weapons = weapons
@@ -18,14 +18,13 @@ class InMemoryWeaponCache @Inject constructor() : WeaponCache {
 
     override suspend fun getWeapon(alias: String): Weapon? = weapons?.firstOrNull { it.alias == alias }
 
-    override suspend fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean {
-        if (this.weaponAbilities == weaponAbilities) return false
-        this.weaponAbilities = weaponAbilities
-        return true
+    override suspend fun saveWeaponAbilities(rangeType: String, weaponAbilities: List<WeaponAbility>) {
+        this.weaponAbilities[rangeType] = weaponAbilities
     }
 
-    override suspend fun getWeaponAbilities(): List<WeaponAbility>? = weaponAbilities
+    override suspend fun getWeaponAbilities(rangeType: String): List<WeaponAbility>? =
+        weaponAbilities[rangeType]
 
     override suspend fun getWeaponAbility(alias: String): WeaponAbility? =
-        weaponAbilities?.firstOrNull { it.alias == alias }
+        weaponAbilities.values.flatten().firstOrNull { it.alias == alias }
 }
