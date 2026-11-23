@@ -6,6 +6,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import victoria.bakhaeva.pathfindermarket.data.FilterPreferencesRepository
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
@@ -18,6 +19,7 @@ import javax.inject.Inject
 internal class WeaponsViewModel @Inject constructor(
     private val getWeaponsInteractor: WeaponsInteractor,
     private val weaponUiStateMapper: WeaponUiStateMapper,
+    private val filterPrefs: FilterPreferencesRepository,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<WeaponListUiState>>(UIState.Loading)
@@ -31,8 +33,12 @@ internal class WeaponsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
+                val savedFilters = filterPrefs.loadSelectedFilters()
                 getWeaponsInteractor.getWeapons().collect { weaponList ->
-                    _uiState.value = UIState.Success(weaponUiStateMapper.map(weaponList))
+                    val state = weaponUiStateMapper.map(weaponList)
+                    _uiState.value = UIState.Success(
+                        if (savedFilters.isEmpty()) state else applyFilters(state, savedFilters)
+                    )
                 }
             } catch (e: Exception) {
                 _uiState.value = UIState.Error(e)
@@ -70,9 +76,7 @@ internal class WeaponsViewModel @Inject constructor(
 
     private fun updateWeapons(update: (WeaponListUiState) -> WeaponListUiState) {
         val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return
-        _uiState.value = UIState.Success(
-            update(data)
-        )
+        _uiState.value = UIState.Success(update(data))
     }
 
     fun onFilterChecked(aliases: List<String>, checked: Boolean) {
@@ -89,11 +93,35 @@ internal class WeaponsViewModel @Inject constructor(
                         selectedFilters.contains(alias)
                     } ?: true
                 },
-                filterState = it.filterState.copy(
-                    selectedFilters = selectedFilters
-                )
+                filterState = it.filterState.copy(selectedFilters = selectedFilters)
             )
         }
     }
 
+    fun onFilterApplied(selectedAliases: List<String>) {
+        viewModelScope.launch {
+            filterPrefs.saveSelectedFilters(selectedAliases)
+        }
+        updateWeapons { applyFilters(it, selectedAliases) }
+    }
+
+    private fun applyFilters(state: WeaponListUiState, selectedAliases: List<String>): WeaponListUiState {
+        val allFilters = state.filterState.allFilters
+        val selectedSet = selectedAliases.toSet()
+
+        val activeRange = selectedSet.intersect(allFilters.rangeCategories.map { it.alias }.toSet())
+        val activeProficient = selectedSet.intersect(allFilters.proficientCategories.map { it.alias }.toSet())
+        val activeEncumbrance = selectedSet.intersect(allFilters.encumbranceCategories.map { it.alias }.toSet())
+        val activeBooks = selectedSet.intersect(allFilters.books.map { it.alias }.toSet())
+
+        return state.copy(
+            weapons = state.allWeapons.filter { weapon ->
+                (activeRange.isEmpty() || weapon.rangeCategory.alias in activeRange)
+                        && (activeProficient.isEmpty() || weapon.proficientCategory.alias in activeProficient)
+                        && (activeEncumbrance.isEmpty() || weapon.encumbranceCategory?.alias in activeEncumbrance)
+                        && (activeBooks.isEmpty() || weapon.book?.alias in activeBooks)
+            },
+            filterState = state.filterState.copy(selectedFilters = selectedAliases)
+        )
+    }
 }

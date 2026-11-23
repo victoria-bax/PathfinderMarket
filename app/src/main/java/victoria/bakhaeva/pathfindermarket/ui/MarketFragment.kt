@@ -1,6 +1,7 @@
 package victoria.bakhaeva.pathfindermarket.ui
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -13,6 +14,7 @@ import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponUpgradeScreen
 import victoria.bakhaeva.pathfindermarket.ui.main.WeaponAbilitiesListScreen
 import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponAbilityDetailsScreen
+import victoria.bakhaeva.pathfindermarket.ui.weaponList.WeaponFilterScreen
 
 @AndroidEntryPoint
 class MarketFragment : BaseComposeFragment() {
@@ -45,7 +47,19 @@ class MarketFragment : BaseComposeFragment() {
                     onOpenDetails = {
                         navController.navigate(Screen.WeaponDetails(it.alias))
                     },
+                    onOpenFilter = {
+                        navController.navigate(Screen.Filter)
+                    },
                     modifier = Modifier,
+                )
+            }
+            composable<Screen.Filter> {
+                val parentEntry = remember(it) {
+                    navController.getBackStackEntry(Screen.WeaponList)
+                }
+                WeaponFilterScreen(
+                    parentEntry = parentEntry,
+                    onBack = { navController.popBackStack() },
                 )
             }
             composable<Screen.WeaponDetails> { backStackEntry ->
@@ -128,6 +142,9 @@ class MarketFragment : BaseComposeFragment() {
 
         @Serializable
         data class AbilityDetails(val alias: String) : Screen()
+
+        @Serializable
+        object Filter : Screen()
 
     }
 }

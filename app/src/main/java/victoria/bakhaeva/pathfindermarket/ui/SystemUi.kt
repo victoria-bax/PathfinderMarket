@@ -3,8 +3,10 @@ package victoria.bakhaeva.pathfindermarket.ui
 import android.app.Activity
 import android.content.Context
 import android.content.ContextWrapper
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.SideEffect
+import androidx.compose.ui.graphics.toArgb
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
@@ -13,9 +15,14 @@ import androidx.core.view.WindowInsetsControllerCompat
 fun StatusBarAppearance(lightIcons: Boolean) {
     val context = LocalContext.current
     val view = LocalView.current
+    val navigationBarColor = MaterialTheme.colorScheme.background.toArgb()
+    val isLightTheme = lightIcons
     SideEffect {
         val activity = context.findActivity() ?: return@SideEffect
-        WindowInsetsControllerCompat(activity.window, view).isAppearanceLightStatusBars = lightIcons
+        val controller = WindowInsetsControllerCompat(activity.window, view)
+        controller.isAppearanceLightStatusBars = lightIcons
+        controller.isAppearanceLightNavigationBars = isLightTheme
+        activity.window.navigationBarColor = navigationBarColor
     }
 }
 

@@ -12,6 +12,7 @@ import victoria.bakhaeva.pathfindermarket.ui.weaponList.WeaponList
 internal fun WeaponListScreen(
     viewModel: WeaponsViewModel = hiltViewModel(),
     onOpenDetails: (Weapon) -> Unit,
+    onOpenFilter: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
     StatusBarAppearance(lightIcons = true)
@@ -20,12 +21,12 @@ internal fun WeaponListScreen(
         success = { state ->
             WeaponList(
                 state = state,
-            onSortSelected = viewModel::onSortSelected,
-            onFilterChecked = viewModel::onFilterChecked,
-            onSearch = viewModel::onSearch,
-            onOpenDetails = onOpenDetails,
-            modifier = modifier,
-        )
-    }
-)
+                onSortSelected = viewModel::onSortSelected,
+                onOpenFilter = onOpenFilter,
+                onSearch = viewModel::onSearch,
+                onOpenDetails = onOpenDetails,
+                modifier = modifier,
+            )
+        }
+    )
 }

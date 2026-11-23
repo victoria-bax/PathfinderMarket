@@ -1,6 +1,9 @@
 package victoria.bakhaeva.pathfindermarket.data
 
 import android.content.Context
+import androidx.datastore.core.DataStore
+import androidx.datastore.preferences.core.Preferences
+import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
@@ -22,6 +25,8 @@ import victoria.bakhaeva.pathfindermarket.data.db.WeaponAbilityDao
 import victoria.bakhaeva.pathfindermarket.data.db.WeaponDao
 import victoria.bakhaeva.pathfindermarket.domain.WeaponCache
 import javax.inject.Singleton
+
+private val Context.dataStore by preferencesDataStore(name = "filter_prefs")
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -89,4 +94,9 @@ internal class AppModule {
     @Provides
     @Singleton
     fun provideWeaponCache(cache: RoomWeaponCache): WeaponCache = cache
+
+    @Provides
+    @Singleton
+    fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
+        context.dataStore
 }

@@ -140,6 +140,7 @@ private fun PreviewFilterDialog() {
                 proficientCategories = listOf(ProficientCategory("Боеприпас", "ammo")),
                 rangeCategories = listOf(RangeCategory("Ближнего боя", "melee")),
                 encumbranceCategories = listOf(EncumbranceCategory("Полуторное", "oneHanded")),
+                books = emptyList(),
             ),
             selectedFilters = listOf("ammo")
         ),

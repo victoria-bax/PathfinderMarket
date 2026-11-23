@@ -18,13 +18,14 @@ class WeaponUiStateMapper @Inject constructor() {
                     .distinctBy { it.alias },
                 rangeCategories = weapons.map { it.rangeCategory }.distinctBy { it.alias },
                 encumbranceCategories = weapons.mapNotNull { it.encumbranceCategory }
+                    .distinctBy { it.alias },
+                books = weapons.mapNotNull { it.book }
                     .distinctBy { it.alias }
+                    .sortedBy { it.order },
             ).let { allFilters ->
                 FilterState(
                     allFilters = allFilters,
-                    selectedFilters = allFilters.rangeCategories.map { it.alias }
-                            + allFilters.proficientCategories.map { it.alias }
-                            + allFilters.encumbranceCategories.map { it.alias }
+                    selectedFilters = emptyList()
                 )
             }
         )

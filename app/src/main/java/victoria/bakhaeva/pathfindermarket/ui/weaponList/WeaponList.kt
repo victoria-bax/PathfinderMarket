@@ -4,13 +4,12 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
 import androidx.compose.animation.shrinkHorizontally
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.material3.Text
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
@@ -18,7 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.MaterialTheme.typography
 import androidx.compose.material3.Scaffold
-import androidx.compose.ui.res.stringResource
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -29,10 +28,11 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
-import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
@@ -43,13 +43,12 @@ import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 fun WeaponList(
     state: WeaponListUiState,
     onSortSelected: (Order) -> Unit,
-    onFilterChecked: (List<String>, Boolean) -> Unit,
+    onOpenFilter: () -> Unit,
     onSearch: (String) -> Unit,
     onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var openSortDialog by remember { mutableStateOf(false) }
-    var openFilterDialog by remember { mutableStateOf(false) }
     var isSearchActive by remember { mutableStateOf(false) }
     var searchQuery by remember { mutableStateOf("") }
     val focusRequester = remember { FocusRequester() }
@@ -109,7 +108,7 @@ fun WeaponList(
                         Icon(
                             modifier = Modifier
                                 .size(48.dp)
-                                .clickable { openFilterDialog = true }
+                                .clickable { onOpenFilter() }
                                 .padding(8.dp),
                             painter = painterResource(R.drawable.ic_filter),
                             contentDescription = ""
@@ -158,16 +157,6 @@ fun WeaponList(
                     }
                 )
             }
-            if (openFilterDialog) {
-                FilterDialog(
-                    state = state.filterState,
-                    onFilterChecked = onFilterChecked,
-                    onDismiss = {
-                        openFilterDialog = false
-                    }
-                )
-            }
-
         },
     )
 }
@@ -180,6 +169,7 @@ private fun PreviewWeaponListDark() {
         proficientCategories = weapons.map { it.proficientCategory }.distinctBy { it.alias },
         rangeCategories = weapons.map { it.rangeCategory }.distinctBy { it.alias },
         encumbranceCategories = weapons.mapNotNull { it.encumbranceCategory }.distinctBy { it.alias },
+        books = weapons.mapNotNull { it.book }.distinctBy { it.alias },
     )
     val state = WeaponListUiState(
         weapons = weapons,
@@ -193,7 +183,7 @@ private fun PreviewWeaponListDark() {
         ),
     )
     PreviewDark {
-        WeaponList(state = state, onSortSelected = {}, onFilterChecked = { _, _ -> }, onSearch = {}, onOpenDetails = {})
+        WeaponList(state = state, onSortSelected = {}, onOpenFilter = {}, onSearch = {}, onOpenDetails = {})
     }
 }
 
@@ -205,6 +195,7 @@ private fun PreviewWeaponListLight() {
         proficientCategories = weapons.map { it.proficientCategory }.distinctBy { it.alias },
         rangeCategories = weapons.map { it.rangeCategory }.distinctBy { it.alias },
         encumbranceCategories = weapons.mapNotNull { it.encumbranceCategory }.distinctBy { it.alias },
+        books = weapons.mapNotNull { it.book }.distinctBy { it.alias },
     )
     val state = WeaponListUiState(
         weapons = weapons,
@@ -218,7 +209,6 @@ private fun PreviewWeaponListLight() {
         ),
     )
     PreviewLight {
-        WeaponList(state = state, onSortSelected = {}, onFilterChecked = { _, _ -> }, onSearch = {}, onOpenDetails = {})
+        WeaponList(state = state, onSortSelected = {}, onOpenFilter = {}, onSearch = {}, onOpenDetails = {})
     }
 }
-
