@@ -13,7 +13,9 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.text.fromHtml
@@ -31,16 +33,22 @@ internal fun WeaponAbilityDetailsScreen(
     weaponAbilityAlias: String,
     viewModel: WeaponAbilitiesViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
-) = Screen(
-    state = viewModel.getAbility(weaponAbilityAlias),
-    modifier = Modifier,
-    success = {
-        WeaponAbilityDetailScaffold(
-            weaponAbility = it,
-            onBackClick = onBackClick,
-        )
+) {
+    LaunchedEffect(weaponAbilityAlias) {
+        viewModel.loadAbility(weaponAbilityAlias)
     }
-)
+    val state by viewModel.abilityState.collectAsState()
+    Screen(
+        state = state,
+        modifier = Modifier,
+        success = {
+            WeaponAbilityDetailScaffold(
+                weaponAbility = it,
+                onBackClick = onBackClick,
+            )
+        }
+    )
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

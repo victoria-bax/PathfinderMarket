@@ -12,7 +12,7 @@ data class WeaponAbility(
     val moneyPrice: Int?,
     val description: String,
     val constructionRequirements: String,
-    val childs: List<WeaponAbility>?
+    val book: BookResponse? = null,
 )
 
 fun bonusAbility(bonus: Int) = WeaponAbility(
@@ -25,7 +25,6 @@ fun bonusAbility(bonus: Int) = WeaponAbility(
     moneyPrice = null,
     description = "Бонус к атаке +$bonus",
     constructionRequirements = "",
-    childs = null
 )
 
 fun WeaponAbility.formatPrice() =

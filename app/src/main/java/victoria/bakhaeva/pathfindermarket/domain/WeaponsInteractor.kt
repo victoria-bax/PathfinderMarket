@@ -15,13 +15,14 @@ internal class WeaponsInteractor @Inject constructor(
 
     fun getWeapons(): Flow<List<Weapon>> = flow {
         val cached = weaponCache.getWeapons()
-        cached?.let { emit(it) }
-        val mapped = weaponMapper.map(pathfinderApi.getWeapons())
-        if (mapped != cached) {
-            weaponCache.saveWeapons(mapped)
-            emit(mapped)
+        if (cached != null) {
+            emit(cached)
+        } else {
+            val weapons = weaponMapper.map(pathfinderApi.getWeapons())
+            emit(weapons)
+            weaponCache.saveWeapons(weapons)
         }
     }
 
-    fun getWeapon(alias: String): Weapon? = weaponCache.getWeapon(alias)
+    suspend fun getWeapon(alias: String): Weapon? = weaponCache.getWeapon(alias)
 }

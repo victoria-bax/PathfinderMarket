@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 internal class WeaponsAbilitiesInteractor @Inject constructor(
     private val pathfinderApi: PathfinderApi,
-    private val weaponCache: InMemoryWeaponCache,
+    private val weaponCache: WeaponCache,
 ) {
 
     fun getAbilities(range: String): Flow<List<WeaponAbility>> = flow {
@@ -27,6 +27,6 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
         }
     }
 
-    fun getAbility(abilityAlias: String): WeaponAbility? =
+    suspend fun getAbility(abilityAlias: String): WeaponAbility? =
         weaponCache.getWeaponAbility(abilityAlias)
 }

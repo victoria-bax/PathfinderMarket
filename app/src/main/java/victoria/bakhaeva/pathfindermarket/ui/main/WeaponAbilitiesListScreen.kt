@@ -157,7 +157,7 @@ private fun PreviewWeaponUpgradesList() {
                 moneyPrice = 2000,
                 description = "<p>Test</p>",
                 constructionRequirements = "constructionRequirements",
-                childs = null,
+
             )
         )
     )

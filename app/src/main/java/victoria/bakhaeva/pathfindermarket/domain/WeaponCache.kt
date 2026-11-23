@@ -4,11 +4,11 @@ import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 
 interface WeaponCache {
-    fun saveWeapons(weapons: List<Weapon>)
-    fun getWeapons(): List<Weapon>?
-    fun getWeapon(alias: String): Weapon?
+    suspend fun saveWeapons(weapons: List<Weapon>)
+    suspend fun getWeapons(): List<Weapon>?
+    suspend fun getWeapon(alias: String): Weapon?
 
-    fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean
-    fun getWeaponAbilities(): List<WeaponAbility>?
-    fun getWeaponAbility(alias: String): WeaponAbility?
+    suspend fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean
+    suspend fun getWeaponAbilities(): List<WeaponAbility>?
+    suspend fun getWeaponAbility(alias: String): WeaponAbility?
 }

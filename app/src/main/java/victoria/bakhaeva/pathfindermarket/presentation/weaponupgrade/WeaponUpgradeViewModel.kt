@@ -64,15 +64,12 @@ internal class WeaponUpgradeViewModel @Inject constructor(
     fun addAbility(abilityAlias: String) {
         val data = (_uiState.value as? UIState.Success<WeaponUpgradeState>)?.data ?: return
         if (data.abilities.none { it.alias == abilityAlias }) {
-            _uiState.value = UIState.Success(
-                data.copy(
-                    abilities = data.abilities + listOfNotNull(
-                        abilitiesInteractor.getAbility(
-                            abilityAlias
-                        )
-                    )
+            viewModelScope.launch {
+                val ability = abilitiesInteractor.getAbility(abilityAlias)
+                _uiState.value = UIState.Success(
+                    data.copy(abilities = data.abilities + listOfNotNull(ability))
                 )
-            )
+            }
         }
     }
 

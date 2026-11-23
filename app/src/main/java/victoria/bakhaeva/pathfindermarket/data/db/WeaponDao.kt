@@ -4,17 +4,49 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import androidx.room.Transaction
+
+@Dao
+interface BookDao {
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertAll(books: List<BookEntity>)
+
+    @Query("SELECT * FROM books WHERE alias = :alias LIMIT 1")
+    fun getByAlias(alias: String): BookEntity?
+}
 
 @Dao
 interface WeaponDao {
+
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertAll(weapons: List<WeaponEntity>)
+    fun insertWeapons(weapons: List<WeaponEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertParents(parents: List<WeaponParentEntity>)
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    fun insertChilds(childs: List<WeaponChildEntity>)
+
+    @Query("DELETE FROM weapon_parents")
+    fun deleteAllParents()
+
+    @Query("DELETE FROM weapon_childs")
+    fun deleteAllChilds()
 
     @Query("SELECT * FROM weapons")
-    fun getAll(): List<WeaponEntity>
+    fun getAllWeapons(): List<WeaponEntity>
 
     @Query("SELECT * FROM weapons WHERE alias = :alias LIMIT 1")
-    fun getByAlias(alias: String): WeaponEntity?
+    fun getWeaponByAlias(alias: String): WeaponEntity?
+
+    @Query("SELECT parentName FROM weapon_parents WHERE weaponAlias = :alias")
+    fun getParents(alias: String): List<String>
+
+    @Query("SELECT w.* FROM weapons w INNER JOIN weapon_childs c ON w.alias = c.childAlias WHERE c.parentAlias = :alias")
+    fun getChildWeapons(alias: String): List<WeaponEntity>
+
+    @Query("SELECT COUNT(*) FROM weapons")
+    fun count(): Int
 }
 
 @Dao

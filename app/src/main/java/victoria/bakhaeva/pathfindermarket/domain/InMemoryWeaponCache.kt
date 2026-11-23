@@ -10,24 +10,22 @@ class InMemoryWeaponCache @Inject constructor() : WeaponCache {
     private var weapons: List<Weapon>? = null
     private var weaponAbilities: List<WeaponAbility>? = null
 
-    override fun saveWeapons(weapons: List<Weapon>) {
+    override suspend fun saveWeapons(weapons: List<Weapon>) {
         this.weapons = weapons
     }
 
-    override fun getWeapons(): List<Weapon>? = weapons
+    override suspend fun getWeapons(): List<Weapon>? = weapons
 
-    override fun getWeapon(alias: String): Weapon? = weapons?.firstOrNull { it.alias == alias }
+    override suspend fun getWeapon(alias: String): Weapon? = weapons?.firstOrNull { it.alias == alias }
 
-    override fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean {
-        if (this.weaponAbilities == weaponAbilities) {
-            return false
-        }
+    override suspend fun saveWeaponAbilities(weaponAbilities: List<WeaponAbility>): Boolean {
+        if (this.weaponAbilities == weaponAbilities) return false
         this.weaponAbilities = weaponAbilities
         return true
     }
 
-    override fun getWeaponAbilities(): List<WeaponAbility>? = weaponAbilities
+    override suspend fun getWeaponAbilities(): List<WeaponAbility>? = weaponAbilities
 
-    override fun getWeaponAbility(alias: String): WeaponAbility? =
+    override suspend fun getWeaponAbility(alias: String): WeaponAbility? =
         weaponAbilities?.firstOrNull { it.alias == alias }
 }

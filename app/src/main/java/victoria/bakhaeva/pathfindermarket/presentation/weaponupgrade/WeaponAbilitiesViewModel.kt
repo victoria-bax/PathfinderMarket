@@ -8,7 +8,6 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsAbilitiesInteractor
-import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -21,15 +20,21 @@ internal class WeaponAbilitiesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UIState<List<WeaponAbility>>>(UIState.Loading)
     val uiState: StateFlow<UIState<List<WeaponAbility>>> get() = _uiState
 
+    private val _abilityState = MutableStateFlow<UIState<WeaponAbility>>(UIState.Loading)
+    val abilityState: StateFlow<UIState<WeaponAbility>> get() = _abilityState
+
     fun initialize(range: String): WeaponAbilitiesViewModel {
         loadAbilities(range)
         return this
     }
 
-    fun getAbility(alias: String): UIState<WeaponAbility> =
-        abilitiesInteractor.getAbility(alias)?.let {
-            UIState.Success(it)
-        } ?: UIState.Error(NullPointerException("Свойство не найдено"))
+    fun loadAbility(alias: String) {
+        viewModelScope.launch {
+            _abilityState.value = abilitiesInteractor.getAbility(alias)?.let {
+                UIState.Success(it)
+            } ?: UIState.Error(NullPointerException("Свойство не найдено"))
+        }
+    }
 
     fun loadAbilities(range: String) {
         if (_uiState.value is UIState.Success<*>)

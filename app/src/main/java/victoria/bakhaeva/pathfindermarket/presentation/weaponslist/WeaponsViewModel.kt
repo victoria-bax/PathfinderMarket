@@ -40,7 +40,7 @@ internal class WeaponsViewModel @Inject constructor(
         }
     }
 
-    fun getWeapon(alias: String): Weapon? = getWeaponsInteractor.getWeapon(alias)
+    suspend fun getWeapon(alias: String): Weapon? = getWeaponsInteractor.getWeapon(alias)
 
     fun onSortSelected(sort: Order) =
         updateWeapons {

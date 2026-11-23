@@ -16,6 +16,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import victoria.bakhaeva.pathfindermarket.BuildConfig
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
 import victoria.bakhaeva.pathfindermarket.data.db.AppDatabase
+import victoria.bakhaeva.pathfindermarket.data.db.BookDao
 import victoria.bakhaeva.pathfindermarket.data.db.RoomWeaponCache
 import victoria.bakhaeva.pathfindermarket.data.db.WeaponAbilityDao
 import victoria.bakhaeva.pathfindermarket.data.db.WeaponDao
@@ -74,6 +75,9 @@ internal class AppModule {
     fun provideAppDatabase(@ApplicationContext context: Context): AppDatabase =
         Room.databaseBuilder(context, AppDatabase::class.java, "pathfinder.db")
             .build()
+
+    @Provides
+    fun provideBookDao(db: AppDatabase): BookDao = db.bookDao()
 
     @Provides
     fun provideWeaponDao(db: AppDatabase): WeaponDao = db.weaponDao()
