@@ -1,6 +1,7 @@
 package victoria.bakhaeva.pathfindermarket.data.model
 
 import androidx.annotation.DrawableRes
+import com.google.gson.annotations.SerializedName
 import victoria.bakhaeva.pathfindermarket.R
 
 data class WeaponResponse(
@@ -23,42 +24,62 @@ data class WeaponResponse(
     val rangeCategory: RangeCategoryResponse,
     val encumbranceCategory: EncumbranceCategoryResponse? = null,
     val parents: List<String>? = null,
-    val childs: List<WeaponResponse>? = null
+    val childs: List<WeaponResponse>? = null,
+    val book: BookResponse? = null,
 )
 
 data class ProficientCategoryResponse(
     val name: String? = null,
-    val alias: String,
+    val alias: Proficient,
 )
 
 data class RangeCategoryResponse(
     val name: String? = null,
-    val alias: String,
+    val alias: Range,
 )
 
 data class EncumbranceCategoryResponse(
     val name: String? = null,
-    val alias: String,
+    val alias: Encumbrance,
+)
+
+data class BookResponse(
+    val alias: BookAlias,
+    val name: String,
+    val order: Int,
+    val abbreviation: String,
 )
 
 enum class Encumbrance(val value: String) {
-    LIGHT("light"),
-    ONE_HANDED("oneHanded"),
-    TWO_HANDED("twoHanded"),
-    SIEGE("siege"),
+    @SerializedName("light") LIGHT("light"),
+    @SerializedName("oneHanded") ONE_HANDED("oneHanded"),
+    @SerializedName("twoHanded") TWO_HANDED("twoHanded"),
+    @SerializedName("siege") SIEGE("siege"),
 }
 
 enum class Proficient(val value: String) {
-    AMMUNITION("ammunition"),
-    SIMPLE("simple"),
-    MARTIAL("martial"),
-    EXOTIC("exotic"),
-    EARLY_FIREARM("earlyFirearm"),
-    ALCHEMICAL("alchemical"),
-    ADVANCED_FIREARM("advancedFirearm"),
+    @SerializedName("ammunition") AMMUNITION("ammunition"),
+    @SerializedName("simple") SIMPLE("simple"),
+    @SerializedName("martial") MARTIAL("martial"),
+    @SerializedName("exotic") EXOTIC("exotic"),
+    @SerializedName("earlyFirearm") EARLY_FIREARM("earlyFirearm"),
+    @SerializedName("alchemical") ALCHEMICAL("alchemical"),
+    @SerializedName("advancedFirearm") ADVANCED_FIREARM("advancedFirearm"),
 }
 
 enum class Range(val value: String, @DrawableRes val icon: Int) {
-    MELEE("melee", R.drawable.ic_melee),
-    RANGED("ranged", R.drawable.ic_ranged),
+    @SerializedName("melee") MELEE("melee", R.drawable.ic_melee),
+    @SerializedName("ranged") RANGED("ranged", R.drawable.ic_ranged),
+}
+
+enum class BookAlias(val value: String) {
+    @SerializedName("coreRulebook") CORE_RULEBOOK("coreRulebook"),
+    @SerializedName("advancedPlayerGuide") ADVANCED_PLAYER_GUIDE("advancedPlayerGuide"),
+    @SerializedName("adventurersGuide") ADVENTURERS_GUIDE("adventurersGuide"),
+    @SerializedName("ultimateCombat") ULTIMATE_COMBAT("ultimateCombat"),
+    @SerializedName("ultimateEquipment") ULTIMATE_EQUIPMENT("ultimateEquipment"),
+    @SerializedName("riseOfTheRunelords") RISE_OF_THE_RUNELORDS("riseOfTheRunelords"),
+    @SerializedName("innerSeaWorldGuide") INNER_SEA_WORLD_GUIDE("innerSeaWorldGuide"),
+    @SerializedName("varisiaBirthplaceOfLegends") VARISIA_BIRTHPLACE_OF_LEGENDS("varisiaBirthplaceOfLegends"),
+    @SerializedName("shatteredStarShardsOfSin") SHATTERED_STAR_SHARDS_OF_SIN("shatteredStarShardsOfSin"),
 }

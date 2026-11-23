@@ -20,7 +20,15 @@ data class Weapon(
     val rangeCategory: RangeCategory,
     val encumbranceCategory: EncumbranceCategory? = null,
     val parents: List<String>? = null,
-    val childs: List<Weapon>? = null
+    val childs: List<Weapon>? = null,
+    val book: Book? = null,
+)
+
+data class Book(
+    val alias: String,
+    val name: String,
+    val order: Int,
+    val abbreviation: String,
 )
 
 data class ProficientCategory(val name: String? = null, val alias: String)
