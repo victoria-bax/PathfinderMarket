@@ -45,7 +45,7 @@ class MarketFragment : BaseComposeFragment() {
             composable<Screen.WeaponList> {
                 WeaponListScreen(
                     onOpenDetails = {
-                        navController.navigate(Screen.WeaponDetails(it.alias))
+                        navController.navigate(Screen.WeaponDetails(it))
                     },
                     onOpenFilter = {
                         navController.navigate(Screen.Filter)

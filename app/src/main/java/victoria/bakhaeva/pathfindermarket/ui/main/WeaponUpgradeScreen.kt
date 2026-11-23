@@ -185,7 +185,7 @@ internal fun WeaponUpgradeScreen(
                                             modifier = Modifier
                                                 .fillMaxWidth(),
                                             onClick = {
-                                                onAddAbilityClick(state.weapon.rangeCategory.alias)
+                                                onAddAbilityClick(state.weapon.rangeCategory.alias.value)
                                             }
                                         ) {
                                             Text(stringResource(R.string.add_special_properties))

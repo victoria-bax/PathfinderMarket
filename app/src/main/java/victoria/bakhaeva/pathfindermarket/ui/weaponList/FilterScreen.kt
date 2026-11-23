@@ -88,9 +88,9 @@ fun FilterScreen(
                 FilterSection(title = stringResource(R.string.filter_range_category)) {
                     allFilters.rangeCategories.forEach { item ->
                         FilterChipItem(
-                            label = item.name ?: item.alias,
-                            selected = item.alias in selected,
-                            onToggle = { selected = selected.toggle(item.alias) },
+                            label = item.name ?: item.alias.value,
+                            selected = item.alias.value in selected,
+                            onToggle = { selected = selected.toggle(item.alias.value) },
                         )
                     }
                 }
@@ -100,9 +100,9 @@ fun FilterScreen(
                 FilterSection(title = stringResource(R.string.filter_proficient_type)) {
                     allFilters.proficientCategories.forEach { item ->
                         FilterChipItem(
-                            label = item.name ?: item.alias,
-                            selected = item.alias in selected,
-                            onToggle = { selected = selected.toggle(item.alias) },
+                            label = item.name ?: item.alias.value,
+                            selected = item.alias.value in selected,
+                            onToggle = { selected = selected.toggle(item.alias.value) },
                         )
                     }
                 }
@@ -112,9 +112,9 @@ fun FilterScreen(
                 FilterSection(title = stringResource(R.string.filter_hands_count)) {
                     allFilters.encumbranceCategories.forEach { item ->
                         FilterChipItem(
-                            label = item.name ?: item.alias,
-                            selected = item.alias in selected,
-                            onToggle = { selected = selected.toggle(item.alias) },
+                            label = item.name ?: item.alias.value,
+                            selected = item.alias.value in selected,
+                            onToggle = { selected = selected.toggle(item.alias.value) },
                         )
                     }
                 }
@@ -125,8 +125,8 @@ fun FilterScreen(
                     allFilters.books.forEach { book ->
                         FilterChipItem(
                             label = book.name,
-                            selected = book.alias in selected,
-                            onToggle = { selected = selected.toggle(book.alias) },
+                            selected = book.alias.value in selected,
+                            onToggle = { selected = selected.toggle(book.alias.value) },
                         )
                     }
                 }

@@ -6,20 +6,19 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
-import victoria.bakhaeva.pathfindermarket.data.FilterPreferencesRepository
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import victoria.bakhaeva.pathfindermarket.presentation.mapper.WeaponUiStateMapper
+import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
 import javax.inject.Inject
 
 @HiltViewModel
 internal class WeaponsViewModel @Inject constructor(
-    private val getWeaponsInteractor: WeaponsInteractor,
-    private val weaponUiStateMapper: WeaponUiStateMapper,
-    private val filterPrefs: FilterPreferencesRepository,
+    private val interactor: WeaponsInteractor,
+    private val mapper: WeaponUiStateMapper,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<WeaponListUiState>>(UIState.Loading)
@@ -33,11 +32,12 @@ internal class WeaponsViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
-                val savedFilters = filterPrefs.loadSelectedFilters()
-                getWeaponsInteractor.getWeapons().collect { weaponList ->
-                    val state = weaponUiStateMapper.map(weaponList)
+                val savedFilters = interactor.loadFilters()
+                interactor.getWeapons().collect { weaponList ->
+                    val base = mapper.map(weaponList)
                     _uiState.value = UIState.Success(
-                        if (savedFilters.isEmpty()) state else applyFilters(state, savedFilters)
+                        if (savedFilters.isEmpty()) base
+                        else base.withFilters(savedFilters)
                     )
                 }
             } catch (e: Exception) {
@@ -46,82 +46,47 @@ internal class WeaponsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getWeapon(alias: String): Weapon? = getWeaponsInteractor.getWeapon(alias)
+    suspend fun getWeapon(alias: String): Weapon? = interactor.getWeapon(alias)
 
-    fun onSortSelected(sort: Order) =
-        updateWeapons {
-            it.copy(
-                weapons = it.weapons.sort(sort),
-                sort = sort,
-            )
-        }
-
-    private fun List<Weapon>.sort(sort: Order): List<Weapon> = when (sort) {
-        Order.PRICE_ASC -> sortedBy { it.cost }
-        Order.PRICE_DESC -> sortedByDescending { it.cost }
-        Order.NAME_ASC -> sortedBy { it.name }
-        Order.NAME_DESC -> sortedByDescending { it.name }
+    fun onSortSelected(sort: Order) = updateWeapons {
+        it.copy(weapons = interactor.sortItems(it.weapons, sort), sort = sort)
     }
 
     fun onSearch(searchQuery: String) {
         if (searchQuery.isEmpty()) {
-            updateWeapons { it.copy(weapons = it.allWeapons.sort(it.sort)) }
+            viewModelScope.launch { reapplyCurrentFilters() }
             return
         }
         viewModelScope.launch {
-            val results = getWeaponsInteractor.searchWeapons(searchQuery)
-            updateWeapons { it.copy(weapons = results.sort(it.sort)) }
-        }
-    }
-
-    private fun updateWeapons(update: (WeaponListUiState) -> WeaponListUiState) {
-        val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return
-        _uiState.value = UIState.Success(update(data))
-    }
-
-    fun onFilterChecked(aliases: List<String>, checked: Boolean) {
-        updateWeapons {
-            val selectedFilters = if (checked)
-                it.filterState.selectedFilters + aliases
-            else
-                it.filterState.selectedFilters - aliases
-            it.copy(
-                weapons = it.allWeapons.filter { weapon ->
-                    selectedFilters.contains(weapon.proficientCategory.alias)
-                            && selectedFilters.contains(weapon.rangeCategory.alias)
-                            && weapon.encumbranceCategory?.alias?.let { alias ->
-                        selectedFilters.contains(alias)
-                    } ?: true
-                },
-                filterState = it.filterState.copy(selectedFilters = selectedFilters)
-            )
+            val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return@launch
+            val results = interactor.searchWeapons(searchQuery, data.sort)
+            updateWeapons { it.copy(weapons = with(mapper) { results.toUiStates() }) }
         }
     }
 
     fun onFilterApplied(selectedAliases: List<String>) {
         viewModelScope.launch {
-            filterPrefs.saveSelectedFilters(selectedAliases)
+            interactor.saveFilters(selectedAliases)
+            val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return@launch
+            _uiState.value = UIState.Success(data.withFilters(selectedAliases))
         }
-        updateWeapons { applyFilters(it, selectedAliases) }
     }
 
-    private fun applyFilters(state: WeaponListUiState, selectedAliases: List<String>): WeaponListUiState {
-        val allFilters = state.filterState.allFilters
-        val selectedSet = selectedAliases.toSet()
+    private suspend fun reapplyCurrentFilters() {
+        val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return
+        _uiState.value = UIState.Success(data.withFilters(data.filterState.selectedFilters))
+    }
 
-        val activeRange = selectedSet.intersect(allFilters.rangeCategories.map { it.alias }.toSet())
-        val activeProficient = selectedSet.intersect(allFilters.proficientCategories.map { it.alias }.toSet())
-        val activeEncumbrance = selectedSet.intersect(allFilters.encumbranceCategories.map { it.alias }.toSet())
-        val activeBooks = selectedSet.intersect(allFilters.books.map { it.alias }.toSet())
-
-        return state.copy(
-            weapons = state.allWeapons.filter { weapon ->
-                (activeRange.isEmpty() || weapon.rangeCategory.alias in activeRange)
-                        && (activeProficient.isEmpty() || weapon.proficientCategory.alias in activeProficient)
-                        && (activeEncumbrance.isEmpty() || weapon.encumbranceCategory?.alias in activeEncumbrance)
-                        && (activeBooks.isEmpty() || weapon.book?.alias in activeBooks)
-            },
-            filterState = state.filterState.copy(selectedFilters = selectedAliases)
+    private suspend fun WeaponListUiState.withFilters(selectedAliases: List<String>): WeaponListUiState {
+        val filtered = interactor.filterWeapons(filterState.allFilters, selectedAliases, sort)
+        return copy(
+            weapons = with(mapper) { filtered.toUiStates() },
+            filterState = filterState.copy(selectedFilters = selectedAliases),
         )
+    }
+
+    private fun updateWeapons(update: (WeaponListUiState) -> WeaponListUiState) {
+        val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return
+        _uiState.value = UIState.Success(update(data))
     }
 }

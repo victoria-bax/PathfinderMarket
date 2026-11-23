@@ -32,11 +32,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
+import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
 @Composable
@@ -45,7 +45,7 @@ fun WeaponList(
     onSortSelected: (Order) -> Unit,
     onOpenFilter: () -> Unit,
     onSearch: (String) -> Unit,
-    onOpenDetails: (Weapon) -> Unit,
+    onOpenDetails: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
     var openSortDialog by remember { mutableStateOf(false) }
@@ -137,12 +137,11 @@ fun WeaponList(
                         .padding(paddingValues)
                         .fillMaxSize()
                 ) {
-                    items(state.weapons.size) { weapon ->
+                    items(state.weapons.size) { index ->
                         WeaponListItem(
-                            weapon = state.weapons[weapon],
-                            onWeaponCLick = {
-                                onOpenDetails(state.weapons[weapon])
-                            })
+                            weapon = state.weapons[index],
+                            onWeaponCLick = { onOpenDetails(it.alias) },
+                        )
                     }
                 }
             }
@@ -172,14 +171,21 @@ private fun PreviewWeaponListDark() {
         books = weapons.mapNotNull { it.book }.distinctBy { it.alias },
     )
     val state = WeaponListUiState(
-        weapons = weapons,
-        allWeapons = weapons,
+        weapons = weapons.map {
+            WeaponListItemUiState(
+                alias = it.alias,
+                name = it.name,
+                cost = it.cost,
+                description = it.description,
+                rangeIconRes = Range.from(it.rangeCategory.alias).icon,
+                proficientCategoryName = it.proficientCategory.name,
+                encumbranceCategoryName = it.encumbranceCategory?.name,
+            )
+        },
         sort = Order.DEFAULT,
         filterState = FilterState(
             allFilters = allFilters,
-            selectedFilters = allFilters.rangeCategories.map { it.alias }
-                    + allFilters.proficientCategories.map { it.alias }
-                    + allFilters.encumbranceCategories.map { it.alias },
+            selectedFilters = emptyList(),
         ),
     )
     PreviewDark {
@@ -198,14 +204,21 @@ private fun PreviewWeaponListLight() {
         books = weapons.mapNotNull { it.book }.distinctBy { it.alias },
     )
     val state = WeaponListUiState(
-        weapons = weapons,
-        allWeapons = weapons,
+        weapons = weapons.map {
+            WeaponListItemUiState(
+                alias = it.alias,
+                name = it.name,
+                cost = it.cost,
+                description = it.description,
+                rangeIconRes = Range.from(it.rangeCategory.alias).icon,
+                proficientCategoryName = it.proficientCategory.name,
+                encumbranceCategoryName = it.encumbranceCategory?.name,
+            )
+        },
         sort = Order.DEFAULT,
         filterState = FilterState(
             allFilters = allFilters,
-            selectedFilters = allFilters.rangeCategories.map { it.alias }
-                    + allFilters.proficientCategories.map { it.alias }
-                    + allFilters.encumbranceCategories.map { it.alias },
+            selectedFilters = emptyList(),
         ),
     )
     PreviewLight {

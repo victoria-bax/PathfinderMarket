@@ -5,7 +5,7 @@ data class Weapon(
     val name: String,
     val engName: String? = null,
     val type: String? = null,
-    val cost: Double? = null,
+    val cost: Int? = null,
     val damageS: String? = null,
     val damageM: String? = null,
     val criticalRoll: String? = null,
@@ -25,12 +25,12 @@ data class Weapon(
 )
 
 data class Book(
-    val alias: String,
+    val alias: BookAlias,
     val name: String,
     val order: Int,
     val abbreviation: String,
 )
 
-data class ProficientCategory(val name: String? = null, val alias: String)
-data class RangeCategory(val name: String? = null, val alias: String)
-data class EncumbranceCategory(val name: String? = null, val alias: String)
+data class ProficientCategory(val name: String? = null, val alias: ProficientAlias)
+data class RangeCategory(val name: String? = null, val alias: RangeAlias)
+data class EncumbranceCategory(val name: String? = null, val alias: EncumbranceAlias)

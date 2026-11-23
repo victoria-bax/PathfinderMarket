@@ -29,7 +29,7 @@ import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
+import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
 @OptIn(ExperimentalMaterial3Api::class)

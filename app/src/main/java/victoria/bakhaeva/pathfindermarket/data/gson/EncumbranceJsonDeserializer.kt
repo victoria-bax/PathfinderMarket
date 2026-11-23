@@ -3,39 +3,54 @@ package victoria.bakhaeva.pathfindermarket.data.gson
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import victoria.bakhaeva.pathfindermarket.data.model.Encumbrance
-import victoria.bakhaeva.pathfindermarket.data.model.Proficient
-import victoria.bakhaeva.pathfindermarket.data.model.Range
+import victoria.bakhaeva.pathfindermarket.domain.model.BookAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import java.lang.reflect.Type
 
-class EncumbranceJsonDeserializer : JsonDeserializer<Encumbrance> {
+class EncumbranceJsonDeserializer : JsonDeserializer<EncumbranceAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): Encumbrance? = json?.alias()?.let { alias ->
-        Encumbrance.entries.firstOrNull { it.value == alias }
+    ): EncumbranceAlias? = json?.alias()?.let { alias ->
+        EncumbranceAlias.entries.firstOrNull { it.value == alias }
     }
 }
 
-class ProficientJsonDeserializer : JsonDeserializer<Proficient> {
+class ProficientJsonDeserializer : JsonDeserializer<ProficientAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): Proficient? = json?.alias()?.let { alias ->
-        Proficient.entries.firstOrNull { it.value == alias }
+    ): ProficientAlias? = json?.alias()?.let { alias ->
+        ProficientAlias.entries.firstOrNull { it.value == alias }
     }
 }
 
-class RangeJsonDeserializer : JsonDeserializer<Range> {
+class RangeJsonDeserializer : JsonDeserializer<RangeAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
         context: JsonDeserializationContext?
-    ): Range? = json?.alias()?.let { alias ->
-        Range.entries.firstOrNull { it.value == alias }
+    ): RangeAlias? = json?.alias()?.let { alias ->
+        RangeAlias.entries.firstOrNull { it.value == alias }
     }
 }
 
-private fun JsonElement.alias(): String? = asJsonObject?.get("alias")?.asString
+class BookAliasJsonDeserializer : JsonDeserializer<BookAlias> {
+    override fun deserialize(
+        json: JsonElement?,
+        typeOfT: Type?,
+        context: JsonDeserializationContext?
+    ): BookAlias? = json?.asString?.let { alias ->
+        BookAlias.entries.firstOrNull { it.value == alias }
+    }
+}
+
+private fun JsonElement.alias(): String? = when {
+    isJsonPrimitive && asJsonPrimitive.isString -> asString
+    isJsonObject -> asJsonObject?.get("alias")?.asString
+    else -> null
+}

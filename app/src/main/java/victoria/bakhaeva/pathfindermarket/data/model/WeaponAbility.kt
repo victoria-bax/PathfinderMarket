@@ -28,6 +28,6 @@ fun bonusAbility(bonus: Int) = WeaponAbility(
 )
 
 fun WeaponAbility.formatPrice() =
-    moneyPrice?.toDouble()?.formatCost()
+    moneyPrice?.formatCost()
         ?: bonusPrice?.let { "Бонус +$it" }
         ?: "???"

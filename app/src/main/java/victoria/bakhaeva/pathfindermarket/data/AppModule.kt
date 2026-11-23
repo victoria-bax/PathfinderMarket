@@ -13,6 +13,14 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import okhttp3.OkHttpClient
+import victoria.bakhaeva.pathfindermarket.data.gson.BookAliasJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.data.gson.EncumbranceJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.data.gson.ProficientJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.data.gson.RangeJsonDeserializer
+import victoria.bakhaeva.pathfindermarket.domain.model.BookAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
@@ -52,7 +60,12 @@ internal class AppModule {
 
     @Provides
     @Singleton
-    fun provideGson(): Gson = GsonBuilder().create()
+    fun provideGson(): Gson = GsonBuilder()
+        .registerTypeAdapter(EncumbranceAlias::class.java, EncumbranceJsonDeserializer())
+        .registerTypeAdapter(ProficientAlias::class.java, ProficientJsonDeserializer())
+        .registerTypeAdapter(RangeAlias::class.java, RangeJsonDeserializer())
+        .registerTypeAdapter(BookAlias::class.java, BookAliasJsonDeserializer())
+        .create()
 
     @Provides
     @Singleton

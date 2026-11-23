@@ -4,19 +4,19 @@ object WeaponBonusPrice {
     const val maxBonus = 5
     const val maxBonusSum = 10
 
-    val prices =  mapOf(
-        1 to 2000,
-        2 to 8000,
-        3 to 18000,
-        4 to 32000,
-        5 to 50000,
-        6 to 72000,
-        7 to 98000,
-        8 to 128000,
-        10 to 200000,
+    val prices = mapOf(
+        1 to 200000,
+        2 to 800000,
+        3 to 1800000,
+        4 to 3200000,
+        5 to 5000000,
+        6 to 7200000,
+        7 to 9800000,
+        8 to 12800000,
+        10 to 20000000,
     )
 
-    val mastercraftPrice = 300.0
+    val mastercraftPrice = 30000
 
     val masterCraftBonus = 1
 }

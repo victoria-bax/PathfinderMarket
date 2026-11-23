@@ -2,8 +2,8 @@ package victoria.bakhaeva.pathfindermarket.domain
 
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
-import victoria.bakhaeva.pathfindermarket.data.model.Range
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import javax.inject.Inject
 
 internal class WeaponsAbilitiesInteractor @Inject constructor(
@@ -11,8 +11,8 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
 ) {
 
     fun getAbilities(range: String): Flow<List<WeaponAbility>> = flow {
-        if (range != Range.MELEE.value && range != Range.RANGED.value)
-            throw Exception("Unknown range: $range")
+        RangeAlias.entries.firstOrNull { it.value == range }
+            ?: throw Exception("Unknown range: $range")
         weaponCache.getWeaponAbilities(range)?.let { emit(it) }
     }
 

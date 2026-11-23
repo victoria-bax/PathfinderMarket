@@ -12,10 +12,10 @@ data class WeaponUpgradeState(
     val improvements: Int,
 )
 
-fun WeaponUpgradeState.countSum(): Double =
-    (weapon.cost ?: 0.0) +
+fun WeaponUpgradeState.countSum(): Int =
+    (weapon.cost ?: 0) +
             abilities.sumOf { it.moneyPrice ?: 0 } +
-            (if (isMasterwork) mastercraftPrice else 0.0) +
+            (if (isMasterwork) mastercraftPrice else 0) +
             (WeaponBonusPrice.prices[improvements + abilities.sumOf { it.bonusPrice ?: 0 }] ?: 0)
 
 fun WeaponUpgradeState.countAttackBonus(): Int =

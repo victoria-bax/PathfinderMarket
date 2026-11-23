@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -18,28 +19,24 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
-import victoria.bakhaeva.pathfindermarket.data.model.Range
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.ui.formatCost
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.MaterialTheme.colorScheme
 import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketPreview
-import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 @Composable
 fun WeaponListItem(
-    weapon: Weapon,
-    onWeaponCLick: (Weapon) -> Unit,
+    weapon: WeaponListItemUiState,
+    onWeaponCLick: (WeaponListItemUiState) -> Unit,
 ) {
-    Column(modifier = Modifier
-        .padding(6.dp)
-        .background(
-            color = MaterialTheme.colorScheme.surface,
-            shape = RoundedCornerShape(9.dp),
-        )
-        .clickable { onWeaponCLick(weapon) }
-        .padding(12.dp)) {
+    Column(
+        modifier = Modifier
+            .padding(6.dp)
+            .background(color = colorScheme.surface, shape = RoundedCornerShape(9.dp))
+            .clickable { onWeaponCLick(weapon) }
+            .padding(12.dp)
+    ) {
         Row(
             modifier = Modifier.fillMaxWidth(),
             verticalAlignment = Alignment.Top,
@@ -50,10 +47,9 @@ fun WeaponListItem(
                 color = colorScheme.onSurface,
                 modifier = Modifier.weight(1f),
             )
-            val cost = weapon.cost.formatCost()
             Text(
                 modifier = Modifier.padding(start = 8.dp),
-                text = cost,
+                text = weapon.cost.formatCost(),
                 style = Typography.titleLarge,
                 color = colorScheme.primary,
             )
@@ -70,23 +66,19 @@ fun WeaponListItem(
         }
 
         Row {
-            Range.entries.firstOrNull {
-                it.value == weapon.rangeCategory.alias
-            }?.let {
-                Icon(
-                    modifier = Modifier
-                        .align(Alignment.CenterVertically)
-                        .heightIn(max = 36.dp),
-                    painter = painterResource(it.icon),
-                    contentDescription = null,
-                    tint = colorScheme.onSurface,
-                )
-            }
+            Icon(
+                modifier = Modifier
+                    .align(Alignment.CenterVertically)
+                    .heightIn(max = 36.dp),
+                painter = painterResource(weapon.rangeIconRes),
+                contentDescription = null,
+                tint = colorScheme.onSurface,
+            )
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(horizontal = 8.dp),
-                text = "${weapon.proficientCategory.name}, ${weapon.encumbranceCategory?.name ?: ""}",
+                text = "${weapon.proficientCategoryName}, ${weapon.encumbranceCategoryName ?: ""}",
                 color = colorScheme.onSurface,
             )
         }
@@ -99,6 +91,17 @@ private fun PreviewWeaponListItem(
     @PreviewParameter(WeaponPreviewProvider::class) weapon: Weapon,
 ) {
     PathfinderMarketPreview {
-        WeaponListItem(weapon = weapon, onWeaponCLick = {})
+        WeaponListItem(
+            weapon = WeaponListItemUiState(
+                alias = weapon.alias,
+                name = weapon.name,
+                cost = weapon.cost,
+                description = weapon.description,
+                rangeIconRes = Range.from(weapon.rangeCategory.alias).icon,
+                proficientCategoryName = weapon.proficientCategory.name,
+                encumbranceCategoryName = weapon.encumbranceCategory?.name,
+            ),
+            onWeaponCLick = {},
+        )
     }
 }

@@ -2,10 +2,10 @@ package victoria.bakhaeva.pathfindermarket.data.mapper
 
 import android.text.Html
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponResponse
+import victoria.bakhaeva.pathfindermarket.domain.model.Book
 import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.domain.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
-import victoria.bakhaeva.pathfindermarket.domain.model.Book
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import javax.inject.Inject
 
@@ -15,7 +15,7 @@ class WeaponMapper @Inject constructor() {
         name = response.name,
         engName = response.engName,
         type = response.type,
-        cost = response.cost,
+        cost = response.cost?.let { (it * 100).toInt() },
         damageS = response.damageS.stripHtml(),
         damageM = response.damageM.stripHtml(),
         criticalRoll = response.criticalRoll.stripHtml(),
@@ -28,18 +28,20 @@ class WeaponMapper @Inject constructor() {
         description = response.description,
         proficientCategory = ProficientCategory(
             name = response.proficientCategory.name,
-            alias = response.proficientCategory.alias.value,
+            alias = response.proficientCategory.alias,
         ),
         rangeCategory = RangeCategory(
             name = response.rangeCategory.name,
-            alias = response.rangeCategory.alias.value,
+            alias = response.rangeCategory.alias,
         ),
         encumbranceCategory = response.encumbranceCategory?.let {
-            EncumbranceCategory(name = it.name, alias = it.alias.value)
+            EncumbranceCategory(name = it.name, alias = it.alias)
         },
         parents = response.parents,
         childs = response.childs?.map { map(it) },
-        book = response.book?.let { Book(alias = it.alias.value, name = it.name, order = it.order, abbreviation = it.abbreviation) },
+        book = response.book?.let {
+            Book(alias = it.alias, name = it.name, order = it.order, abbreviation = it.abbreviation)
+        },
     )
 
     fun map(responses: List<WeaponResponse>): List<Weapon> = responses.map { map(it) }

@@ -48,13 +48,13 @@ internal class DatabaseSeeder @Inject constructor(
             val melee: List<WeaponAbility> = gson.fromJson(
                 context.assets.open("abilities_melee.json").bufferedReader().readText(), type
             )
-            if (melee.isNotEmpty()) weaponCache.saveWeaponAbilities(MELEE, melee)
+            if (melee.isNotEmpty()) weaponCache.saveWeaponAbilities(MELEE, melee.convertPrices())
         }
         if (weaponCache.getWeaponAbilities(RANGED) == null) {
             val ranged: List<WeaponAbility> = gson.fromJson(
                 context.assets.open("abilities_ranged.json").bufferedReader().readText(), type
             )
-            if (ranged.isNotEmpty()) weaponCache.saveWeaponAbilities(RANGED, ranged)
+            if (ranged.isNotEmpty()) weaponCache.saveWeaponAbilities(RANGED, ranged.convertPrices())
         }
     }
 
@@ -70,12 +70,16 @@ internal class DatabaseSeeder @Inject constructor(
     private suspend fun refreshAbilitiesFromApi() {
         try {
             val melee = pathfinderApi.getAbilities("meeleWeapon")
-            if (melee.isNotEmpty()) weaponCache.saveWeaponAbilities(MELEE, melee)
+            if (melee.isNotEmpty()) weaponCache.saveWeaponAbilities(MELEE, melee.convertPrices())
             val ranged = pathfinderApi.getAbilities("rangeWeapon")
-            if (ranged.isNotEmpty()) weaponCache.saveWeaponAbilities(RANGED, ranged)
+            if (ranged.isNotEmpty()) weaponCache.saveWeaponAbilities(RANGED, ranged.convertPrices())
         } catch (e: Exception) {
             Timber.e(e, "Failed to refresh abilities from API, using cached data")
         }
+    }
+
+    private fun List<WeaponAbility>.convertPrices() = map {
+        it.copy(moneyPrice = it.moneyPrice?.let { gp -> gp * 100 })
     }
 
     companion object {

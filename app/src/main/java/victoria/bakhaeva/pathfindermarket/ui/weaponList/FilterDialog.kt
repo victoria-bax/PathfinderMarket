@@ -18,11 +18,14 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.ProficientCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -47,9 +50,9 @@ fun FilterDialog(
                         item {
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(
-                                    checked = state.selectedFilters.containsAll(rangeCategories.map { it.alias }),
+                                    checked = state.selectedFilters.containsAll(rangeCategories.map { it.alias.value }),
                                     onCheckedChange = { checked ->
-                                        onFilterChecked(rangeCategories.map { it.alias }, checked)
+                                        onFilterChecked(rangeCategories.map { it.alias.value }, checked)
                                     }
                                 )
                                 Text(stringResource(R.string.filter_range_category), style = MaterialTheme.typography.headlineSmall)
@@ -59,9 +62,9 @@ fun FilterDialog(
                             val rangeCategory = rangeCategories[index]
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(
-                                    checked = state.selectedFilters.contains(rangeCategory.alias),
+                                    checked = state.selectedFilters.contains(rangeCategory.alias.value),
                                     onCheckedChange = { checked ->
-                                        onFilterChecked(listOf(rangeCategory.alias), checked)
+                                        onFilterChecked(listOf(rangeCategory.alias.value), checked)
                                     }
                                 )
                                 rangeCategory.name?.let { Text(it) }
@@ -71,13 +74,12 @@ fun FilterDialog(
                 state.allFilters.proficientCategories.takeIf { it.isNotEmpty() }
                     ?.let { proficientCategories ->
                         item {
-                            // todo rewrite with TextCheckBox
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(
-                                    checked = state.selectedFilters.containsAll(proficientCategories.map { it.alias }),
+                                    checked = state.selectedFilters.containsAll(proficientCategories.map { it.alias.value }),
                                     onCheckedChange = { checked ->
                                         onFilterChecked(
-                                            proficientCategories.map { it.alias },
+                                            proficientCategories.map { it.alias.value },
                                             checked
                                         )
                                     }
@@ -88,9 +90,9 @@ fun FilterDialog(
                         items(proficientCategories.size) { index ->
                             val proficientCategory = proficientCategories[index]
                             TextCheckBox(
-                                isChecked = state.selectedFilters.contains(proficientCategory.alias),
+                                isChecked = state.selectedFilters.contains(proficientCategory.alias.value),
                                 onCheckedChange = { checked ->
-                                    onFilterChecked(listOf(proficientCategory.alias), checked)
+                                    onFilterChecked(listOf(proficientCategory.alias.value), checked)
                                 },
                                 text = proficientCategory.name ?: ""
                             )
@@ -102,10 +104,10 @@ fun FilterDialog(
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(
                                     checked = state.selectedFilters.containsAll(
-                                        encumbranceCategories.map { it.alias }),
+                                        encumbranceCategories.map { it.alias.value }),
                                     onCheckedChange = { checked ->
                                         onFilterChecked(
-                                            encumbranceCategories.map { it.alias },
+                                            encumbranceCategories.map { it.alias.value },
                                             checked
                                         )
                                     }
@@ -117,9 +119,9 @@ fun FilterDialog(
                             val encumbranceCategory = encumbranceCategories[index]
                             Row(verticalAlignment = Alignment.CenterVertically) {
                                 Checkbox(
-                                    checked = state.selectedFilters.contains(encumbranceCategory.alias),
+                                    checked = state.selectedFilters.contains(encumbranceCategory.alias.value),
                                     onCheckedChange = { checked ->
-                                        onFilterChecked(listOf(encumbranceCategory.alias), checked)
+                                        onFilterChecked(listOf(encumbranceCategory.alias.value), checked)
                                     }
                                 )
                                 encumbranceCategory.name?.let { Text(it) }
@@ -137,12 +139,12 @@ private fun PreviewFilterDialog() {
     FilterDialog(
         FilterState(
             allFilters = AllFilters(
-                proficientCategories = listOf(ProficientCategory("Боеприпас", "ammo")),
-                rangeCategories = listOf(RangeCategory("Ближнего боя", "melee")),
-                encumbranceCategories = listOf(EncumbranceCategory("Полуторное", "oneHanded")),
+                proficientCategories = listOf(ProficientCategory("Боеприпас", ProficientAlias.AMMUNITION)),
+                rangeCategories = listOf(RangeCategory("Ближнего боя", RangeAlias.MELEE)),
+                encumbranceCategories = listOf(EncumbranceCategory("Одноручное", EncumbranceAlias.ONE_HANDED)),
                 books = emptyList(),
             ),
-            selectedFilters = listOf("ammo")
+            selectedFilters = listOf(ProficientAlias.AMMUNITION.value)
         ),
         { _, _ -> },
         {},

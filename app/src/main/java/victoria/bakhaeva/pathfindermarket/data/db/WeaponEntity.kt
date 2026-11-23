@@ -30,7 +30,7 @@ data class WeaponEntity(
     val name: String,
     val engName: String?,
     val type: String?,
-    val cost: Double?,
+    val cost: Int?,
     val damageS: String?,
     val damageM: String?,
     val criticalRoll: String?,
