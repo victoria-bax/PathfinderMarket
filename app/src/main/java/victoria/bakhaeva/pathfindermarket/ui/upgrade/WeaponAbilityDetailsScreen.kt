@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme.colorScheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -23,10 +24,13 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
+import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.data.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.data.model.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
 import victoria.bakhaeva.pathfindermarket.ui.Screen
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 
 @Composable
 internal fun WeaponAbilityDetailsScreen(
@@ -63,6 +67,7 @@ private fun WeaponAbilityDetailScaffold(
         containerColor = colorScheme.background,
         topBar = {
             TopAppBar(
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = colorScheme.background),
                 title = {
                     Text(weaponAbility.name)
                 },
@@ -101,4 +106,32 @@ private fun WeaponAbilityDetailScaffold(
             }
         }
     )
+}
+
+private val previewAbility = WeaponAbility(
+    alias = "flaming",
+    name = "Пылающее",
+    engName = "Flaming",
+    aura = "Слабая призыв",
+    cl = 10,
+    bonusPrice = 1,
+    moneyPrice = 0,
+    description = "<p>По команде владельца клинок оружия охватывает огонь, причиняя дополнительно 1d6 урона огнём при каждом попадании.</p>",
+    constructionRequirements = "Создать магическое оружие, воспламенение",
+)
+
+@Preview(heightDp = 500)
+@Composable
+private fun PreviewWeaponAbilityDetailsDark() {
+    PreviewDark {
+        WeaponAbilityDetailScaffold(weaponAbility = previewAbility, onBackClick = {})
+    }
+}
+
+@Preview(heightDp = 500)
+@Composable
+private fun PreviewWeaponAbilityDetailsLight() {
+    PreviewLight {
+        WeaponAbilityDetailScaffold(weaponAbility = previewAbility, onBackClick = {})
+    }
 }

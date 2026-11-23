@@ -22,11 +22,11 @@ import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.data.model.Range
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.ui.formatCost
-import victoria.bakhaeva.pathfindermarket.ui.theme.DarkGold
-import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.MaterialTheme.colorScheme
+import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketPreview
 import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
-import victoria.bakhaeva.pathfindermarket.ui.theme.colorScheme
 
 @Composable
 fun WeaponListItem(
@@ -36,7 +36,7 @@ fun WeaponListItem(
     Column(modifier = Modifier
         .padding(6.dp)
         .background(
-            color = colorScheme.surface,
+            color = MaterialTheme.colorScheme.surface,
             shape = RoundedCornerShape(9.dp),
         )
         .clickable { onWeaponCLick(weapon) }
@@ -44,7 +44,8 @@ fun WeaponListItem(
         Box(modifier = Modifier.fillMaxWidth()) {
             Text(
                 text = weapon.name,
-                style = Typography.titleLarge
+                style = Typography.titleLarge,
+                color = colorScheme.onSurface,
             )
             val cost = weapon.cost.formatCost()
             Text(
@@ -52,7 +53,7 @@ fun WeaponListItem(
                     .align(Alignment.CenterEnd),
                 text = cost,
                 style = Typography.titleLarge,
-                color = DarkGold,
+                color = colorScheme.primary,
             )
         }
 
@@ -60,6 +61,7 @@ fun WeaponListItem(
             Text(
                 text = it,
                 style = Typography.labelMedium,
+                color = colorScheme.onSurface,
                 maxLines = 5,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -75,13 +77,15 @@ fun WeaponListItem(
                         .heightIn(max = 36.dp),
                     painter = painterResource(it.icon),
                     contentDescription = null,
+                    tint = colorScheme.onSurface,
                 )
             }
             Text(
                 modifier = Modifier
                     .align(Alignment.CenterVertically)
                     .padding(horizontal = 8.dp),
-                text = "${weapon.proficientCategory.name}, ${weapon.encumbranceCategory?.name ?: ""}"
+                text = "${weapon.proficientCategory.name}, ${weapon.encumbranceCategory?.name ?: ""}",
+                color = colorScheme.onSurface,
             )
         }
     }
@@ -92,7 +96,7 @@ fun WeaponListItem(
 private fun PreviewWeaponListItem(
     @PreviewParameter(WeaponPreviewProvider::class) weapon: Weapon,
 ) {
-    PathfinderMarketTheme {
+    PathfinderMarketPreview {
         WeaponListItem(weapon = weapon, onWeaponCLick = {})
     }
 }

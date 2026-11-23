@@ -1,6 +1,7 @@
 package victoria.bakhaeva.pathfindermarket
 
 import android.os.Bundle
+import androidx.activity.enableEdgeToEdge
 import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.AndroidEntryPoint
 import victoria.bakhaeva.pathfindermarket.ui.MarketFragment
@@ -8,6 +9,7 @@ import victoria.bakhaeva.pathfindermarket.ui.MarketFragment
 @AndroidEntryPoint
 class MainActivity : FragmentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        enableEdgeToEdge()
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         if (savedInstanceState == null) {

@@ -18,7 +18,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
-import androidx.compose.material3.LargeTopAppBar
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
@@ -32,14 +32,11 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.ui.theme.DimAmber
-import victoria.bakhaeva.pathfindermarket.ui.theme.LanternAmber
-import victoria.bakhaeva.pathfindermarket.ui.theme.NightSky
-import victoria.bakhaeva.pathfindermarket.ui.theme.NightSurface
-import victoria.bakhaeva.pathfindermarket.ui.theme.DawnInk
-import victoria.bakhaeva.pathfindermarket.ui.theme.ShadowBrown
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 private data class MenuItem(
@@ -54,6 +51,7 @@ private data class MenuItem(
 fun HomeScreen(
     onWeaponListClick: () -> Unit,
 ) {
+    StatusBarAppearance(lightIcons = false)
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
 
     val menuItems = listOf(
@@ -92,7 +90,7 @@ fun HomeScreen(
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .background(NightSky)
+            .background(MaterialTheme.colorScheme.background)
             .nestedScroll(scrollBehavior.nestedScrollConnection),
     ) {
         LazyColumn(modifier = Modifier.fillMaxSize()) {
@@ -111,6 +109,7 @@ fun HomeScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 private fun BannerHeader(scrollBehavior: TopAppBarScrollBehavior) {
+    val bg = MaterialTheme.colorScheme.background
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -126,7 +125,6 @@ private fun BannerHeader(scrollBehavior: TopAppBarScrollBehavior) {
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize(),
         )
-        // gradient fade into toolbar color at bottom
         Box(
             modifier = Modifier
                 .fillMaxWidth()
@@ -134,14 +132,14 @@ private fun BannerHeader(scrollBehavior: TopAppBarScrollBehavior) {
                 .align(Alignment.BottomCenter)
                 .background(
                     Brush.verticalGradient(
-                        colors = listOf(Color.Transparent, NightSky),
+                        colors = listOf(Color.Transparent, bg),
                     )
                 ),
         )
         Text(
             text = "Pathfinder Market",
             style = Typography.headlineMedium,
-            color = DawnInk,
+            color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier
                 .align(Alignment.BottomStart)
                 .padding(horizontal = 16.dp, vertical = 12.dp)
@@ -159,13 +157,13 @@ private fun CollapsedToolbar(scrollBehavior: TopAppBarScrollBehavior) {
             modifier = Modifier
                 .fillMaxWidth()
                 .height(56.dp)
-                .background(NightSky.copy(alpha = alpha)),
+                .background(MaterialTheme.colorScheme.background.copy(alpha = alpha)),
             contentAlignment = Alignment.CenterStart,
         ) {
             Text(
                 text = "Pathfinder Market",
                 style = Typography.titleLarge,
-                color = DawnInk.copy(alpha = alpha),
+                color = MaterialTheme.colorScheme.onBackground.copy(alpha = alpha),
                 modifier = Modifier.padding(horizontal = 16.dp),
             )
         }
@@ -179,7 +177,7 @@ private fun HomeMenuItem(item: MenuItem) {
         modifier = Modifier
             .padding(horizontal = 12.dp, vertical = 6.dp)
             .clip(RoundedCornerShape(12.dp))
-            .background(NightSurface)
+            .background(MaterialTheme.colorScheme.surface)
             .then(
                 if (isEnabled) Modifier.clickable { item.onClick?.invoke() }
                 else Modifier
@@ -190,7 +188,8 @@ private fun HomeMenuItem(item: MenuItem) {
         Icon(
             painter = painterResource(item.iconRes),
             contentDescription = null,
-            tint = if (isEnabled) LanternAmber else ShadowBrown,
+            tint = if (isEnabled) MaterialTheme.colorScheme.primary
+                   else MaterialTheme.colorScheme.outlineVariant,
             modifier = Modifier.size(32.dp),
         )
         Spacer(modifier = Modifier.width(16.dp))
@@ -198,13 +197,31 @@ private fun HomeMenuItem(item: MenuItem) {
             Text(
                 text = item.title,
                 style = Typography.titleMedium,
-                color = if (isEnabled) DawnInk else DawnInk.copy(alpha = 0.4f),
+                color = if (isEnabled) MaterialTheme.colorScheme.onSurface
+                        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
             )
             Text(
                 text = item.subtitle,
                 style = Typography.labelSmall,
-                color = if (isEnabled) DimAmber else DawnInk.copy(alpha = 0.25f),
+                color = if (isEnabled) MaterialTheme.colorScheme.outline
+                        else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),
             )
         }
+    }
+}
+
+@Preview(showBackground = true, heightDp = 700)
+@Composable
+private fun PreviewHomeScreenDark() {
+    PreviewDark {
+        HomeScreen(onWeaponListClick = {})
+    }
+}
+
+@Preview(showBackground = true, heightDp = 700)
+@Composable
+private fun PreviewHomeScreenLight() {
+    PreviewLight {
+        HomeScreen(onWeaponListClick = {})
     }
 }

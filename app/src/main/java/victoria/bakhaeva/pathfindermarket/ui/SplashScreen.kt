@@ -17,12 +17,17 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
+import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.ui.theme.InkLight
+import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
 fun SplashScreen(onFinished: () -> Unit) {
+    StatusBarAppearance(lightIcons = false)
     LaunchedEffect(Unit) {
         delay(3000.milliseconds)
         onFinished()
@@ -36,18 +41,24 @@ fun SplashScreen(onFinished: () -> Unit) {
             modifier = Modifier.fillMaxSize(),
         )
         Text(
-            text = "Pathfinder Market",
-            modifier = Modifier.align(Alignment.TopCenter)
+            text = "Pathfinder\nMarket",
+            modifier = Modifier
                 .padding(64.dp),
-            style = TextStyle(
-                color = Color.White,
-                fontSize = 36.sp,
+            style = Typography.titleLarge.copy(
+                color = InkLight,
+                fontSize = 42.sp,
                 fontWeight = FontWeight.Bold,
                 shadow = Shadow(
                     color = Color.Black,
-                    blurRadius = 12f,
+                    blurRadius = 32f,
                 ),
             ),
         )
     }
+}
+
+@Preview(heightDp = 700)
+@Composable
+private fun PreviewSplashScreen() {
+    SplashScreen(onFinished = {})
 }

@@ -23,7 +23,8 @@ import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
-import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
 import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
@@ -109,32 +110,52 @@ fun WeaponList(
 }
 
 @Composable
-@Preview
-private fun PreviewWeaponList() {
+@Preview(heightDp = 700)
+private fun PreviewWeaponListDark() {
     val weapons = WeaponPreviewProvider().values.toList()
     val allFilters = AllFilters(
         proficientCategories = weapons.map { it.proficientCategory }.distinctBy { it.alias },
         rangeCategories = weapons.map { it.rangeCategory }.distinctBy { it.alias },
         encumbranceCategories = weapons.mapNotNull { it.encumbranceCategory }.distinctBy { it.alias },
     )
-    PathfinderMarketTheme {
-        WeaponList(
-            state = WeaponListUiState(
-                weapons = weapons,
-                allWeapons = weapons,
-                sort = Order.DEFAULT,
-                filterState = FilterState(
-                    allFilters = allFilters,
-                    selectedFilters = allFilters.rangeCategories.map { it.alias }
-                            + allFilters.proficientCategories.map { it.alias }
-                            + allFilters.encumbranceCategories.map { it.alias },
-                ),
-            ),
-            onSortSelected = {},
-            onFilterChecked = { _, _ -> },
-            onSearch = {},
-            onOpenDetails = {},
-        )
+    val state = WeaponListUiState(
+        weapons = weapons,
+        allWeapons = weapons,
+        sort = Order.DEFAULT,
+        filterState = FilterState(
+            allFilters = allFilters,
+            selectedFilters = allFilters.rangeCategories.map { it.alias }
+                    + allFilters.proficientCategories.map { it.alias }
+                    + allFilters.encumbranceCategories.map { it.alias },
+        ),
+    )
+    PreviewDark {
+        WeaponList(state = state, onSortSelected = {}, onFilterChecked = { _, _ -> }, onSearch = {}, onOpenDetails = {})
+    }
+}
+
+@Composable
+@Preview(heightDp = 700)
+private fun PreviewWeaponListLight() {
+    val weapons = WeaponPreviewProvider().values.toList()
+    val allFilters = AllFilters(
+        proficientCategories = weapons.map { it.proficientCategory }.distinctBy { it.alias },
+        rangeCategories = weapons.map { it.rangeCategory }.distinctBy { it.alias },
+        encumbranceCategories = weapons.mapNotNull { it.encumbranceCategory }.distinctBy { it.alias },
+    )
+    val state = WeaponListUiState(
+        weapons = weapons,
+        allWeapons = weapons,
+        sort = Order.DEFAULT,
+        filterState = FilterState(
+            allFilters = allFilters,
+            selectedFilters = allFilters.rangeCategories.map { it.alias }
+                    + allFilters.proficientCategories.map { it.alias }
+                    + allFilters.encumbranceCategories.map { it.alias },
+        ),
+    )
+    PreviewLight {
+        WeaponList(state = state, onSortSelected = {}, onFilterChecked = { _, _ -> }, onSearch = {}, onOpenDetails = {})
     }
 }
 

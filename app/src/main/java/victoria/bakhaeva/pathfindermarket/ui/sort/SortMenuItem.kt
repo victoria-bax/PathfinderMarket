@@ -12,10 +12,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketPreview
 
 @Composable
 fun SortMenuItem(
@@ -28,7 +30,7 @@ fun SortMenuItem(
         modifier = Modifier
             .fillMaxWidth()
             .background(
-                if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.secondaryContainer
+                if (isSelected) MaterialTheme.colorScheme.onSecondaryContainer else Color.Transparent
             )
             .clickable { onClick() }
             .padding(horizontal = 8.dp),
@@ -54,10 +56,18 @@ fun SortMenuItem(
 @Composable
 @Preview
 private fun PreviewSortMenuItem() {
-    SortMenuItem(
-        text = "По возрастанию цены",
-        icon = R.drawable.sort_descending,
-        isSelected = true,
-        onClick = {}
-    )
+    PathfinderMarketPreview {
+        SortMenuItem(
+            text = "По возрастанию цены",
+            icon = R.drawable.sort_descending,
+            isSelected = true,
+            onClick = {}
+        )
+        SortMenuItem(
+            text = "По возрастанию цены",
+            icon = R.drawable.sort_descending,
+            isSelected = false,
+            onClick = {}
+        )
+    }
 }

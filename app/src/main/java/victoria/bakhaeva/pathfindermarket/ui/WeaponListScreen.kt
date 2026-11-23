@@ -13,11 +13,13 @@ internal fun WeaponListScreen(
     viewModel: WeaponsViewModel = hiltViewModel(),
     onOpenDetails: (Weapon) -> Unit,
     modifier: Modifier = Modifier,
-) = Screen (
-    state = viewModel.uiState.collectAsState().value,
-    success = { state ->
-        WeaponList(
-            state = state,
+) {
+    StatusBarAppearance(lightIcons = true)
+    Screen(
+        state = viewModel.uiState.collectAsState().value,
+        success = { state ->
+            WeaponList(
+                state = state,
             onSortSelected = viewModel::onSortSelected,
             onFilterChecked = viewModel::onFilterChecked,
             onSearch = viewModel::onSearch,
@@ -26,3 +28,4 @@ internal fun WeaponListScreen(
         )
     }
 )
+}
