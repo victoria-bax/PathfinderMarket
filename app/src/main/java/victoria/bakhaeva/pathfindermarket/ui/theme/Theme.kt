@@ -2,58 +2,80 @@ package victoria.bakhaeva.pathfindermarket.ui.theme
 
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.material3.ColorScheme
+import androidx.compose.material3.LocalTextStyle
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = DarkGold,
+    onPrimary = DarkBackground,
     primaryContainer = DarkYellow,
+    onPrimaryContainer = DarkInk,
     secondary = DarkGrassGreen,
+    onSecondary = Color.White,
     secondaryContainer = DarkBrown,
+    onSecondaryContainer = DarkInk,
+    tertiary = DarkSteel,
+    onTertiary = Color.White,
+    tertiaryContainer = DarkParchmentColor,
+    onTertiaryContainer = DarkInk,
     background = DarkBackground,
+    onBackground = DarkInk,
     surface = DarkSurface,
-    onPrimary = Color.Black, // Текст на золотом
-    onSecondary = Color.White, // Текст на темно-зеленом
-    onBackground = Color.White, // Текст на темном фоне
-    onSurface = Color.White, // Текст на темной поверхности
-    error = Color.Red, // Ошибки остаются красными
-    onError = Color.White // Текст ошибок
+    onSurface = DarkInk,
+    surfaceVariant = DarkParchmentColor,
+    onSurfaceVariant = DarkInk,
+    error = DarkCrimson,
+    onError = Color.White,
+    errorContainer = DarkCrimson,
+    onErrorContainer = DarkInk,
+    outline = DarkYellow,
+    outlineVariant = DarkBrown,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = Gold,
-    primaryContainer = LightYellow,
-    secondary = GrassGreen,
-    secondaryContainer = LightBrown,
-    background = LightYellow,
-    surface = LightBrown,
     onPrimary = Brown,
-    onSecondary = Brown,
+    primaryContainer = LightYellow,
+    onPrimaryContainer = Ink,
+    secondary = GrassGreen,
+    onSecondary = Color.White,
+    secondaryContainer = LightBrown,
+    onSecondaryContainer = Ink,
+    tertiary = Steel,
+    onTertiary = Color.White,
+    tertiaryContainer = LightSteel,
+    onTertiaryContainer = Ink,
+    background = LightYellow,
     onBackground = Brown,
-    onSurface = Brown,
-    error = Color.Red, // Ошибки можно оставить красными
-    onError = Color.White // Цвет текста ошибок
+    surface = Parchment,
+    onSurface = Ink,
+    surfaceVariant = DarkParchment,
+    onSurfaceVariant = Ink,
+    error = Crimson,
+    onError = Color.White,
+    errorContainer = LightCrimson,
+    onErrorContainer = Crimson,
+    outline = Brown,
+    outlineVariant = LightBrown,
 )
+
+var colorScheme: ColorScheme = LightColorScheme
 
 @Composable
 fun PathfinderMarketTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
     content: @Composable () -> Unit
 ) {
-    val colorScheme = when {
-        dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-
+    colorScheme = when {
         darkTheme -> DarkColorScheme
         else -> LightColorScheme
     }
@@ -61,6 +83,10 @@ fun PathfinderMarketTheme(
     MaterialTheme(
         colorScheme = colorScheme,
         typography = Typography,
-        content = content
-    )
+    ) {
+        CompositionLocalProvider(
+            LocalTextStyle provides MaterialTheme.typography.bodyMedium,
+            content = content,
+        )
+    }
 }

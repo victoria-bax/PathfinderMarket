@@ -21,7 +21,11 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
+import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
+import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.AllFilters
+import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
 
 @Composable
 fun WeaponList(
@@ -102,5 +106,35 @@ fun WeaponList(
 
         },
     )
+}
+
+@Composable
+@Preview
+private fun PreviewWeaponList() {
+    val weapons = WeaponPreviewProvider().values.toList()
+    val allFilters = AllFilters(
+        proficientCategories = weapons.map { it.proficientCategory }.distinctBy { it.alias },
+        rangeCategories = weapons.map { it.rangeCategory }.distinctBy { it.alias },
+        encumbranceCategories = weapons.mapNotNull { it.encumbranceCategory }.distinctBy { it.alias },
+    )
+    PathfinderMarketTheme {
+        WeaponList(
+            state = WeaponListUiState(
+                weapons = weapons,
+                allWeapons = weapons,
+                sort = Order.DEFAULT,
+                filterState = FilterState(
+                    allFilters = allFilters,
+                    selectedFilters = allFilters.rangeCategories.map { it.alias }
+                            + allFilters.proficientCategories.map { it.alias }
+                            + allFilters.encumbranceCategories.map { it.alias },
+                ),
+            ),
+            onSortSelected = {},
+            onFilterChecked = { _, _ -> },
+            onSearch = {},
+            onOpenDetails = {},
+        )
+    }
 }
 
