@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.filterNotNull
 import kotlinx.coroutines.launch
 import timber.log.Timber
 import victoria.bakhaeva.pathfindermarket.R
@@ -18,7 +19,7 @@ import javax.inject.Inject
 internal class WeaponUpgradeViewModel @Inject constructor(
     private val getWeaponsInteractor: WeaponsInteractor,
     private val abilitiesInteractor: WeaponsAbilitiesInteractor,
-    savedStateHandle: SavedStateHandle,
+    private val savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<WeaponUpgradeState>>(UIState.Loading)
@@ -27,6 +28,18 @@ internal class WeaponUpgradeViewModel @Inject constructor(
     init {
         val alias: String = checkNotNull(savedStateHandle["alias"])
         loadWeapon(alias)
+        observeAbilityResult()
+    }
+
+    private fun observeAbilityResult() {
+        viewModelScope.launch {
+            savedStateHandle.getStateFlow<String?>(ABILITY_RESULT_KEY, null)
+                .filterNotNull()
+                .collect { abilityAlias ->
+                    savedStateHandle.remove<String>(ABILITY_RESULT_KEY)
+                    addAbility(abilityAlias)
+                }
+        }
     }
 
     private fun loadWeapon(alias: String) {
@@ -77,5 +90,9 @@ internal class WeaponUpgradeViewModel @Inject constructor(
 
     fun onImprovementClicked(improvements: Int) {
         updateState { it.copy(improvements = improvements) }
+    }
+
+    companion object {
+        const val ABILITY_RESULT_KEY = "ability_result_key"
     }
 }

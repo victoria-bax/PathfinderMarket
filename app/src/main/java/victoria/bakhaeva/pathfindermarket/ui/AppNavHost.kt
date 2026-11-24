@@ -8,6 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
+import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponUpgradeViewModel
 import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponAbilitiesListScreen
 import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponAbilityDetailsScreen
 import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponUpgradeScreen
@@ -16,8 +17,6 @@ import victoria.bakhaeva.pathfindermarket.ui.weapons.WeaponFilterScreen
 import victoria.bakhaeva.pathfindermarket.ui.home.HomeScreen
 import victoria.bakhaeva.pathfindermarket.ui.home.SplashScreen
 import victoria.bakhaeva.pathfindermarket.ui.weapons.WeaponListScreen
-
-private const val ABILITY_KEY = "ability_key"
 
 @Composable
 fun AppNavHost() {
@@ -74,9 +73,6 @@ fun AppNavHost() {
         }
         composable<Screen.WeaponUpgrade> {
             WeaponUpgradeScreen(
-                newAbilityAlias = navController.currentBackStackEntry?.savedStateHandle?.get<String>(
-                    ABILITY_KEY
-                ),
                 modifier = Modifier,
                 onBackClick = { navController.popBackStack() },
                 onAddAbilityClick = { range ->
@@ -85,12 +81,11 @@ fun AppNavHost() {
             )
         }
         composable<Screen.WeaponAbilities> {
+            val upgradeEntry = remember(it) { navController.previousBackStackEntry }
             WeaponAbilitiesListScreen(
                 onBackClick = { navController.popBackStack() },
                 onAbilitySelected = { ability ->
-                    navController.previousBackStackEntry?.savedStateHandle?.set(
-                        ABILITY_KEY, ability.alias
-                    )
+                    upgradeEntry?.savedStateHandle?.set(WeaponUpgradeViewModel.ABILITY_RESULT_KEY, ability.alias)
                     navController.popBackStack()
                 },
                 onAbilityDetails = {

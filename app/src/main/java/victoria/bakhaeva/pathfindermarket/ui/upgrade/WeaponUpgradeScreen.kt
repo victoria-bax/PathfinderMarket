@@ -21,7 +21,6 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -51,13 +50,11 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeaponUpgradeScreen(
-    newAbilityAlias: String?,
     modifier: Modifier = Modifier,
     viewModel: WeaponUpgradeViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
     onAddAbilityClick: (String) -> Unit,
 ) {
-    LaunchedEffect(newAbilityAlias) { newAbilityAlias?.let { viewModel.addAbility(it) } }
     UiStateContent(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,
