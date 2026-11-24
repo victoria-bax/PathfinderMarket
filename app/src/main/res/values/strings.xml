@@ -60,4 +60,20 @@
     <string name="label_base_cost">Базовая цена: %s</string>
     <string name="masterwork">Искусно сделано</string>
     <string name="label_attack_bonus_value">Бонус атаки: +%d</string>
+
+    <!-- Home Screen -->
+    <string name="home_title">Pathfinder Market</string>
+    <string name="home_menu_weapons">Полный список оружия</string>
+    <string name="home_menu_weapons_subtitle">Все виды оружия Pathfinder</string>
+    <string name="home_menu_armor">Броня</string>
+    <string name="home_menu_gear">Снаряжение</string>
+    <string name="home_menu_magic">Магические предметы</string>
+    <string name="home_menu_potions">Зелья и свитки</string>
+    <string name="home_menu_coming_soon">Скоро</string>
+
+    <!-- Sort -->
+    <string name="sort_price_asc">По возрастанию цены</string>
+    <string name="sort_price_desc">По убыванию цены</string>
+    <string name="sort_name_asc">По алфавиту</string>
+    <string name="sort_name_desc">По алфавиту (обратно)</string>
 </resources>

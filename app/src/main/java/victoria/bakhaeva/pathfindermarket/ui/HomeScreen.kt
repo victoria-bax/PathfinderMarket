@@ -1,5 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.ui
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +33,7 @@ import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
@@ -40,8 +42,8 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 private data class MenuItem(
-    val title: String,
-    val subtitle: String,
+    @StringRes val titleRes: Int,
+    @StringRes val subtitleRes: Int,
     val iconRes: Int,
     val onClick: (() -> Unit)?,
 )
@@ -56,32 +58,32 @@ fun HomeScreen(
 
     val menuItems = listOf(
         MenuItem(
-            title = "Полный список оружия",
-            subtitle = "Все виды оружия Pathfinder",
+            titleRes = R.string.home_menu_weapons,
+            subtitleRes = R.string.home_menu_weapons_subtitle,
             iconRes = R.drawable.ic_melee,
             onClick = onWeaponListClick,
         ),
         MenuItem(
-            title = "Броня",
-            subtitle = "Скоро",
+            titleRes = R.string.home_menu_armor,
+            subtitleRes = R.string.home_menu_coming_soon,
             iconRes = R.drawable.ic_upgrade,
             onClick = null,
         ),
         MenuItem(
-            title = "Снаряжение",
-            subtitle = "Скоро",
+            titleRes = R.string.home_menu_gear,
+            subtitleRes = R.string.home_menu_coming_soon,
             iconRes = R.drawable.ic_filter,
             onClick = null,
         ),
         MenuItem(
-            title = "Магические предметы",
-            subtitle = "Скоро",
+            titleRes = R.string.home_menu_magic,
+            subtitleRes = R.string.home_menu_coming_soon,
             iconRes = R.drawable.ic_upgrade,
             onClick = null,
         ),
         MenuItem(
-            title = "Зелья и свитки",
-            subtitle = "Скоро",
+            titleRes = R.string.home_menu_potions,
+            subtitleRes = R.string.home_menu_coming_soon,
             iconRes = R.drawable.ic_upgrade,
             onClick = null,
         ),
@@ -137,7 +139,7 @@ private fun BannerHeader(scrollBehavior: TopAppBarScrollBehavior) {
                 ),
         )
         Text(
-            text = "Pathfinder Market",
+            text = stringResource(R.string.home_title),
             style = Typography.headlineMedium,
             color = MaterialTheme.colorScheme.onBackground,
             modifier = Modifier
@@ -161,7 +163,7 @@ private fun CollapsedToolbar(scrollBehavior: TopAppBarScrollBehavior) {
             contentAlignment = Alignment.CenterStart,
         ) {
             Text(
-                text = "Pathfinder Market",
+                text = stringResource(R.string.home_title),
                 style = Typography.titleLarge,
                 color = MaterialTheme.colorScheme.onBackground.copy(alpha = alpha),
                 modifier = Modifier.padding(horizontal = 16.dp),
@@ -195,13 +197,13 @@ private fun HomeMenuItem(item: MenuItem) {
         Spacer(modifier = Modifier.width(16.dp))
         Column(modifier = Modifier.weight(1f)) {
             Text(
-                text = item.title,
+                text = stringResource(item.titleRes),
                 style = Typography.titleMedium,
                 color = if (isEnabled) MaterialTheme.colorScheme.onSurface
                         else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.4f),
             )
             Text(
-                text = item.subtitle,
+                text = stringResource(item.subtitleRes),
                 style = Typography.labelSmall,
                 color = if (isEnabled) MaterialTheme.colorScheme.outline
                         else MaterialTheme.colorScheme.onSurface.copy(alpha = 0.25f),

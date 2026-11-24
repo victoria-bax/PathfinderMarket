@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shadow
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -41,7 +42,7 @@ fun SplashScreen(onFinished: () -> Unit) {
             modifier = Modifier.fillMaxSize(),
         )
         Text(
-            text = "Pathfinder\nMarket",
+            text = stringResource(R.string.home_title),
             modifier = Modifier
                 .padding(64.dp),
             style = Typography.titleLarge.copy(
