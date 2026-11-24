@@ -28,9 +28,13 @@ internal class WeaponAbilityDetailsViewModel @Inject constructor(
 
     private fun loadAbility(alias: String) {
         viewModelScope.launch {
-            _uiState.value = abilitiesInteractor.getAbility(alias)?.let {
-                UIState.Success(it)
-            } ?: UIState.Error(NullPointerException("Свойство не найдено"))
+            try {
+                _uiState.value = abilitiesInteractor.getAbility(alias)?.let {
+                    UIState.Success(it)
+                } ?: UIState.Error(Exception("Ability not found"))
+            } catch (e: Exception) {
+                _uiState.value = UIState.Error(e)
+            }
         }
     }
 }
