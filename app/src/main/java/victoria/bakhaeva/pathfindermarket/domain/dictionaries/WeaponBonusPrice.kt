@@ -2,7 +2,6 @@ package victoria.bakhaeva.pathfindermarket.domain.dictionaries
 
 object WeaponBonusPrice {
     const val maxBonus = 5
-    const val maxBonusSum = 10
 
     val prices = mapOf(
         1 to 200000,
@@ -17,6 +16,4 @@ object WeaponBonusPrice {
     )
 
     val mastercraftPrice = 30000
-
-    val masterCraftBonus = 1
 }
