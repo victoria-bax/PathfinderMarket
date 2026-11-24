@@ -20,20 +20,9 @@ internal class WeaponAbilitiesViewModel @Inject constructor(
     private val _uiState = MutableStateFlow<UIState<List<WeaponAbility>>>(UIState.Loading)
     val uiState: StateFlow<UIState<List<WeaponAbility>>> get() = _uiState
 
-    private val _abilityState = MutableStateFlow<UIState<WeaponAbility>>(UIState.Loading)
-    val abilityState: StateFlow<UIState<WeaponAbility>> get() = _abilityState
-
     fun initialize(range: String): WeaponAbilitiesViewModel {
         loadAbilities(range)
         return this
-    }
-
-    fun loadAbility(alias: String) {
-        viewModelScope.launch {
-            _abilityState.value = abilitiesInteractor.getAbility(alias)?.let {
-                UIState.Success(it)
-            } ?: UIState.Error(NullPointerException("Свойство не найдено"))
-        }
     }
 
     fun loadAbilities(range: String) {

@@ -27,7 +27,7 @@ import victoria.bakhaeva.pathfindermarket.R
 import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.ui.common.formatPrice
-import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
+import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilityDetailsViewModel
 import victoria.bakhaeva.pathfindermarket.ui.Screen
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
@@ -35,13 +35,13 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 @Composable
 internal fun WeaponAbilityDetailsScreen(
     weaponAbilityAlias: String,
-    viewModel: WeaponAbilitiesViewModel = hiltViewModel(),
+    viewModel: WeaponAbilityDetailsViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
 ) {
     LaunchedEffect(weaponAbilityAlias) {
         viewModel.loadAbility(weaponAbilityAlias)
     }
-    val state by viewModel.abilityState.collectAsState()
+    val state by viewModel.uiState.collectAsState()
     Screen(
         state = state,
         modifier = Modifier,
