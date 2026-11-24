@@ -40,7 +40,10 @@ import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiSta
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
-import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
+import victoria.bakhaeva.pathfindermarket.presentation.model.FilterState
+import victoria.bakhaeva.pathfindermarket.presentation.model.Range
+import victoria.bakhaeva.pathfindermarket.presentation.model.defaultSortUiState
+import victoria.bakhaeva.pathfindermarket.presentation.model.icon
 
 @Composable
 internal fun WeaponListContent(

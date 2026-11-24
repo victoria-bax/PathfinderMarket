@@ -48,7 +48,7 @@ import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
-import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
+import victoria.bakhaeva.pathfindermarket.presentation.model.FilterState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable

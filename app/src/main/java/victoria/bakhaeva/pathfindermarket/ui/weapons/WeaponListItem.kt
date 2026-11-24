@@ -21,6 +21,7 @@ import androidx.compose.ui.tooling.preview.PreviewParameter
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
+import victoria.bakhaeva.pathfindermarket.presentation.model.Range
 import victoria.bakhaeva.pathfindermarket.ui.common.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketPreview
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography

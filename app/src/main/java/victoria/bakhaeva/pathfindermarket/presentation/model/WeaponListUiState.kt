@@ -1,7 +1,7 @@
 package victoria.bakhaeva.pathfindermarket.presentation.model
 
 import androidx.annotation.DrawableRes
-import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
+import victoria.bakhaeva.pathfindermarket.presentation.model.FilterState
 
 data class WeaponListUiState(
     val weapons: List<WeaponListItemUiState>,

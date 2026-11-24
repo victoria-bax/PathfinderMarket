@@ -6,9 +6,9 @@ import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.domain.model.Order
-import victoria.bakhaeva.pathfindermarket.ui.weapons.Range
-import victoria.bakhaeva.pathfindermarket.ui.weapons.defaultSortUiState
-import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
+import victoria.bakhaeva.pathfindermarket.presentation.model.Range
+import victoria.bakhaeva.pathfindermarket.presentation.model.defaultSortUiState
+import victoria.bakhaeva.pathfindermarket.presentation.model.FilterState
 import javax.inject.Inject
 
 internal class WeaponUiStateMapper @Inject constructor() {

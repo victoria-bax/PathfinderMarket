@@ -33,7 +33,7 @@ import victoria.bakhaeva.pathfindermarket.ui.common.components.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.common.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
-import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
+import victoria.bakhaeva.pathfindermarket.presentation.model.FilterState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

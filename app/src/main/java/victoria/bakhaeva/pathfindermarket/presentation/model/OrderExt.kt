@@ -1,11 +1,9 @@
-package victoria.bakhaeva.pathfindermarket.ui.weapons
+package victoria.bakhaeva.pathfindermarket.presentation.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.Order
-import victoria.bakhaeva.pathfindermarket.presentation.model.SortOptionUiState
-import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
 
 val defaultSortUiState = SortUiState(
     selected = Order.DEFAULT,

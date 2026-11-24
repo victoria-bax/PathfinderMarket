@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.weapons
+package victoria.bakhaeva.pathfindermarket.presentation.model
 
 import androidx.annotation.DrawableRes
 import victoria.bakhaeva.pathfindermarket.R

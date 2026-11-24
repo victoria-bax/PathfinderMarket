@@ -15,6 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.domain.model.Order
 import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
+import victoria.bakhaeva.pathfindermarket.presentation.model.defaultSortUiState
 import victoria.bakhaeva.pathfindermarket.ui.common.components.SortMenuItem
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
