@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import javax.inject.Inject
@@ -33,10 +34,10 @@ internal class WeaponDetailViewModel @Inject constructor(
                 getWeaponsInteractor.getWeapon(alias)?.let {
                     _uiState.value = UIState.Success(it)
                 } ?: run {
-                    _uiState.value = UIState.Error(Exception("Weapon not found"))
+                    _uiState.value = UIState.Error(R.string.error_weapon_not_found)
                 }
             } catch (e: Exception) {
-                _uiState.value = UIState.Error(e)
+                _uiState.value = UIState.Error(R.string.error_generic)
             }
         }
     }

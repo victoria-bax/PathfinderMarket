@@ -1,5 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.ui.common
 
+import androidx.annotation.StringRes
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,7 +21,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 @Composable
 internal fun ErrorScreen(
-    exception: Throwable,
+    @StringRes messageRes: Int,
     modifier: Modifier = Modifier,
 ) {
     Box(
@@ -31,7 +32,7 @@ internal fun ErrorScreen(
         contentAlignment = Alignment.Center
     ) {
         Text(
-            text = stringResource(R.string.error_message, exception.message ?: ""),
+            text = stringResource(messageRes),
             color = colorScheme.onSurface,
             style = Typography.bodyLarge,
             textAlign = TextAlign.Center,
@@ -43,7 +44,7 @@ internal fun ErrorScreen(
 @Composable
 private fun PreviewErrorScreenDark() {
     PreviewDark {
-        ErrorScreen(exception = Exception("Не удалось загрузить данные"))
+        ErrorScreen(messageRes = R.string.error_generic)
     }
 }
 
@@ -51,6 +52,6 @@ private fun PreviewErrorScreenDark() {
 @Composable
 private fun PreviewErrorScreenLight() {
     PreviewLight {
-        ErrorScreen(exception = Exception("Не удалось загрузить данные"))
+        ErrorScreen(messageRes = R.string.error_generic)
     }
 }

@@ -7,6 +7,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import victoria.bakhaeva.pathfindermarket.presentation.mapper.WeaponUiStateMapper
@@ -41,7 +42,7 @@ internal class WeaponsViewModel @Inject constructor(
                     else base.withFilters(savedFilters)
                 )
             } catch (e: Exception) {
-                _uiState.value = UIState.Error(e)
+                _uiState.value = UIState.Error(R.string.error_generic)
             }
         }
     }

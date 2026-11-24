@@ -15,6 +15,6 @@ internal fun <T> UiStateContent(
     when (state) {
         is UIState.Loading -> LoadingScreen(modifier)
         is UIState.Success -> success(state.data)
-        is UIState.Error -> ErrorScreen(state.exception)
+        is UIState.Error -> ErrorScreen(state.messageRes)
     }
 }

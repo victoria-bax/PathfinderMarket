@@ -11,6 +11,9 @@
 
     <!-- Error -->
     <string name="error_message">Ошибка: %s</string>
+    <string name="error_generic">Не удалось загрузить данные</string>
+    <string name="error_weapon_not_found">Оружие не найдено</string>
+    <string name="error_ability_not_found">Свойство не найдено</string>
 
     <!-- Search -->
     <string name="search_hint">Поиск оружия…</string>

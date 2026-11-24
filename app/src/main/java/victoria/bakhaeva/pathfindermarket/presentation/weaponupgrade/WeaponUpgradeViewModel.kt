@@ -7,6 +7,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
+import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsAbilitiesInteractor
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
@@ -41,10 +42,10 @@ internal class WeaponUpgradeViewModel @Inject constructor(
                         )
                     )
                 } ?: run {
-                    _uiState.value = UIState.Error(Exception("Weapon not found"))
+                    _uiState.value = UIState.Error(R.string.error_weapon_not_found)
                 }
             } catch (e: Exception) {
-                _uiState.value = UIState.Error(e)
+                _uiState.value = UIState.Error(R.string.error_generic)
             }
         }
     }
