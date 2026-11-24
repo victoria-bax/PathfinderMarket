@@ -35,27 +35,35 @@ internal class DatabaseSeeder @Inject constructor(
     }
 
     private suspend fun seedWeapons() {
-        if (weaponCache.getWeapons() != null) return
-        val type = object : TypeToken<List<WeaponResponse>>() {}.type
-        val responses: List<WeaponResponse> = gson.fromJson(
-            context.assets.open("weapons.json").bufferedReader().readText(), type
-        )
-        weaponCache.saveWeapons(weaponMapper.map(responses))
+        try {
+            if (weaponCache.getWeapons() != null) return
+            val type = object : TypeToken<List<WeaponResponse>>() {}.type
+            val responses: List<WeaponResponse> = gson.fromJson(
+                context.assets.open("weapons.json").bufferedReader().readText(), type
+            )
+            weaponCache.saveWeapons(weaponMapper.map(responses))
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to seed weapons from assets")
+        }
     }
 
     private suspend fun seedAbilities() {
-        val type = object : TypeToken<List<WeaponAbility>>() {}.type
-        if (weaponCache.getWeaponAbilities(MELEE) == null) {
-            val melee: List<WeaponAbility> = gson.fromJson(
-                context.assets.open("abilities_melee.json").bufferedReader().readText(), type
-            )
-            if (melee.isNotEmpty()) weaponCache.saveWeaponAbilities(MELEE, melee.convertPrices())
-        }
-        if (weaponCache.getWeaponAbilities(RANGED) == null) {
-            val ranged: List<WeaponAbility> = gson.fromJson(
-                context.assets.open("abilities_ranged.json").bufferedReader().readText(), type
-            )
-            if (ranged.isNotEmpty()) weaponCache.saveWeaponAbilities(RANGED, ranged.convertPrices())
+        try {
+            val type = object : TypeToken<List<WeaponAbility>>() {}.type
+            if (weaponCache.getWeaponAbilities(MELEE) == null) {
+                val melee: List<WeaponAbility> = gson.fromJson(
+                    context.assets.open("abilities_melee.json").bufferedReader().readText(), type
+                )
+                if (melee.isNotEmpty()) weaponCache.saveWeaponAbilities(MELEE, melee.convertPrices())
+            }
+            if (weaponCache.getWeaponAbilities(RANGED) == null) {
+                val ranged: List<WeaponAbility> = gson.fromJson(
+                    context.assets.open("abilities_ranged.json").bufferedReader().readText(), type
+                )
+                if (ranged.isNotEmpty()) weaponCache.saveWeaponAbilities(RANGED, ranged.convertPrices())
+            }
+        } catch (e: Exception) {
+            Timber.e(e, "Failed to seed abilities from assets")
         }
     }
 
