@@ -37,7 +37,7 @@ class WeaponMapper @Inject constructor() {
             EncumbranceCategory(name = it.name, alias = it.alias)
         },
         parents = response.parents,
-        childs = response.childs?.map { map(it) },
+        children = response.children?.map { map(it) },
         book = response.book?.let {
             Book(alias = it.alias, name = it.name, order = it.order, abbreviation = it.abbreviation)
         },

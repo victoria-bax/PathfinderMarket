@@ -26,7 +26,7 @@ data class WeaponResponse(
     val rangeCategory: RangeCategoryResponse,
     val encumbranceCategory: EncumbranceCategoryResponse? = null,
     val parents: List<String>? = null,
-    val childs: List<WeaponResponse>? = null,
+    @SerializedName("childs") val children: List<WeaponResponse>? = null,
     val book: BookResponse? = null,
 )
 

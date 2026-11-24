@@ -27,13 +27,13 @@ interface WeaponDao {
     fun insertParents(parents: List<WeaponParentEntity>)
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    fun insertChilds(childs: List<WeaponChildEntity>)
+    fun insertChildren(children: List<WeaponChildEntity>)
 
     @Query("DELETE FROM weapon_parents")
     fun deleteAllParents()
 
-    @Query("DELETE FROM weapon_childs")
-    fun deleteAllChilds()
+    @Query("DELETE FROM weapon_children")
+    fun deleteAllChildren()
 
     @Query("SELECT * FROM weapons")
     fun getAllWeapons(): List<WeaponEntity>
@@ -44,13 +44,13 @@ interface WeaponDao {
     @Query("SELECT parentName FROM weapon_parents WHERE weaponAlias = :alias")
     fun getParents(alias: String): List<String>
 
-    @Query("SELECT w.* FROM weapons w INNER JOIN weapon_childs c ON w.alias = c.childAlias WHERE c.parentAlias = :alias")
+    @Query("SELECT w.* FROM weapons w INNER JOIN weapon_children c ON w.alias = c.childAlias WHERE c.parentAlias = :alias")
     fun getChildWeapons(alias: String): List<WeaponEntity>
 
     @Query("SELECT * FROM weapon_parents")
     fun getAllParents(): List<WeaponParentEntity>
 
-    @Query("SELECT * FROM weapon_childs")
+    @Query("SELECT * FROM weapon_children")
     fun getAllChildLinks(): List<WeaponChildEntity>
 
     @Query("SELECT * FROM weapons WHERE name LIKE '%' || :query || '%' OR engName LIKE '%' || :query || '%'")

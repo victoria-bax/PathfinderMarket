@@ -69,7 +69,7 @@ data class WeaponParentEntity(
 )
 
 @Entity(
-    tableName = "weapon_childs",
+    tableName = "weapon_children",
     primaryKeys = ["parentAlias", "childAlias"],
     foreignKeys = [
         ForeignKey(

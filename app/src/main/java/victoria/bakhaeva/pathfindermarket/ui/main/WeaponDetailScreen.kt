@@ -209,7 +209,7 @@ internal fun WeaponDetailScreen(
                                     }
 
                                     // Список детей оружия
-                                    weapon.childs?.let {
+                                    weapon.children?.let {
                                         //todo clickable
                                         Text(
                                             text = stringResource(R.string.label_ammunition),

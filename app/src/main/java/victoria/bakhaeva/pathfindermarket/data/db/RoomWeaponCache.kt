@@ -37,9 +37,9 @@ class RoomWeaponCache @Inject constructor(
             weapon.parents.orEmpty().map { WeaponParentEntity(weaponAlias = weapon.alias, parentName = it) }
         })
 
-        weaponDao.deleteAllChilds()
-        weaponDao.insertChilds(allWeapons.flatMap { weapon ->
-            weapon.childs.orEmpty().map { WeaponChildEntity(parentAlias = weapon.alias, childAlias = it.alias) }
+        weaponDao.deleteAllChildren()
+        weaponDao.insertChildren(allWeapons.flatMap { weapon ->
+            weapon.children.orEmpty().map { WeaponChildEntity(parentAlias = weapon.alias, childAlias = it.alias) }
         })
     }
 
@@ -52,9 +52,9 @@ class RoomWeaponCache @Inject constructor(
         val entity = weaponDao.getWeaponByAlias(alias) ?: return@withContext null
         val books = bookDao.getAll().associateBy { it.alias }
         val parents = weaponDao.getParents(alias)
-        val childs = weaponDao.getChildWeapons(alias)
+        val children = weaponDao.getChildWeapons(alias)
             .mapNotNull { it.toDomainOrNull(emptyList(), emptyList(), books) }
-        entity.toDomainOrNull(parents, childs, books)
+        entity.toDomainOrNull(parents, children, books)
     }
 
     override suspend fun searchWeapons(query: String): List<Weapon> = withContext(Dispatchers.IO) {
@@ -108,9 +108,9 @@ class RoomWeaponCache @Inject constructor(
 
         return entities.mapNotNull { entity ->
             val parents = parentsByWeapon[entity.alias] ?: emptyList()
-            val childs = (childsByParent[entity.alias] ?: emptyList())
+            val children = (childsByParent[entity.alias] ?: emptyList())
                 .mapNotNull { it.toDomainOrNull(emptyList(), emptyList(), books) }
-            entity.toDomainOrNull(parents, childs, books)
+            entity.toDomainOrNull(parents, children, books)
         }
     }
 
@@ -118,7 +118,7 @@ class RoomWeaponCache @Inject constructor(
         val result = mutableListOf<Weapon>()
         fun collect(w: Weapon) {
             result.add(w)
-            w.childs?.forEach { collect(it) }
+            w.children?.forEach { collect(it) }
         }
         weapons.forEach { collect(it) }
         return result.distinctBy { it.alias }
@@ -151,7 +151,7 @@ class RoomWeaponCache @Inject constructor(
 
     private fun WeaponEntity.toDomainOrNull(
         parents: List<String>,
-        childs: List<Weapon>,
+        children: List<Weapon>,
         books: Map<String, BookEntity>,
     ): Weapon? {
         val proficient = ProficientAlias.entries.firstOrNull { it.value == proficientCategoryAlias } ?: return null
@@ -177,7 +177,7 @@ class RoomWeaponCache @Inject constructor(
             rangeCategory = RangeCategory(name = rangeCategoryName, alias = range),
             encumbranceCategory = encumbrance?.let { EncumbranceCategory(name = encumbranceCategoryName, alias = it) },
             parents = parents.ifEmpty { null },
-            childs = childs.ifEmpty { null },
+            children = children.ifEmpty { null },
             book = bookAlias?.let { books[it]?.toDomain() },
         )
     }
