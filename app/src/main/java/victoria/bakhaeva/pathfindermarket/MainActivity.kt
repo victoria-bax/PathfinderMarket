@@ -1,21 +1,22 @@
 package victoria.bakhaeva.pathfindermarket
 
 import android.os.Bundle
+import androidx.activity.ComponentActivity
+import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import androidx.fragment.app.FragmentActivity
 import dagger.hilt.android.AndroidEntryPoint
-import victoria.bakhaeva.pathfindermarket.ui.MarketFragment
+import victoria.bakhaeva.pathfindermarket.ui.AppNavHost
+import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
 
 @AndroidEntryPoint
-class MainActivity : FragmentActivity() {
+class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         enableEdgeToEdge()
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        if (savedInstanceState == null) {
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.container, MarketFragment())
-                .commitNow()
+        setContent {
+            PathfinderMarketTheme {
+                AppNavHost()
+            }
         }
     }
 }
