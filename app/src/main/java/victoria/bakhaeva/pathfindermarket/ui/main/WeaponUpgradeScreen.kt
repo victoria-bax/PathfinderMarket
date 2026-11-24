@@ -21,6 +21,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -59,10 +60,8 @@ internal fun WeaponUpgradeScreen(
     onBackClick: () -> Unit,
     onAddAbilityClick: (String) -> Unit,
 ) {
-    viewModel.loadWeapon(weaponAlias)
-    newAbilityAlias?.let {
-        viewModel.addAbility(it)
-    }
+    LaunchedEffect(weaponAlias) { viewModel.loadWeapon(weaponAlias) }
+    LaunchedEffect(newAbilityAlias) { newAbilityAlias?.let { viewModel.addAbility(it) } }
     Screen(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,

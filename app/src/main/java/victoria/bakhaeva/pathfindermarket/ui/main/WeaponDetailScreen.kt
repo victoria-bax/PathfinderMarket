@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -37,7 +38,7 @@ internal fun WeaponDetailScreen(
     onUpgradeClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    viewModel.loadWeapon(weaponAlias)
+    LaunchedEffect(weaponAlias) { viewModel.loadWeapon(weaponAlias) }
     Screen(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,

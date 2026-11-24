@@ -23,8 +23,6 @@ internal class WeaponUpgradeViewModel @Inject constructor(
 
 
     fun loadWeapon(alias: String) {
-        if (_uiState.value is UIState.Success<*>)
-            return
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {

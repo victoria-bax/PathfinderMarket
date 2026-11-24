@@ -46,8 +46,6 @@ internal class WeaponsViewModel @Inject constructor(
         }
     }
 
-    suspend fun getWeapon(alias: String): Weapon? = interactor.getWeapon(alias)
-
     fun onSortSelected(sort: Order) = updateWeapons { state ->
         val sorted = when (sort) {
             Order.PRICE_ASC -> state.weapons.sortedBy { it.cost ?: Int.MAX_VALUE }
