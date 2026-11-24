@@ -8,6 +8,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
+import timber.log.Timber
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsAbilitiesInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
@@ -34,6 +35,7 @@ internal class WeaponAbilityDetailsViewModel @Inject constructor(
                     UIState.Success(it)
                 } ?: UIState.Error(R.string.error_ability_not_found)
             } catch (e: Exception) {
+                Timber.e(e)
                 _uiState.value = UIState.Error(R.string.error_generic)
             }
         }
