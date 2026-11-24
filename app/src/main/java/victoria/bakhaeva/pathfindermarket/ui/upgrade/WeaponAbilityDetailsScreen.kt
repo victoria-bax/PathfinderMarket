@@ -34,13 +34,9 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 
 @Composable
 internal fun WeaponAbilityDetailsScreen(
-    weaponAbilityAlias: String,
     viewModel: WeaponAbilityDetailsViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
 ) {
-    LaunchedEffect(weaponAbilityAlias) {
-        viewModel.loadAbility(weaponAbilityAlias)
-    }
     val state by viewModel.uiState.collectAsState()
     Screen(
         state = state,

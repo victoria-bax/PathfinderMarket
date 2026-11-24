@@ -42,8 +42,7 @@ import victoria.bakhaeva.pathfindermarket.ui.Screen
 
 @Composable
 internal fun WeaponAbilitiesListScreen(
-    range: String,
-    viewModel: WeaponAbilitiesViewModel = hiltViewModel<WeaponAbilitiesViewModel>().initialize(range),
+    viewModel: WeaponAbilitiesViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
     onAbilitySelected: (WeaponAbility) -> Unit,
     onAbilityDetails: (WeaponAbility) -> Unit,

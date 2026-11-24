@@ -1,5 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weapondetail
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,25 +15,29 @@ import javax.inject.Inject
 @HiltViewModel
 internal class WeaponDetailViewModel @Inject constructor(
     private val getWeaponsInteractor: WeaponsInteractor,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<Weapon>>(UIState.Loading)
     val uiState: StateFlow<UIState<Weapon>> get() = _uiState
 
-    fun loadWeapon(alias: String) {
+    init {
+        val alias: String = checkNotNull(savedStateHandle["alias"])
+        loadWeapon(alias)
+    }
+
+    private fun loadWeapon(alias: String) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
                 getWeaponsInteractor.getWeapon(alias)?.let {
                     _uiState.value = UIState.Success(it)
-                } ?: {
+                } ?: run {
                     _uiState.value = UIState.Error(Exception("Weapon not found"))
                 }
             } catch (e: Exception) {
                 _uiState.value = UIState.Error(e)
             }
         }
-
     }
-
 }

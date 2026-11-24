@@ -51,14 +51,12 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeaponUpgradeScreen(
-    weaponAlias: String,
     newAbilityAlias: String?,
     modifier: Modifier = Modifier,
     viewModel: WeaponUpgradeViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
     onAddAbilityClick: (String) -> Unit,
 ) {
-    LaunchedEffect(weaponAlias) { viewModel.loadWeapon(weaponAlias) }
     LaunchedEffect(newAbilityAlias) { newAbilityAlias?.let { viewModel.addAbility(it) } }
     Screen(
         state = viewModel.uiState.collectAsState().value,

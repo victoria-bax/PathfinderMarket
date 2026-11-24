@@ -1,5 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,19 +11,23 @@ import victoria.bakhaeva.pathfindermarket.domain.WeaponsAbilitiesInteractor
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 internal class WeaponUpgradeViewModel @Inject constructor(
     private val getWeaponsInteractor: WeaponsInteractor,
     private val abilitiesInteractor: WeaponsAbilitiesInteractor,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<WeaponUpgradeState>>(UIState.Loading)
     val uiState: StateFlow<UIState<WeaponUpgradeState>> get() = _uiState
 
+    init {
+        val alias: String = checkNotNull(savedStateHandle["alias"])
+        loadWeapon(alias)
+    }
 
-    fun loadWeapon(alias: String) {
+    private fun loadWeapon(alias: String) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
@@ -35,7 +40,7 @@ internal class WeaponUpgradeViewModel @Inject constructor(
                             improvements = 0
                         )
                     )
-                } ?: {
+                } ?: run {
                     _uiState.value = UIState.Error(Exception("Weapon not found"))
                 }
             } catch (e: Exception) {
@@ -46,17 +51,13 @@ internal class WeaponUpgradeViewModel @Inject constructor(
 
     fun onMasterworkChange(isMasterwork: Boolean) {
         updateState { state ->
-            state.copy(
-                isMasterwork = isMasterwork,
-            )
+            state.copy(isMasterwork = isMasterwork)
         }
     }
 
     private fun updateState(update: (WeaponUpgradeState) -> WeaponUpgradeState) {
         val data = (_uiState.value as? UIState.Success<WeaponUpgradeState>)?.data ?: return
-        _uiState.value = UIState.Success(
-            update(data)
-        )
+        _uiState.value = UIState.Success(update(data))
     }
 
     fun addAbility(abilityAlias: String) {
@@ -72,10 +73,6 @@ internal class WeaponUpgradeViewModel @Inject constructor(
     }
 
     fun onImprovementClicked(improvements: Int) {
-        updateState {
-            it.copy(
-                improvements = improvements
-            )
-        }
+        updateState { it.copy(improvements = improvements) }
     }
 }

@@ -1,5 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade
 
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -10,24 +11,22 @@ import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.WeaponsAbilitiesInteractor
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import javax.inject.Inject
-import javax.inject.Singleton
 
 @HiltViewModel
 internal class WeaponAbilitiesViewModel @Inject constructor(
     private val abilitiesInteractor: WeaponsAbilitiesInteractor,
+    savedStateHandle: SavedStateHandle,
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow<UIState<List<WeaponAbility>>>(UIState.Loading)
     val uiState: StateFlow<UIState<List<WeaponAbility>>> get() = _uiState
 
-    fun initialize(range: String): WeaponAbilitiesViewModel {
+    init {
+        val range: String = checkNotNull(savedStateHandle["range"])
         loadAbilities(range)
-        return this
     }
 
-    fun loadAbilities(range: String) {
-        if (_uiState.value is UIState.Success<*>)
-            return
+    private fun loadAbilities(range: String) {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {

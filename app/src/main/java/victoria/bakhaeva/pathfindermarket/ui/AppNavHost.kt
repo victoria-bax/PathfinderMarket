@@ -65,7 +65,6 @@ fun AppNavHost() {
         composable<Screen.WeaponDetails> { backStackEntry ->
             val screen: Screen.WeaponDetails = backStackEntry.toRoute()
             WeaponDetailScreen(
-                screen.alias,
                 onBackClick = { navController.popBackStack() },
                 onUpgradeClick = {
                     navController.navigate(Screen.WeaponUpgrade(screen.alias))
@@ -73,10 +72,8 @@ fun AppNavHost() {
                 modifier = Modifier,
             )
         }
-        composable<Screen.WeaponUpgrade> { backStackEntry ->
-            val screen: Screen.WeaponUpgrade = backStackEntry.toRoute()
+        composable<Screen.WeaponUpgrade> {
             WeaponUpgradeScreen(
-                screen.alias,
                 newAbilityAlias = navController.currentBackStackEntry?.savedStateHandle?.get<String>(
                     ABILITY_KEY
                 ),
@@ -87,10 +84,8 @@ fun AppNavHost() {
                 },
             )
         }
-        composable<Screen.WeaponAbilities> { backStackEntry ->
-            val screen: Screen.WeaponAbilities = backStackEntry.toRoute()
+        composable<Screen.WeaponAbilities> {
             WeaponAbilitiesListScreen(
-                screen.range,
                 onBackClick = { navController.popBackStack() },
                 onAbilitySelected = { ability ->
                     navController.previousBackStackEntry?.savedStateHandle?.set(
@@ -103,10 +98,8 @@ fun AppNavHost() {
                 }
             )
         }
-        composable<Screen.AbilityDetails> { backStackEntry ->
-            val screen: Screen.AbilityDetails = backStackEntry.toRoute()
+        composable<Screen.AbilityDetails> {
             WeaponAbilityDetailsScreen(
-                screen.alias,
                 onBackClick = { navController.popBackStack() },
             )
         }

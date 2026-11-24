@@ -32,13 +32,11 @@ import victoria.bakhaeva.pathfindermarket.ui.Screen
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 internal fun WeaponDetailScreen(
-    weaponAlias: String,
     viewModel: WeaponDetailViewModel = hiltViewModel(),
     onBackClick: () -> Unit,
     onUpgradeClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    LaunchedEffect(weaponAlias) { viewModel.loadWeapon(weaponAlias) }
     Screen(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,
