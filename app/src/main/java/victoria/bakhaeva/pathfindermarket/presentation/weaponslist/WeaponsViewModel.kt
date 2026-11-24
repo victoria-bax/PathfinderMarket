@@ -47,14 +47,10 @@ internal class WeaponsViewModel @Inject constructor(
         }
     }
 
-    fun onSortSelected(sort: Order) = updateWeapons { state ->
-        val sorted = when (sort) {
-            Order.PRICE_ASC -> state.weapons.sortedBy { it.cost ?: Int.MAX_VALUE }
-            Order.PRICE_DESC -> state.weapons.sortedByDescending { it.cost ?: Int.MIN_VALUE }
-            Order.NAME_ASC -> state.weapons.sortedBy { it.name }
-            Order.NAME_DESC -> state.weapons.sortedByDescending { it.name }
-        }
-        state.copy(weapons = sorted, sort = state.sort.copy(selected = sort))
+    fun onSortSelected(sort: Order) {
+        val data = (_uiState.value as? UIState.Success<WeaponListUiState>)?.data ?: return
+        _uiState.value = UIState.Success(data.copy(sort = data.sort.copy(selected = sort)))
+        viewModelScope.launch { reapplyCurrentFilters() }
     }
 
     fun onSearch(searchQuery: String) {

@@ -42,8 +42,8 @@ internal class WeaponsInteractor @Inject constructor(
     suspend fun loadFilters(): List<String> = filterPrefs.loadSelectedFilters()
 
     private fun List<Weapon>.sort(sort: Order): List<Weapon> = when (sort) {
-        Order.PRICE_ASC -> sortedBy { it.cost }
-        Order.PRICE_DESC -> sortedByDescending { it.cost }
+        Order.PRICE_ASC -> sortedBy { it.cost ?: Int.MAX_VALUE }
+        Order.PRICE_DESC -> sortedByDescending { it.cost ?: Int.MIN_VALUE }
         Order.NAME_ASC -> sortedBy { it.name }
         Order.NAME_DESC -> sortedByDescending { it.name }
     }
