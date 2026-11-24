@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.Icon
@@ -139,9 +140,9 @@ internal fun WeaponListContent(
                         .padding(paddingValues)
                         .fillMaxSize()
                 ) {
-                    items(state.weapons.size) { index ->
+                    items(state.weapons, key = { it.alias }) { weapon ->
                         WeaponListItem(
-                            weapon = state.weapons[index],
+                            weapon = weapon,
                             onWeaponCLick = { onOpenDetails(it.alias) },
                         )
                     }
