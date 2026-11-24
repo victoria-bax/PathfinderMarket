@@ -12,6 +12,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.SupervisorJob
 import okhttp3.OkHttpClient
 import victoria.bakhaeva.pathfindermarket.data.gson.BookAliasJsonDeserializer
 import victoria.bakhaeva.pathfindermarket.data.gson.EncumbranceJsonDeserializer
@@ -32,7 +34,12 @@ import victoria.bakhaeva.pathfindermarket.data.db.RoomWeaponCache
 import victoria.bakhaeva.pathfindermarket.data.db.WeaponAbilityDao
 import victoria.bakhaeva.pathfindermarket.data.db.WeaponDao
 import victoria.bakhaeva.pathfindermarket.domain.WeaponCache
+import javax.inject.Qualifier
 import javax.inject.Singleton
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class ApplicationScope
 
 private val Context.dataStore by preferencesDataStore(name = "filter_prefs")
 
@@ -112,4 +119,9 @@ internal class AppModule {
     @Singleton
     fun provideDataStore(@ApplicationContext context: Context): DataStore<Preferences> =
         context.dataStore
+
+    @Provides
+    @Singleton
+    @ApplicationScope
+    fun provideApplicationScope(): CoroutineScope = CoroutineScope(SupervisorJob())
 }

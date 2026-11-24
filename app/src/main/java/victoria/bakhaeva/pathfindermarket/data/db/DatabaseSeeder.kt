@@ -5,8 +5,8 @@ import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import victoria.bakhaeva.pathfindermarket.data.ApplicationScope
 import timber.log.Timber
 import victoria.bakhaeva.pathfindermarket.data.api.PathfinderApi
 import victoria.bakhaeva.pathfindermarket.data.mapper.WeaponMapper
@@ -23,9 +23,10 @@ internal class DatabaseSeeder @Inject constructor(
     private val weaponMapper: WeaponMapper,
     private val pathfinderApi: PathfinderApi,
     private val gson: Gson,
+    @ApplicationScope private val appScope: CoroutineScope,
 ) {
     fun seedIfEmpty() {
-        CoroutineScope(Dispatchers.IO).launch {
+        appScope.launch {
             seedWeapons()
             seedAbilities()
             refreshWeaponsFromApi()
