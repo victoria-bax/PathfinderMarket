@@ -34,13 +34,12 @@ internal class WeaponsViewModel @Inject constructor(
             _uiState.value = UIState.Loading
             try {
                 val savedFilters = interactor.loadFilters()
-                interactor.getWeapons().collect { weaponList ->
-                    val base = mapper.map(weaponList)
-                    _uiState.value = UIState.Success(
-                        if (savedFilters.isEmpty()) base
-                        else base.withFilters(savedFilters)
-                    )
-                }
+                val weaponList = interactor.getWeapons() ?: emptyList()
+                val base = mapper.map(weaponList)
+                _uiState.value = UIState.Success(
+                    if (savedFilters.isEmpty()) base
+                    else base.withFilters(savedFilters)
+                )
             } catch (e: Exception) {
                 _uiState.value = UIState.Error(e)
             }

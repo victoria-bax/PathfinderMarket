@@ -1,7 +1,5 @@
 package victoria.bakhaeva.pathfindermarket.domain
 
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import javax.inject.Inject
@@ -10,10 +8,10 @@ internal class WeaponsAbilitiesInteractor @Inject constructor(
     private val weaponCache: WeaponCache,
 ) {
 
-    fun getAbilities(range: String): Flow<List<WeaponAbility>> = flow {
+    suspend fun getAbilities(range: String): List<WeaponAbility>? {
         RangeAlias.entries.firstOrNull { it.value == range }
             ?: throw Exception("Unknown range: $range")
-        weaponCache.getWeaponAbilities(range)?.let { emit(it) }
+        return weaponCache.getWeaponAbilities(range)
     }
 
     suspend fun getAbility(abilityAlias: String): WeaponAbility? =

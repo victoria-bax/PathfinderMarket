@@ -30,9 +30,8 @@ internal class WeaponAbilitiesViewModel @Inject constructor(
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {
-                abilitiesInteractor.getAbilities(range).collect {
-                    _uiState.value = UIState.Success(it)
-                }
+                val abilities = abilitiesInteractor.getAbilities(range) ?: emptyList()
+                _uiState.value = UIState.Success(abilities)
             } catch (e: Exception) {
                 _uiState.value = UIState.Error(e)
             }
