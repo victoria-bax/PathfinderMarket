@@ -1,23 +1,35 @@
 package victoria.bakhaeva.pathfindermarket.ui.weapons
 
+import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.domain.model.Order
+import victoria.bakhaeva.pathfindermarket.presentation.model.SortOptionUiState
+import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
 
-enum class Order(@StringRes val labelRes: Int) {
-    PRICE_ASC(R.string.sort_price_asc),
-    PRICE_DESC(R.string.sort_price_desc),
-    NAME_ASC(R.string.sort_name_asc),
-    NAME_DESC(R.string.sort_name_desc),
-    ;
+val defaultSortUiState = SortUiState(
+    selected = Order.DEFAULT,
+    options = Order.entries.map { it.toUiState() },
+)
 
-    companion object {
-        val DEFAULT = PRICE_DESC
-    }
+@StringRes
+fun Order.labelRes(): Int = when (this) {
+    Order.PRICE_ASC -> R.string.sort_price_asc
+    Order.PRICE_DESC -> R.string.sort_price_desc
+    Order.NAME_ASC -> R.string.sort_name_asc
+    Order.NAME_DESC -> R.string.sort_name_desc
 }
 
-fun Order.icon() = when (this) {
+@DrawableRes
+fun Order.icon(): Int = when (this) {
     Order.PRICE_ASC -> R.drawable.sort_descending
     Order.PRICE_DESC -> R.drawable.sort_ascending
     Order.NAME_ASC -> R.drawable.sort_alphabetical
     Order.NAME_DESC -> R.drawable.sort_alphabetical_inverted
 }
+
+fun Order.toUiState() = SortOptionUiState(
+    order = this,
+    labelRes = labelRes(),
+    iconRes = icon(),
+)

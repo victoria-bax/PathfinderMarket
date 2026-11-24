@@ -30,6 +30,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
@@ -51,7 +53,7 @@ internal fun WeaponAbilitiesListScreen(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,
         success = { abilities ->
-            WeaponUpgradesScaffold(
+            WeaponAbilitiesListContent(
                 modifier,
                 onBackClick,
                 abilities,
@@ -64,7 +66,7 @@ internal fun WeaponAbilitiesListScreen(
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
-private fun WeaponUpgradesScaffold(
+private fun WeaponAbilitiesListContent(
     modifier: Modifier,
     onBackClick: () -> Unit,
     abilities: List<WeaponAbility>,
@@ -141,24 +143,52 @@ private fun WeaponUpgradesScaffold(
 
 @Composable
 @Preview
-private fun PreviewWeaponUpgradesList() {
-    WeaponUpgradesScaffold(
-        modifier = Modifier,
-        onBackClick = {},
-        onAbilitySelected = {},
-        onAbilityDetails = {},
-        abilities = listOf(
-            WeaponAbility(
-                alias = "test",
-                name = "Test",
-                engName = "Test",
-                aura = "Aura",
-                cl = 10,
-                bonusPrice = 1,
-                moneyPrice = 2000,
-                description = "<p>Test</p>",
-                constructionRequirements = "constructionRequirements",
+private fun PreviewWeaponAbilitiesListDark() {
+    PreviewDark {
+        WeaponAbilitiesListContent(
+            modifier = Modifier,
+            onBackClick = {},
+            onAbilitySelected = {},
+            onAbilityDetails = {},
+            abilities = listOf(
+                WeaponAbility(
+                    alias = "test",
+                    name = "Test",
+                    engName = "Test",
+                    aura = "Aura",
+                    cl = 10,
+                    bonusPrice = 1,
+                    moneyPrice = 2000,
+                    description = "<p>Test</p>",
+                    constructionRequirements = "constructionRequirements",
+                )
             )
         )
-    )
+    }
+}
+
+@Composable
+@Preview
+private fun PreviewWeaponAbilitiesListLight() {
+    PreviewLight {
+        WeaponAbilitiesListContent(
+            modifier = Modifier,
+            onBackClick = {},
+            onAbilitySelected = {},
+            onAbilityDetails = {},
+            abilities = listOf(
+                WeaponAbility(
+                    alias = "test",
+                    name = "Test",
+                    engName = "Test",
+                    aura = "Aura",
+                    cl = 10,
+                    bonusPrice = 1,
+                    moneyPrice = 2000,
+                    description = "<p>Test</p>",
+                    constructionRequirements = "constructionRequirements",
+                )
+            )
+        )
+    }
 }

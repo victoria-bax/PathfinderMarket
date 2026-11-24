@@ -33,6 +33,8 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
+import victoria.bakhaeva.pathfindermarket.domain.model.Order
+import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
@@ -40,7 +42,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @Composable
-fun WeaponList(
+fun WeaponListContent(
     state: WeaponListUiState,
     onSortSelected: (Order) -> Unit,
     onOpenFilter: () -> Unit,
@@ -102,7 +104,7 @@ fun WeaponList(
                                 .size(48.dp)
                                 .clickable { openSortDialog = true }
                                 .padding(8.dp),
-                            painter = painterResource(state.sort.icon()),
+                            painter = painterResource(state.sort.selected.icon()),
                             contentDescription = ""
                         )
                         Icon(
@@ -147,7 +149,7 @@ fun WeaponList(
             }
             if (openSortDialog) {
                 SortDialog(
-                    selectedSort = state.sort,
+                    sortUiState = state.sort,
                     onSortSelected = { sort ->
                         onSortSelected(sort)
                     },
@@ -182,14 +184,14 @@ private fun PreviewWeaponListDark() {
                 encumbranceCategoryName = it.encumbranceCategory?.name,
             )
         },
-        sort = Order.DEFAULT,
+        sort = defaultSortUiState,
         filterState = FilterState(
             allFilters = allFilters,
             selectedFilters = emptyList(),
         ),
     )
     PreviewDark {
-        WeaponList(state = state, onSortSelected = {}, onOpenFilter = {}, onSearch = {}, onOpenDetails = {})
+        WeaponListContent(state = state, onSortSelected = {}, onOpenFilter = {}, onSearch = {}, onOpenDetails = {})
     }
 }
 
@@ -215,13 +217,13 @@ private fun PreviewWeaponListLight() {
                 encumbranceCategoryName = it.encumbranceCategory?.name,
             )
         },
-        sort = Order.DEFAULT,
+        sort = defaultSortUiState,
         filterState = FilterState(
             allFilters = allFilters,
             selectedFilters = emptyList(),
         ),
     )
     PreviewLight {
-        WeaponList(state = state, onSortSelected = {}, onOpenFilter = {}, onSearch = {}, onOpenDetails = {})
+        WeaponListContent(state = state, onSortSelected = {}, onOpenFilter = {}, onSearch = {}, onOpenDetails = {})
     }
 }

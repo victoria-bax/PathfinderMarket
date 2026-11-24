@@ -2,10 +2,12 @@ package victoria.bakhaeva.pathfindermarket.presentation.mapper
 
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
+import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
-import victoria.bakhaeva.pathfindermarket.ui.weapons.Order
+import victoria.bakhaeva.pathfindermarket.domain.model.Order
 import victoria.bakhaeva.pathfindermarket.ui.weapons.Range
+import victoria.bakhaeva.pathfindermarket.ui.weapons.defaultSortUiState
 import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 import javax.inject.Inject
 
@@ -13,7 +15,7 @@ class WeaponUiStateMapper @Inject constructor() {
     fun map(weapons: List<Weapon>): WeaponListUiState {
         return WeaponListUiState(
             weapons = weapons.map { it.toUiState() },
-            sort = Order.DEFAULT,
+            sort = defaultSortUiState,
             filterState = AllFilters(
                 proficientCategories = weapons.map { it.proficientCategory }
                     .distinctBy { it.alias },

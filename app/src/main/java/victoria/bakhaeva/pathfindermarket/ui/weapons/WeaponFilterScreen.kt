@@ -19,7 +19,7 @@ fun WeaponFilterScreen(
 
     StatusBarAppearance(lightIcons = true)
 
-    FilterScreen(
+    FilterContent(
         state = uiState.data.filterState,
         onApply = { selected ->
             viewModel.onFilterApplied(selected)

@@ -19,6 +19,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.tooling.preview.Preview
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import kotlinx.coroutines.delay
 import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
 import victoria.bakhaeva.pathfindermarket.R
@@ -61,6 +63,6 @@ fun SplashScreen(onFinished: () -> Unit) {
 
 @Preview(heightDp = 700)
 @Composable
-private fun PreviewSplashScreen() {
-    SplashScreen(onFinished = {})
+private fun PreviewSplashScreenDark() {
+    PreviewDark { SplashScreen(onFinished = {}) }
 }

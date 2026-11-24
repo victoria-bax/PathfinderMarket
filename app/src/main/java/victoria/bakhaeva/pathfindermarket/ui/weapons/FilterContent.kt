@@ -35,12 +35,24 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
+import victoria.bakhaeva.pathfindermarket.domain.model.Book
+import victoria.bakhaeva.pathfindermarket.domain.model.BookAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.ProficientCategory
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
+import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FilterScreen(
+fun FilterContent(
     state: FilterState,
     onApply: (selected: List<String>) -> Unit,
     onBack: () -> Unit,
@@ -191,3 +203,40 @@ private fun FilterChipItem(
 
 private fun Set<String>.toggle(alias: String) =
     if (alias in this) this - alias else this + alias
+
+private val previewFilterState = FilterState(
+    allFilters = AllFilters(
+        proficientCategories = listOf(
+            ProficientCategory(alias = ProficientAlias.SIMPLE, name = "Простое"),
+            ProficientCategory(alias = ProficientAlias.MARTIAL, name = "Воинское"),
+        ),
+        rangeCategories = listOf(
+            RangeCategory(alias = RangeAlias.MELEE, name = "Ближний бой"),
+            RangeCategory(alias = RangeAlias.RANGED, name = "Дальний бой"),
+        ),
+        encumbranceCategories = listOf(
+            EncumbranceCategory(alias = EncumbranceAlias.LIGHT, name = "Лёгкое"),
+            EncumbranceCategory(alias = EncumbranceAlias.TWO_HANDED, name = "Двуручное"),
+        ),
+        books = listOf(
+            Book(alias = BookAlias.CORE_RULEBOOK, name = "Core Rulebook", order = 1, abbreviation = "CR"),
+        ),
+    ),
+    selectedFilters = listOf(ProficientAlias.SIMPLE.value),
+)
+
+@Preview
+@Composable
+private fun PreviewFilterContentDark() {
+    PreviewDark {
+        FilterContent(state = previewFilterState, onApply = {}, onBack = {})
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewFilterContentLight() {
+    PreviewLight {
+        FilterContent(state = previewFilterState, onApply = {}, onBack = {})
+    }
+}

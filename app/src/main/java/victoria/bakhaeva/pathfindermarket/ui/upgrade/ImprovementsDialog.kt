@@ -17,9 +17,12 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
+import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
@@ -39,38 +42,47 @@ fun ImprovementsDialog(
     onImprovementClicked: (Int) -> Unit,
     onDismiss: () -> Unit
 ) {
-    BasicAlertDialog(
-        onDismissRequest = onDismiss
+    BasicAlertDialog(onDismissRequest = onDismiss) {
+        ImprovementsDialogContent(state, onImprovementClicked, onDismiss)
+    }
+}
+
+@Composable
+private fun ImprovementsDialogContent(
+    state: ImprovementsUiState,
+    onImprovementClicked: (Int) -> Unit,
+    onDismiss: () -> Unit,
+) {
+    Surface(
+        modifier = Modifier
+            .wrapContentWidth()
+            .wrapContentHeight(),
+        shape = MaterialTheme.shapes.large
     ) {
-        Surface(
-            modifier = Modifier
-                .wrapContentWidth()
-                .wrapContentHeight(),
-            shape = MaterialTheme.shapes.large
-        ) {
-            LazyColumn(modifier = Modifier.padding(16.dp)) {
-                items(WeaponBonusPrice.maxBonus) { index ->
-                    val bonus = index + 1
-                    Row(modifier = Modifier
-                        .clickable {
-                            onImprovementClicked(bonus)
-                            onDismiss()
-                        }.padding(8.dp)
-                        .background(
-                            if (bonus == state.selectedImprovement) MaterialTheme.colorScheme.onSecondaryContainer else MaterialTheme.colorScheme.secondaryContainer
-                        ), verticalAlignment = Alignment.CenterVertically) {
-                        Text(
-                            text = stringResource(R.string.bonus_plus, bonus),
-                            color = if (bonus == state.selectedImprovement) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
-                        )
-                        Text(
-                            modifier = Modifier.fillMaxWidth(),
-                            textAlign = TextAlign.End,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = Gold,
-                            text = WeaponBonusPrice.prices[bonus].formatCost()
-                        )
+        LazyColumn(modifier = Modifier.padding(16.dp)) {
+            items(WeaponBonusPrice.maxBonus) { index ->
+                val bonus = index + 1
+                Row(modifier = Modifier
+                    .clickable {
+                        onImprovementClicked(bonus)
+                        onDismiss()
                     }
+                    .background(
+                        if (bonus == state.selectedImprovement) MaterialTheme.colorScheme.onSecondaryContainer else Color.Transparent
+                    )
+                    .padding(8.dp),
+                    verticalAlignment = Alignment.CenterVertically) {
+                    Text(
+                        text = stringResource(R.string.bonus_plus, bonus),
+                        color = if (bonus == state.selectedImprovement) MaterialTheme.colorScheme.secondaryContainer else MaterialTheme.colorScheme.onSecondaryContainer
+                    )
+                    Text(
+                        modifier = Modifier.fillMaxWidth(),
+                        textAlign = TextAlign.End,
+                        style = MaterialTheme.typography.titleMedium,
+                        color = Gold,
+                        text = WeaponBonusPrice.prices[bonus].formatCost()
+                    )
                 }
             }
         }
@@ -79,10 +91,24 @@ fun ImprovementsDialog(
 
 @Preview
 @Composable
-private fun PreviewFilterDialog() {
-    ImprovementsDialog(
-        ImprovementsUiState(selectedImprovement = 1, improvements = List(5) { it + 1 }),
-        {},
-        {},
-    )
+private fun PreviewImprovementsDialogDark() {
+    PreviewDark {
+        ImprovementsDialogContent(
+            ImprovementsUiState(selectedImprovement = 1, improvements = List(5) { it + 1 }),
+            {},
+            {},
+        )
+    }
+}
+
+@Preview
+@Composable
+private fun PreviewImprovementsDialogLight() {
+    PreviewLight {
+        ImprovementsDialogContent(
+            ImprovementsUiState(selectedImprovement = 1, improvements = List(5) { it + 1 }),
+            {},
+            {},
+        )
+    }
 }

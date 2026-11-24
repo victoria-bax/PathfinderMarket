@@ -46,7 +46,7 @@ internal fun WeaponAbilityDetailsScreen(
         state = state,
         modifier = Modifier,
         success = {
-            WeaponAbilityDetailScaffold(
+            WeaponAbilityDetailsContent(
                 weaponAbility = it,
                 onBackClick = onBackClick,
             )
@@ -56,7 +56,7 @@ internal fun WeaponAbilityDetailsScreen(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun WeaponAbilityDetailScaffold(
+private fun WeaponAbilityDetailsContent(
     weaponAbility: WeaponAbility,
     onBackClick: () -> Unit,
     modifier: Modifier = Modifier,
@@ -124,7 +124,7 @@ private val previewAbility = WeaponAbility(
 @Composable
 private fun PreviewWeaponAbilityDetailsDark() {
     PreviewDark {
-        WeaponAbilityDetailScaffold(weaponAbility = previewAbility, onBackClick = {})
+        WeaponAbilityDetailsContent(weaponAbility = previewAbility, onBackClick = {})
     }
 }
 
@@ -132,6 +132,6 @@ private fun PreviewWeaponAbilityDetailsDark() {
 @Composable
 private fun PreviewWeaponAbilityDetailsLight() {
     PreviewLight {
-        WeaponAbilityDetailScaffold(weaponAbility = previewAbility, onBackClick = {})
+        WeaponAbilityDetailsContent(weaponAbility = previewAbility, onBackClick = {})
     }
 }

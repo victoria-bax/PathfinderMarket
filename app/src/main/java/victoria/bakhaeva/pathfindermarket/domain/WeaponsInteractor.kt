@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.flow
 import victoria.bakhaeva.pathfindermarket.data.FilterPreferencesRepository
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
-import victoria.bakhaeva.pathfindermarket.ui.weapons.Order
+import victoria.bakhaeva.pathfindermarket.domain.model.Order
 import javax.inject.Inject
 
 internal class WeaponsInteractor @Inject constructor(

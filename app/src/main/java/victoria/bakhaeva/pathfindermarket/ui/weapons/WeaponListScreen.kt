@@ -19,7 +19,7 @@ internal fun WeaponListScreen(
     Screen(
         state = viewModel.uiState.collectAsState().value,
         success = { state ->
-            WeaponList(
+            WeaponListContent(
                 state = state,
                 onSortSelected = viewModel::onSortSelected,
                 onOpenFilter = onOpenFilter,

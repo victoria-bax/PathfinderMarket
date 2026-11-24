@@ -11,8 +11,10 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.unit.dp
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import victoria.bakhaeva.pathfindermarket.domain.model.Order
+import victoria.bakhaeva.pathfindermarket.presentation.model.SortUiState
 import victoria.bakhaeva.pathfindermarket.ui.common.components.SortMenuItem
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
@@ -20,20 +22,18 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SortDialog(
-    selectedSort: Order,
+    sortUiState: SortUiState,
     onSortSelected: (Order) -> Unit,
-    onDismiss: () -> Unit
+    onDismiss: () -> Unit,
 ) {
-    BasicAlertDialog(
-        onDismissRequest = onDismiss
-    ) {
-        SortDialogContent(selectedSort, onSortSelected, onDismiss)
+    BasicAlertDialog(onDismissRequest = onDismiss) {
+        SortDialogContent(sortUiState, onSortSelected, onDismiss)
     }
 }
 
 @Composable
 private fun SortDialogContent(
-    selectedSort: Order,
+    sortUiState: SortUiState,
     onSortSelected: (Order) -> Unit,
     onDismiss: () -> Unit,
 ) {
@@ -44,13 +44,13 @@ private fun SortDialogContent(
         shape = MaterialTheme.shapes.large
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
-            Order.entries.forEach {
+            sortUiState.options.forEach { option ->
                 SortMenuItem(
-                    text = stringResource(it.labelRes),
-                    icon = it.icon(),
-                    isSelected = it == selectedSort,
+                    text = stringResource(option.labelRes),
+                    icon = option.iconRes,
+                    isSelected = option.order == sortUiState.selected,
                     onClick = {
-                        onSortSelected(it)
+                        onSortSelected(option.order)
                         onDismiss()
                     }
                 )
@@ -63,7 +63,7 @@ private fun SortDialogContent(
 @Composable
 private fun PreviewSortDialogDark() {
     PreviewDark {
-        SortDialogContent(selectedSort = Order.DEFAULT, onSortSelected = {}, onDismiss = {})
+        SortDialogContent(sortUiState = defaultSortUiState, onSortSelected = {}, onDismiss = {})
     }
 }
 
@@ -71,6 +71,6 @@ private fun PreviewSortDialogDark() {
 @Composable
 private fun PreviewSortDialogLight() {
     PreviewLight {
-        SortDialogContent(selectedSort = Order.DEFAULT, onSortSelected = {}, onDismiss = {})
+        SortDialogContent(sortUiState = defaultSortUiState, onSortSelected = {}, onDismiss = {})
     }
 }
