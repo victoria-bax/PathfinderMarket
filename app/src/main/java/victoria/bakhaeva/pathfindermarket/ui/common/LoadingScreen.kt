@@ -31,7 +31,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 
 @Composable
-fun LoadingScreen(
+internal fun LoadingScreen(
     modifier: Modifier = Modifier,
 ) {
     val transition = rememberInfiniteTransition(label = "shimmer")

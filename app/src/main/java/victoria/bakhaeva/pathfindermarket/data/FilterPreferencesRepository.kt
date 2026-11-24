@@ -9,7 +9,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class FilterPreferencesRepository @Inject constructor(
+internal class FilterPreferencesRepository @Inject constructor(
     private val dataStore: DataStore<Preferences>,
 ) {
     private val selectedFiltersKey = stringSetPreferencesKey("selected_filters")

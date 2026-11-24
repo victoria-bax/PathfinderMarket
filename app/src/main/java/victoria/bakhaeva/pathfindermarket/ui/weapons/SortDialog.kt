@@ -21,7 +21,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun SortDialog(
+internal fun SortDialog(
     sortUiState: SortUiState,
     onSortSelected: (Order) -> Unit,
     onDismiss: () -> Unit,

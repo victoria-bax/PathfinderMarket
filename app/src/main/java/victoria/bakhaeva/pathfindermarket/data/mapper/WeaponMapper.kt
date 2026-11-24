@@ -8,7 +8,7 @@ import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import javax.inject.Inject
 
-class WeaponMapper @Inject constructor() {
+internal class WeaponMapper @Inject constructor() {
     fun map(response: WeaponResponse): Weapon = Weapon(
         alias = response.alias,
         name = response.name,
@@ -46,4 +46,4 @@ class WeaponMapper @Inject constructor() {
     fun map(responses: List<WeaponResponse>): List<Weapon> = responses.map { map(it) }
 }
 
-fun String?.stripHtml(): String? = this?.replace(Regex("<[^>]+>"), "")
+private fun String?.stripHtml(): String? = this?.replace(Regex("<[^>]+>"), "")

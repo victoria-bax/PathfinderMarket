@@ -26,7 +26,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketPreview
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 @Composable
-fun WeaponListItem(
+internal fun WeaponListItem(
     weapon: WeaponListItemUiState,
     onWeaponCLick: (WeaponListItemUiState) -> Unit,
 ) {

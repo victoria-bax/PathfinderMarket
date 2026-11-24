@@ -42,7 +42,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @Composable
-fun WeaponListContent(
+internal fun WeaponListContent(
     state: WeaponListUiState,
     onSortSelected: (Order) -> Unit,
     onOpenFilter: () -> Unit,

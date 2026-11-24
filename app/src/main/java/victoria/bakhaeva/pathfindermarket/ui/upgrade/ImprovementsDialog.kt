@@ -37,7 +37,7 @@ import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ImprovementsDialog(
+internal fun ImprovementsDialog(
     state: ImprovementsUiState,
     onImprovementClicked: (Int) -> Unit,
     onDismiss: () -> Unit

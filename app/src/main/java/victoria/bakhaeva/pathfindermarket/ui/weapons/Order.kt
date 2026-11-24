@@ -13,7 +13,7 @@ val defaultSortUiState = SortUiState(
 )
 
 @StringRes
-fun Order.labelRes(): Int = when (this) {
+internal fun Order.labelRes(): Int = when (this) {
     Order.PRICE_ASC -> R.string.sort_price_asc
     Order.PRICE_DESC -> R.string.sort_price_desc
     Order.NAME_ASC -> R.string.sort_name_asc
@@ -21,14 +21,14 @@ fun Order.labelRes(): Int = when (this) {
 }
 
 @DrawableRes
-fun Order.icon(): Int = when (this) {
+internal fun Order.icon(): Int = when (this) {
     Order.PRICE_ASC -> R.drawable.sort_descending
     Order.PRICE_DESC -> R.drawable.sort_ascending
     Order.NAME_ASC -> R.drawable.sort_alphabetical
     Order.NAME_DESC -> R.drawable.sort_alphabetical_inverted
 }
 
-fun Order.toUiState() = SortOptionUiState(
+internal fun Order.toUiState() = SortOptionUiState(
     order = this,
     labelRes = labelRes(),
     iconRes = icon(),

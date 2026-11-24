@@ -52,7 +52,7 @@ import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun FilterContent(
+internal fun FilterContent(
     state: FilterState,
     onApply: (selected: List<String>) -> Unit,
     onBack: () -> Unit,

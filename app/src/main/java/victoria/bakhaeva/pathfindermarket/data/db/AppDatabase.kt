@@ -14,7 +14,7 @@ import androidx.room.RoomDatabase
     version = 4,
     exportSchema = false,
 )
-abstract class AppDatabase : RoomDatabase() {
+internal abstract class AppDatabase : RoomDatabase() {
     abstract fun bookDao(): BookDao
     abstract fun weaponDao(): WeaponDao
     abstract fun weaponAbilityDao(): WeaponAbilityDao

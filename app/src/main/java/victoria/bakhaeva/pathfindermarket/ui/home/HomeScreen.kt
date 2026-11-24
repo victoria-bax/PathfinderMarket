@@ -51,7 +51,7 @@ private data class MenuItem(
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun HomeScreen(
+internal fun HomeScreen(
     onWeaponListClick: () -> Unit,
 ) {
     StatusBarAppearance(lightIcons = false)

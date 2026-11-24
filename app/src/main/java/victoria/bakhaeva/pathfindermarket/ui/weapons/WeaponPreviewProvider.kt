@@ -9,7 +9,7 @@ import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 
-class WeaponPreviewProvider : PreviewParameterProvider<Weapon> {
+internal class WeaponPreviewProvider : PreviewParameterProvider<Weapon> {
     override val values = sequenceOf(
         Weapon(
             alias = "longsword",

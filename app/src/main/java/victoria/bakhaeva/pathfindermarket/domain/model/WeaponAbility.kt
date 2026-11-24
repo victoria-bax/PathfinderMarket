@@ -13,7 +13,7 @@ data class WeaponAbility(
     val book: Book? = null,
 )
 
-fun bonusAbility(bonus: Int) = WeaponAbility(
+internal fun bonusAbility(bonus: Int) = WeaponAbility(
     alias = "bonus_$bonus",
     name = "+$bonus",
     engName = "+$bonus",

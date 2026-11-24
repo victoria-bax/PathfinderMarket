@@ -9,7 +9,7 @@ import victoria.bakhaeva.pathfindermarket.presentation.weaponslist.WeaponsViewMo
 import victoria.bakhaeva.pathfindermarket.ui.common.StatusBarAppearance
 
 @Composable
-fun WeaponFilterScreen(
+internal fun WeaponFilterScreen(
     parentEntry: NavBackStackEntry,
     onBack: () -> Unit,
 ) {

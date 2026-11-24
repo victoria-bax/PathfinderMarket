@@ -29,7 +29,7 @@ internal class WeaponsViewModel @Inject constructor(
         loadWeapons()
     }
 
-    fun loadWeapons() {
+    private fun loadWeapons() {
         viewModelScope.launch {
             _uiState.value = UIState.Loading
             try {

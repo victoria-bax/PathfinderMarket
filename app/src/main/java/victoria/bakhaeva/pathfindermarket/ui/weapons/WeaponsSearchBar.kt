@@ -22,7 +22,7 @@ import androidx.compose.ui.text.input.ImeAction
 import victoria.bakhaeva.pathfindermarket.R
 
 @Composable
-fun WeaponsSearchBar(
+internal fun WeaponsSearchBar(
     query: String,
     onQueryChange: (String) -> Unit,
     onSearch: (String) -> Unit,

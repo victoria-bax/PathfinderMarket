@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.presentation.weapondetail.WeaponDetailViewModel
-import victoria.bakhaeva.pathfindermarket.ui.Screen
+import victoria.bakhaeva.pathfindermarket.ui.UiStateContent
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -37,7 +37,7 @@ internal fun WeaponDetailScreen(
     onUpgradeClick: (String) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Screen(
+    UiStateContent(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,
         success =

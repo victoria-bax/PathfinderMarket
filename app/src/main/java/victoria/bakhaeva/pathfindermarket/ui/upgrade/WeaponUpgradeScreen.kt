@@ -43,7 +43,7 @@ import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.m
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponUpgradeViewModel
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countAttackBonus
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countSum
-import victoria.bakhaeva.pathfindermarket.ui.Screen
+import victoria.bakhaeva.pathfindermarket.ui.UiStateContent
 import victoria.bakhaeva.pathfindermarket.ui.common.components.TextCheckBox
 import victoria.bakhaeva.pathfindermarket.ui.common.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
@@ -58,7 +58,7 @@ internal fun WeaponUpgradeScreen(
     onAddAbilityClick: (String) -> Unit,
 ) {
     LaunchedEffect(newAbilityAlias) { newAbilityAlias?.let { viewModel.addAbility(it) } }
-    Screen(
+    UiStateContent(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,
         success =

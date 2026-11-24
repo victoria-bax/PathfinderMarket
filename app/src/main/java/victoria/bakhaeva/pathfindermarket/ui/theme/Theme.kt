@@ -102,7 +102,7 @@ fun PreviewLight(content: @Composable () -> Unit) {
 }
 
 @Composable
-fun PathfinderMarketPreview(
+internal fun PathfinderMarketPreview(
     content: @Composable () -> Unit
 ) {
     Column {

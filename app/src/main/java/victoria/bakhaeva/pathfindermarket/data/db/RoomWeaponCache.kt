@@ -17,7 +17,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class RoomWeaponCache @Inject constructor(
+internal class RoomWeaponCache @Inject constructor(
     private val bookDao: BookDao,
     private val weaponDao: WeaponDao,
     private val weaponAbilityDao: WeaponAbilityDao,

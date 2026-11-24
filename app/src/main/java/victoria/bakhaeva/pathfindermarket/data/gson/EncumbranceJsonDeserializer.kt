@@ -9,7 +9,7 @@ import victoria.bakhaeva.pathfindermarket.domain.model.ProficientAlias
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeAlias
 import java.lang.reflect.Type
 
-class EncumbranceJsonDeserializer : JsonDeserializer<EncumbranceAlias> {
+internal class EncumbranceJsonDeserializer : JsonDeserializer<EncumbranceAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
@@ -19,7 +19,7 @@ class EncumbranceJsonDeserializer : JsonDeserializer<EncumbranceAlias> {
     }
 }
 
-class ProficientJsonDeserializer : JsonDeserializer<ProficientAlias> {
+internal class ProficientJsonDeserializer : JsonDeserializer<ProficientAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
@@ -29,7 +29,7 @@ class ProficientJsonDeserializer : JsonDeserializer<ProficientAlias> {
     }
 }
 
-class RangeJsonDeserializer : JsonDeserializer<RangeAlias> {
+internal class RangeJsonDeserializer : JsonDeserializer<RangeAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,
@@ -39,7 +39,7 @@ class RangeJsonDeserializer : JsonDeserializer<RangeAlias> {
     }
 }
 
-class BookAliasJsonDeserializer : JsonDeserializer<BookAlias> {
+internal class BookAliasJsonDeserializer : JsonDeserializer<BookAlias> {
     override fun deserialize(
         json: JsonElement?,
         typeOfT: Type?,

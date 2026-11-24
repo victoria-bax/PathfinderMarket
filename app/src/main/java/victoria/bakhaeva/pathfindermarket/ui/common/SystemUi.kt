@@ -12,7 +12,7 @@ import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowInsetsControllerCompat
 
 @Composable
-fun StatusBarAppearance(lightIcons: Boolean) {
+internal fun StatusBarAppearance(lightIcons: Boolean) {
     val context = LocalContext.current
     val view = LocalView.current
     val navigationBarColor = MaterialTheme.colorScheme.background.toArgb()

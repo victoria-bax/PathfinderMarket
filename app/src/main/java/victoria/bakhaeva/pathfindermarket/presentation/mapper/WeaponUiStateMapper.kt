@@ -11,7 +11,7 @@ import victoria.bakhaeva.pathfindermarket.ui.weapons.defaultSortUiState
 import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 import javax.inject.Inject
 
-class WeaponUiStateMapper @Inject constructor() {
+internal class WeaponUiStateMapper @Inject constructor() {
     fun map(weapons: List<Weapon>): WeaponListUiState {
         return WeaponListUiState(
             weapons = weapons.map { it.toUiState() },

@@ -20,7 +20,7 @@ import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketPreview
 
 @Composable
-fun SortMenuItem(
+internal fun SortMenuItem(
     text: String,
     icon: Int,
     isSelected: Boolean,

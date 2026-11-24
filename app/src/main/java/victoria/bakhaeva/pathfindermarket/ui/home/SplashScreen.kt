@@ -30,7 +30,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 import kotlin.time.Duration.Companion.milliseconds
 
 @Composable
-fun SplashScreen(onFinished: () -> Unit) {
+internal fun SplashScreen(onFinished: () -> Unit) {
     StatusBarAppearance(lightIcons = false)
     LaunchedEffect(Unit) {
         delay(3000.milliseconds)

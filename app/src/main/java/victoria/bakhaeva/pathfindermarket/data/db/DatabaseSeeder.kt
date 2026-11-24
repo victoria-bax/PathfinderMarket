@@ -25,7 +25,7 @@ internal class DatabaseSeeder @Inject constructor(
     private val gson: Gson,
     @ApplicationScope private val appScope: CoroutineScope,
 ) {
-    fun seedIfEmpty() {
+    internal fun seedIfEmpty() {
         appScope.launch {
             seedWeapons()
             seedAbilities()

@@ -14,7 +14,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 @Composable
-fun TextCheckBox(
+internal fun TextCheckBox(
     isChecked: Boolean,
     onCheckedChange: (Boolean) -> Unit,
     text: String,

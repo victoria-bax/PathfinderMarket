@@ -1,6 +1,6 @@
 package victoria.bakhaeva.pathfindermarket.domain.dictionaries
 
-object WeaponBonusPrice {
+internal object WeaponBonusPrice {
     const val maxBonus = 5
 
     val prices = mapOf(

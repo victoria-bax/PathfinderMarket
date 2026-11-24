@@ -28,7 +28,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.ui.common.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilityDetailsViewModel
-import victoria.bakhaeva.pathfindermarket.ui.Screen
+import victoria.bakhaeva.pathfindermarket.ui.UiStateContent
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 
@@ -38,7 +38,7 @@ internal fun WeaponAbilityDetailsScreen(
     onBackClick: () -> Unit,
 ) {
     val state by viewModel.uiState.collectAsState()
-    Screen(
+    UiStateContent(
         state = state,
         modifier = Modifier,
         success = {

@@ -5,7 +5,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.presentation.weaponslist.WeaponsViewModel
-import victoria.bakhaeva.pathfindermarket.ui.Screen
+import victoria.bakhaeva.pathfindermarket.ui.UiStateContent
 import victoria.bakhaeva.pathfindermarket.ui.common.StatusBarAppearance
 
 @Composable
@@ -16,7 +16,7 @@ internal fun WeaponListScreen(
     modifier: Modifier = Modifier,
 ) {
     StatusBarAppearance(lightIcons = true)
-    Screen(
+    UiStateContent(
         state = viewModel.uiState.collectAsState().value,
         success = { state ->
             WeaponListContent(

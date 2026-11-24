@@ -38,7 +38,7 @@ import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 import victoria.bakhaeva.pathfindermarket.ui.common.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
-import victoria.bakhaeva.pathfindermarket.ui.Screen
+import victoria.bakhaeva.pathfindermarket.ui.UiStateContent
 
 @Composable
 internal fun WeaponAbilitiesListScreen(
@@ -48,7 +48,7 @@ internal fun WeaponAbilitiesListScreen(
     onAbilityDetails: (WeaponAbility) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Screen(
+    UiStateContent(
         state = viewModel.uiState.collectAsState().value,
         modifier = modifier,
         success = { abilities ->

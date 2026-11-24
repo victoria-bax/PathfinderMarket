@@ -19,7 +19,7 @@ import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 
 @Composable
-fun ErrorScreen(
+internal fun ErrorScreen(
     exception: Throwable,
     modifier: Modifier = Modifier,
 ) {
