@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.main
+package victoria.bakhaeva.pathfindermarket.ui.upgrade
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
@@ -37,18 +37,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.ui.formatPrice
+import victoria.bakhaeva.pathfindermarket.ui.common.formatPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice.mastercraftPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponUpgradeViewModel
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countAttackBonus
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.countSum
 import victoria.bakhaeva.pathfindermarket.ui.Screen
-import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
-import victoria.bakhaeva.pathfindermarket.ui.formatCost
+import victoria.bakhaeva.pathfindermarket.ui.common.components.TextCheckBox
+import victoria.bakhaeva.pathfindermarket.ui.common.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
-import victoria.bakhaeva.pathfindermarket.ui.upgrade.ImprovementsDialog
-import victoria.bakhaeva.pathfindermarket.ui.upgrade.ImprovementsUiState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -170,7 +168,6 @@ internal fun WeaponUpgradeScreen(
                                                 text = WeaponBonusPrice.prices[state.improvements].formatCost(),
                                                 style = MaterialTheme.typography.titleMedium,
                                                 color = Gold
-                                                //todo make all prices a separate view
                                             )
                                         }
                                     }

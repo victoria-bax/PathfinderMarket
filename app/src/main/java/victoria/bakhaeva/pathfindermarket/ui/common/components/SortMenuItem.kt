@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.sort
+package victoria.bakhaeva.pathfindermarket.ui.common.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable

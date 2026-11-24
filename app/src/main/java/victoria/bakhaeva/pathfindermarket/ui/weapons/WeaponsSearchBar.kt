@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.weaponList
+package victoria.bakhaeva.pathfindermarket.ui.weapons
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

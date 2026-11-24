@@ -3,6 +3,8 @@ package victoria.bakhaeva.pathfindermarket.ui
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import victoria.bakhaeva.pathfindermarket.presentation.UIState
+import victoria.bakhaeva.pathfindermarket.ui.common.ErrorScreen
+import victoria.bakhaeva.pathfindermarket.ui.common.LoadingScreen
 
 @Composable
 fun <T> Screen(

@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui
+package victoria.bakhaeva.pathfindermarket.ui.common
 
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
 

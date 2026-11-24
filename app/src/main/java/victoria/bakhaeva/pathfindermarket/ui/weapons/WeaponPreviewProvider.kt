@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.weaponList
+package victoria.bakhaeva.pathfindermarket.ui.weapons
 
 import androidx.compose.ui.tooling.preview.PreviewParameterProvider
 import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceAlias

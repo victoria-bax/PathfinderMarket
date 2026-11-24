@@ -8,11 +8,14 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.toRoute
 import kotlinx.serialization.Serializable
-import victoria.bakhaeva.pathfindermarket.ui.main.WeaponAbilitiesListScreen
-import victoria.bakhaeva.pathfindermarket.ui.main.WeaponDetailScreen
-import victoria.bakhaeva.pathfindermarket.ui.main.WeaponUpgradeScreen
+import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponAbilitiesListScreen
 import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponAbilityDetailsScreen
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.WeaponFilterScreen
+import victoria.bakhaeva.pathfindermarket.ui.upgrade.WeaponUpgradeScreen
+import victoria.bakhaeva.pathfindermarket.ui.weapons.WeaponDetailScreen
+import victoria.bakhaeva.pathfindermarket.ui.weapons.WeaponFilterScreen
+import victoria.bakhaeva.pathfindermarket.ui.home.HomeScreen
+import victoria.bakhaeva.pathfindermarket.ui.home.SplashScreen
+import victoria.bakhaeva.pathfindermarket.ui.weapons.WeaponListScreen
 
 private const val ABILITY_KEY = "ability_key"
 

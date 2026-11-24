@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui
+package victoria.bakhaeva.pathfindermarket.ui.common
 
 fun Int?.formatCost() = when (this) {
     null -> "0"

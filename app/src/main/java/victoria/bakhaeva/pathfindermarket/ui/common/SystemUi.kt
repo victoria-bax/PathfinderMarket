@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui
+package victoria.bakhaeva.pathfindermarket.ui.common
 
 import android.app.Activity
 import android.content.Context

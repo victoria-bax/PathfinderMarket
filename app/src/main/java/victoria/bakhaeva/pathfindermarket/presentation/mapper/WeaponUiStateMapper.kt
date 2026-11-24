@@ -4,9 +4,9 @@ import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
 import victoria.bakhaeva.pathfindermarket.domain.model.Weapon
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.Range
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
+import victoria.bakhaeva.pathfindermarket.ui.weapons.Order
+import victoria.bakhaeva.pathfindermarket.ui.weapons.Range
+import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 import javax.inject.Inject
 
 class WeaponUiStateMapper @Inject constructor() {

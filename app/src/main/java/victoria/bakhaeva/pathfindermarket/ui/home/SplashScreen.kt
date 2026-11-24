@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui
+package victoria.bakhaeva.pathfindermarket.ui.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
@@ -22,6 +22,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import kotlinx.coroutines.delay
 import victoria.bakhaeva.pathfindermarket.ui.theme.PathfinderMarketTheme
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.ui.common.StatusBarAppearance
 import victoria.bakhaeva.pathfindermarket.ui.theme.InkLight
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography
 import kotlin.time.Duration.Companion.milliseconds

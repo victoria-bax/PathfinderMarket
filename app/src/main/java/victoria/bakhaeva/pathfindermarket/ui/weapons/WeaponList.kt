@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.weaponList
+package victoria.bakhaeva.pathfindermarket.ui.weapons
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.expandHorizontally
@@ -37,7 +37,7 @@ import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiSta
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
+import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @Composable
 fun WeaponList(

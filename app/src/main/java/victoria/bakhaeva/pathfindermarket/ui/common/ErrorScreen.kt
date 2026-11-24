@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui
+package victoria.bakhaeva.pathfindermarket.ui.common
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box

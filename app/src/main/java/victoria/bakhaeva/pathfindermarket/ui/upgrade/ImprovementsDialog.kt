@@ -26,11 +26,11 @@ import victoria.bakhaeva.pathfindermarket.domain.model.EncumbranceCategory
 import victoria.bakhaeva.pathfindermarket.domain.model.ProficientCategory
 import victoria.bakhaeva.pathfindermarket.domain.model.RangeCategory
 import victoria.bakhaeva.pathfindermarket.domain.dictionaries.WeaponBonusPrice
-import victoria.bakhaeva.pathfindermarket.ui.View.TextCheckBox
-import victoria.bakhaeva.pathfindermarket.ui.formatCost
+import victoria.bakhaeva.pathfindermarket.ui.common.components.TextCheckBox
+import victoria.bakhaeva.pathfindermarket.ui.common.formatCost
 import victoria.bakhaeva.pathfindermarket.ui.theme.Gold
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
+import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

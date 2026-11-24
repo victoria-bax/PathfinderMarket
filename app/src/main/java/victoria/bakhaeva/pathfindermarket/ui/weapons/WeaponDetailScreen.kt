@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.main
+package victoria.bakhaeva.pathfindermarket.ui.weapons
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -110,11 +110,7 @@ internal fun WeaponDetailScreen(
                         }
                         item {
                             Column {
-//                                var showMore by remember { mutableStateOf(false) }
-
-//                                if (showMore)
                                 Column {
-                                    // Отображение типа
                                     weapon.type?.let {
                                         Text(
                                             text = stringResource(R.string.label_weapon_type, it),
@@ -123,7 +119,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Отображение критического урона
                                     weapon.criticalRoll?.let {
                                         Text(
                                             text = stringResource(R.string.label_critical_roll, it),
@@ -139,7 +134,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Отображение дальности
                                     weapon.range?.let {
                                         Text(
                                             text = stringResource(R.string.label_range, it),
@@ -148,7 +142,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Отображение веса
                                     weapon.weight?.let {
                                         Text(
                                             text = stringResource(R.string.label_weight, it),
@@ -157,7 +150,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Отображение категории профессии
                                     weapon.proficientCategory.let {
                                         Text(
                                             text = stringResource(R.string.label_proficient_category, it.name ?: ""),
@@ -166,7 +158,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Отображение категории дальности
                                     weapon.rangeCategory.let {
                                         Text(
                                             text = stringResource(R.string.label_range_category, it.name ?: ""),
@@ -175,7 +166,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Отображение категории обременения (если есть)
                                     weapon.encumbranceCategory?.let {
                                         Text(
                                             text = stringResource(R.string.label_encumbrance_category, it.name ?: ""),
@@ -184,7 +174,6 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Описание оружия
                                     weapon.description?.let {
                                         Text(
                                             text = it,
@@ -199,7 +188,6 @@ internal fun WeaponDetailScreen(
                                             style = MaterialTheme.typography.headlineSmall
                                         )
                                         it.forEach { parent ->
-                                            //todo clickable weapons
                                             Text(
                                                 text = stringResource(R.string.list_item_prefix, parent),
                                                 style = MaterialTheme.typography.bodyMedium
@@ -208,9 +196,7 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
 
-                                    // Список детей оружия
                                     weapon.children?.let {
-                                        //todo clickable
                                         Text(
                                             text = stringResource(R.string.label_ammunition),
                                             style = MaterialTheme.typography.headlineSmall
@@ -224,22 +210,11 @@ internal fun WeaponDetailScreen(
                                         Spacer(modifier = Modifier.height(8.dp))
                                     }
                                 }
-
-                                /*Text(
-                                    text = if (showMore) "Скрыть" else "Подробнее...",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .clickable { showMore = !showMore }
-                                        .padding(vertical = 8.dp),
-                                    style = MaterialTheme.typography.bodyLarge,
-                                )*/
                             }
                         }
                     }
                 },
-
-                )
-
+            )
         }
     )
 }

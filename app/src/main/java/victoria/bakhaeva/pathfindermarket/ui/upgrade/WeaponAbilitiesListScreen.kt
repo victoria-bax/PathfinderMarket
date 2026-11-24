@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.main
+package victoria.bakhaeva.pathfindermarket.ui.upgrade
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement.End
@@ -34,7 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import victoria.bakhaeva.pathfindermarket.R
 import victoria.bakhaeva.pathfindermarket.domain.model.WeaponAbility
-import victoria.bakhaeva.pathfindermarket.ui.formatPrice
+import victoria.bakhaeva.pathfindermarket.ui.common.formatPrice
 import victoria.bakhaeva.pathfindermarket.presentation.weaponupgrade.WeaponAbilitiesViewModel
 import victoria.bakhaeva.pathfindermarket.ui.Screen
 
@@ -117,7 +117,6 @@ private fun WeaponUpgradesScaffold(
                         Row(
                             verticalAlignment = Alignment.CenterVertically,
                         ) {
-
                             Text(
                                 modifier = Modifier.weight(1f),
                                 text = AnnotatedString.fromHtml(ability.description),
@@ -159,7 +158,6 @@ private fun PreviewWeaponUpgradesList() {
                 moneyPrice = 2000,
                 description = "<p>Test</p>",
                 constructionRequirements = "constructionRequirements",
-
             )
         )
     )

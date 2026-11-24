@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui
+package victoria.bakhaeva.pathfindermarket.ui.home
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.Image
@@ -37,6 +37,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
+import victoria.bakhaeva.pathfindermarket.ui.common.StatusBarAppearance
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewDark
 import victoria.bakhaeva.pathfindermarket.ui.theme.PreviewLight
 import victoria.bakhaeva.pathfindermarket.ui.theme.Typography

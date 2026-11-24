@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.View
+package victoria.bakhaeva.pathfindermarket.ui.common.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Row

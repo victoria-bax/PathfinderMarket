@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.weaponList
+package victoria.bakhaeva.pathfindermarket.ui.weapons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -36,7 +36,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import victoria.bakhaeva.pathfindermarket.R
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.state.FilterState
+import victoria.bakhaeva.pathfindermarket.ui.weapons.state.FilterState
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
@@ -53,7 +53,6 @@ fun FilterScreen(
             .background(colorScheme.background)
             .statusBarsPadding()
     ) {
-        // top bar
         androidx.compose.foundation.layout.Row(
             modifier = Modifier
                 .fillMaxWidth()

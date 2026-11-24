@@ -1,4 +1,4 @@
-package victoria.bakhaeva.pathfindermarket.ui.weaponList.state
+package victoria.bakhaeva.pathfindermarket.ui.weapons.state
 
 import victoria.bakhaeva.pathfindermarket.domain.model.AllFilters
 

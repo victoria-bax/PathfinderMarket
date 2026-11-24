@@ -12,7 +12,7 @@ import victoria.bakhaeva.pathfindermarket.presentation.UIState
 import victoria.bakhaeva.pathfindermarket.presentation.mapper.WeaponUiStateMapper
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListItemUiState
 import victoria.bakhaeva.pathfindermarket.presentation.model.WeaponListUiState
-import victoria.bakhaeva.pathfindermarket.ui.weaponList.Order
+import victoria.bakhaeva.pathfindermarket.ui.weapons.Order
 import javax.inject.Inject
 
 @HiltViewModel
