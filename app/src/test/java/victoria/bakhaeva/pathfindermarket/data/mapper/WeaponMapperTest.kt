@@ -53,24 +53,27 @@ class WeaponMapperTest {
     }
 
     @Test
-    fun `stripHtml removes all html tags`() {
-        val result = "<b>bold</b> and <i>italic</i>".stripHtml()
-        assertEquals("bold and italic", result)
+    fun `stripHtml removes all html tags via damageS field`() {
+        val weapon = mapper.map(minimalResponse(damageS = "<b>bold</b> and <i>italic</i>"))
+        assertEquals("bold and italic", weapon.damageS)
     }
 
     @Test
-    fun `stripHtml returns null for null input`() {
-        assertNull(null.stripHtml())
+    fun `stripHtml returns null for null damageS`() {
+        val weapon = mapper.map(minimalResponse(damageS = null))
+        assertNull(weapon.damageS)
     }
 
     @Test
-    fun `stripHtml returns plain string unchanged`() {
-        assertEquals("plain text", "plain text".stripHtml())
+    fun `stripHtml returns plain string unchanged via damageS field`() {
+        val weapon = mapper.map(minimalResponse(damageS = "plain text"))
+        assertEquals("plain text", weapon.damageS)
     }
 
     @Test
-    fun `stripHtml removes self-closing tags`() {
-        assertEquals("line1line2", "line1<br/>line2".stripHtml())
+    fun `stripHtml removes self-closing tags via special field`() {
+        val weapon = mapper.map(minimalResponse(special = "line1<br/>line2"))
+        assertEquals("line1line2", weapon.special)
     }
 
     // --- cost conversion ---
